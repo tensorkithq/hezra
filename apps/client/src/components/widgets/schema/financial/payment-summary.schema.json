@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://moniewave.com/schemas/payment-summary.json",
+  "title": "Payment Summary Widget",
+  "description": "Widget composition for displaying payment batch summaries",
+  "type": "object",
+  "properties": {
+    "type": { "const": "PaymentSummary" },
+    "data": {
+      "type": "object",
+      "required": ["batch_reference", "total_amount", "recipient_count", "currency"],
+      "properties": {
+        "batch_reference": { "type": "string" },
+        "total_amount": { "type": "number" },
+        "recipient_count": { "type": "number" },
+        "currency": { "type": "string" },
+        "status": { "enum": ["queued", "processing", "completed", "failed"] },
+        "timestamp": { "type": "string", "format": "date-time" }
+      }
+    }
+  },
+  "required": ["type", "data"],
+  "example": {
+    "type": "Frame",
+    "size": "md",
+    "padding": "md",
+    "children": [
+      {
+        "type": "FrameHeader",
+        "title": "Payment Batch",
+        "expandable": true
+      },
+      {
+        "type": "Row",
+        "align": "between",
+        "children": [
+          {
+            "type": "Col",
+            "gap": "sm",
+            "children": [
+              { "type": "Text", "value": "BATCH-2024-001", "size": "lg", "weight": "semibold" }
+            ]
+          },
+          {
+            "type": "Badge",
+            "label": "Queued",
+            "variant": "warning"
+          }
+        ]
+      },
+      { "type": "Divider", "spacing": "md" },
+      {
+        "type": "Row",
+        "gap": "lg",
+        "children": [
+          {
+            "type": "Col",
+            "gap": "sm",
+            "children": [
+              { "type": "Text", "value": "Total Amount", "size": "xs", "color": "muted" },
+              { "type": "Amount", "value": 150000, "currency": "NGN", "size": "md", "weight": "semibold" }
+            ]
+          },
+          {
+            "type": "Col",
+            "gap": "sm",
+            "children": [
+              { "type": "Text", "value": "Recipients", "size": "xs", "color": "muted" },
+              { "type": "Text", "value": "5", "size": "md", "weight": "semibold" }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

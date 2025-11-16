@@ -1,0 +1,103 @@
+/**
+ * Widget Theme Tokens
+ *
+ * CSS custom properties for the widget system.
+ * Supports light/dark mode via next-themes.
+ */
+@tailwind base;
+/* @tailwind components; */
+/* @tailwind utilities; */
+
+@layer base {
+  :root {
+    /* Layout tokens */
+    --widget-radius-sm: 0.25rem;    /* 4px */
+    --widget-radius-md: 0.375rem;   /* 6px */
+    --widget-radius-lg: 0.5rem;     /* 8px */
+
+    --widget-space-2: 0.5rem;       /* 8px */
+    --widget-space-4: 1rem;         /* 16px */
+    --widget-space-6: 1.5rem;       /* 24px */
+    --widget-space-8: 2rem;         /* 32px */
+
+    /* Typography tokens */
+    --widget-font-size-xs: 0.75rem;     /* 12px */
+    --widget-font-size-sm: 0.875rem;    /* 14px */
+    --widget-font-size-md: 1rem;        /* 16px */
+    --widget-font-size-lg: 1.125rem;    /* 18px */
+    --widget-font-size-xl: 1.25rem;     /* 20px */
+
+    --widget-font-weight-400: 400;  /* regular */
+    --widget-font-weight-500: 500;  /* medium */
+    --widget-font-weight-600: 600;  /* semibold */
+    --widget-font-weight-700: 700;  /* bold */
+
+    --widget-line-height-tight: 1.25;
+    --widget-line-height-normal: 1.5;
+    --widget-line-height-relaxed: 1.75;
+
+    /* Color tokens - Light mode (Uber Black & White) */
+    --widget-fg-default: hsl(0 0% 0%);
+    --widget-fg-secondary: hsl(0 0% 40%);
+    --widget-fg-emphasis: hsl(0 0% 0%);
+    --widget-fg-muted: hsl(0 0% 55%);
+    --widget-fg-danger: hsl(0 0% 0%);
+    --widget-fg-success: hsl(0 0% 0%);
+    --widget-fg-warning: hsl(0 0% 0%);
+
+    --widget-bg-default: hsl(0 0% 100%);
+    --widget-bg-card: hsl(0 0% 100%);
+    --widget-bg-muted: hsl(0 0% 96%);
+    --widget-bg-accent: hsl(0 0% 95%);
+
+    --widget-border-default: hsl(0 0% 88%);
+    --widget-border-muted: hsl(0 0% 92%);
+
+    /* Shadow tokens - Subtle for clean aesthetic */
+    --widget-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.04);
+    --widget-shadow-md: 0 2px 4px -1px rgb(0 0 0 / 0.06), 0 2px 4px -1px rgb(0 0 0 / 0.04);
+    --widget-shadow-lg: 0 8px 12px -2px rgb(0 0 0 / 0.08), 0 4px 6px -2px rgb(0 0 0 / 0.04);
+  }
+
+  .dark {
+    /* Color tokens - Dark mode overrides (Uber Black & White) */
+    --widget-fg-default: hsl(0 0% 100%);
+    --widget-fg-secondary: hsl(0 0% 60%);
+    --widget-fg-emphasis: hsl(0 0% 100%);
+    --widget-fg-muted: hsl(0 0% 45%);
+    --widget-fg-danger: hsl(0 0% 100%);
+    --widget-fg-success: hsl(0 0% 100%);
+    --widget-fg-warning: hsl(0 0% 100%);
+
+    --widget-bg-default: hsl(0 0% 0%);
+    --widget-bg-card: hsl(0 0% 5%);
+    --widget-bg-muted: hsl(0 0% 12%);
+    --widget-bg-accent: hsl(0 0% 15%);
+
+    --widget-border-default: hsl(0 0% 20%);
+    --widget-border-muted: hsl(0 0% 15%);
+
+    /* Shadow tokens - Subtle for dark mode */
+    --widget-shadow-sm: 0 1px 2px 0 rgb(255 255 255 / 0.02);
+    --widget-shadow-md: 0 2px 4px -1px rgb(255 255 255 / 0.04), 0 2px 4px -1px rgb(255 255 255 / 0.02);
+    --widget-shadow-lg: 0 8px 12px -2px rgb(255 255 255 / 0.06), 0 4px 6px -2px rgb(255 255 255 / 0.03);
+  }
+}
+
+/* Gap utilities using widget tokens */
+.widget-gap-none { gap: 0; }
+.widget-gap-sm { gap: var(--widget-space-2); }
+.widget-gap-md { gap: var(--widget-space-4); }
+.widget-gap-lg { gap: var(--widget-space-6); }
+
+/* Padding utilities using widget tokens */
+.widget-padding-none { padding: 0; }
+.widget-padding-sm { padding: var(--widget-space-2); }
+.widget-padding-md { padding: var(--widget-space-4); }
+.widget-padding-lg { padding: var(--widget-space-6); }
+
+/* Spacing utilities */
+.widget-spacing-none { margin: 0; }
+.widget-spacing-sm { margin: var(--widget-space-2) 0; }
+.widget-spacing-md { margin: var(--widget-space-4) 0; }
+.widget-spacing-lg { margin: var(--widget-space-6) 0; }

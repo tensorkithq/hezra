@@ -1,0 +1,349 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://moniewave.tecmie.com/schemas/widget-primitives.json",
+  "title": "Widget Primitives",
+  "description": "JSON Schema for Moniewave widget system primitives",
+  "definitions": {
+    "base": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string" },
+        "kind": { "type": "string" },
+        "key": { "type": "string" },
+        "id": { "type": "string" },
+        "testId": { "type": "string" },
+        "visible": { "type": "boolean", "default": true },
+        "aria": { "type": "object", "additionalProperties": { "type": "string" } }
+      },
+      "required": ["type"]
+    },
+    "action": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "type": { "const": "approve_tool" },
+            "toolCallId": { "type": "string" }
+          },
+          "required": ["type", "toolCallId"]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": { "const": "reject_tool" },
+            "toolCallId": { "type": "string" }
+          },
+          "required": ["type", "toolCallId"]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": { "const": "expand" },
+            "target": { "enum": ["fullscreen", "modal"] }
+          },
+          "required": ["type"]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": { "const": "navigate" },
+            "to": { "type": "string" }
+          },
+          "required": ["type", "to"]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": { "const": "share" },
+            "payload": {}
+          },
+          "required": ["type"]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": { "const": "download" },
+            "payload": {}
+          },
+          "required": ["type"]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": { "const": "emit" },
+            "event": { "type": "string" },
+            "payload": {}
+          },
+          "required": ["type", "event"]
+        }
+      ]
+    },
+    "Frame": {
+      "allOf": [
+        { "$ref": "#/definitions/base" },
+        {
+          "type": "object",
+          "properties": {
+            "type": { "const": "Frame" },
+            "size": { "enum": ["sm", "md", "lg", "full"], "default": "md" },
+            "padding": { "enum": ["none", "sm", "md", "lg"], "default": "md" },
+            "children": { "type": "array", "items": { "$ref": "#/definitions/widgetNode" } }
+          }
+        }
+      ]
+    },
+    "FrameHeader": {
+      "allOf": [
+        { "$ref": "#/definitions/base" },
+        {
+          "type": "object",
+          "properties": {
+            "type": { "const": "FrameHeader" },
+            "title": { "type": "string" },
+            "expandable": { "type": "boolean", "default": true },
+            "actions": { "type": "array", "items": { "$ref": "#/definitions/action" } }
+          },
+          "required": ["title"]
+        }
+      ]
+    },
+    "Row": {
+      "allOf": [
+        { "$ref": "#/definitions/base" },
+        {
+          "type": "object",
+          "properties": {
+            "type": { "const": "Row" },
+            "align": { "enum": ["start", "center", "end", "between", "stretch"], "default": "start" },
+            "gap": { "enum": ["none", "sm", "md", "lg"], "default": "md" },
+            "wrap": { "type": "boolean", "default": false },
+            "children": { "type": "array", "items": { "$ref": "#/definitions/widgetNode" } }
+          }
+        }
+      ]
+    },
+    "Col": {
+      "allOf": [
+        { "$ref": "#/definitions/base" },
+        {
+          "type": "object",
+          "properties": {
+            "type": { "const": "Col" },
+            "gap": { "enum": ["none", "sm", "md", "lg"], "default": "md" },
+            "align": { "enum": ["start", "center", "end", "stretch"], "default": "start" },
+            "children": { "type": "array", "items": { "$ref": "#/definitions/widgetNode" } }
+          }
+        }
+      ]
+    },
+    "Spacer": {
+      "allOf": [
+        { "$ref": "#/definitions/base" },
+        {
+          "type": "object",
+          "properties": {
+            "type": { "const": "Spacer" },
+            "grow": { "type": "number", "default": 1 }
+          }
+        }
+      ]
+    },
+    "Divider": {
+      "allOf": [
+        { "$ref": "#/definitions/base" },
+        {
+          "type": "object",
+          "properties": {
+            "type": { "const": "Divider" },
+            "orientation": { "enum": ["horizontal", "vertical"], "default": "horizontal" },
+            "spacing": { "enum": ["none", "sm", "md", "lg"], "default": "md" }
+          }
+        }
+      ]
+    },
+    "Text": {
+      "allOf": [
+        { "$ref": "#/definitions/base" },
+        {
+          "type": "object",
+          "properties": {
+            "type": { "const": "Text" },
+            "value": { "type": "string" },
+            "size": { "enum": ["xs", "sm", "md", "lg", "xl"], "default": "md" },
+            "weight": { "enum": ["regular", "medium", "semibold", "bold"], "default": "regular" },
+            "color": { "enum": ["default", "secondary", "emphasis", "muted", "danger", "success", "warning"], "default": "default" },
+            "emphasis": { "type": "boolean", "default": false },
+            "truncate": { "type": "boolean", "default": false },
+            "as": { "enum": ["span", "p", "h1", "h2", "h3", "h4", "h5", "h6"], "default": "span" }
+          },
+          "required": ["value"]
+        }
+      ]
+    },
+    "Icon": {
+      "allOf": [
+        { "$ref": "#/definitions/base" },
+        {
+          "type": "object",
+          "properties": {
+            "type": { "const": "Icon" },
+            "name": { "type": "string" },
+            "size": { "enum": ["xs", "sm", "md", "lg"], "default": "md" },
+            "color": { "enum": ["default", "secondary", "emphasis", "muted", "danger", "success", "warning"], "default": "default" }
+          },
+          "required": ["name"]
+        }
+      ]
+    },
+    "Avatar": {
+      "allOf": [
+        { "$ref": "#/definitions/base" },
+        {
+          "type": "object",
+          "properties": {
+            "type": { "const": "Avatar" },
+            "src": { "type": "string" },
+            "fallback": { "type": "string" },
+            "size": { "enum": ["sm", "md", "lg"], "default": "md" },
+            "shape": { "enum": ["circle", "square"], "default": "circle" }
+          }
+        }
+      ]
+    },
+    "Amount": {
+      "allOf": [
+        { "$ref": "#/definitions/base" },
+        {
+          "type": "object",
+          "properties": {
+            "type": { "const": "Amount" },
+            "value": { "type": "number" },
+            "currency": { "type": "string" },
+            "showCurrency": { "type": "boolean", "default": true },
+            "size": { "enum": ["xs", "sm", "md", "lg", "xl"], "default": "md" },
+            "weight": { "enum": ["regular", "medium", "semibold", "bold"], "default": "regular" },
+            "color": { "enum": ["default", "success", "danger", "warning"], "default": "default" }
+          },
+          "required": ["value"]
+        }
+      ]
+    },
+    "Time": {
+      "allOf": [
+        { "$ref": "#/definitions/base" },
+        {
+          "type": "object",
+          "properties": {
+            "type": { "const": "Time" },
+            "value": { "type": "string" },
+            "format": { "enum": ["relative", "absolute", "time", "date"], "default": "relative" },
+            "size": { "enum": ["xs", "sm", "md"], "default": "sm" },
+            "color": { "enum": ["default", "secondary", "muted"], "default": "muted" }
+          },
+          "required": ["value"]
+        }
+      ]
+    },
+    "Badge": {
+      "allOf": [
+        { "$ref": "#/definitions/base" },
+        {
+          "type": "object",
+          "properties": {
+            "type": { "const": "Badge" },
+            "label": { "type": "string" },
+            "variant": { "enum": ["default", "secondary", "success", "warning", "danger", "outline"], "default": "default" },
+            "size": { "enum": ["sm", "md"], "default": "sm" }
+          },
+          "required": ["label"]
+        }
+      ]
+    },
+    "Button": {
+      "allOf": [
+        { "$ref": "#/definitions/base" },
+        {
+          "type": "object",
+          "properties": {
+            "type": { "const": "Button" },
+            "label": { "type": "string" },
+            "variant": { "enum": ["default", "secondary", "outline", "ghost", "destructive"], "default": "default" },
+            "size": { "enum": ["sm", "md", "lg"], "default": "md" },
+            "fullWidth": { "type": "boolean", "default": false },
+            "disabled": { "type": "boolean", "default": false },
+            "icon": { "type": "string" },
+            "iconPosition": { "enum": ["left", "right"], "default": "left" },
+            "onClickAction": { "$ref": "#/definitions/action" }
+          },
+          "required": ["label"]
+        }
+      ]
+    },
+    "KeyValueRow": {
+      "allOf": [
+        { "$ref": "#/definitions/base" },
+        {
+          "type": "object",
+          "properties": {
+            "type": { "const": "KeyValueRow" },
+            "label": { "type": "string" },
+            "value": { "$ref": "#/definitions/widgetNode" },
+            "emphasis": { "type": "boolean", "default": false }
+          },
+          "required": ["label", "value"]
+        }
+      ]
+    },
+    "KeyValueList": {
+      "allOf": [
+        { "$ref": "#/definitions/base" },
+        {
+          "type": "object",
+          "properties": {
+            "type": { "const": "KeyValueList" },
+            "items": { "type": "array", "items": { "$ref": "#/definitions/KeyValueRow" } },
+            "gap": { "enum": ["none", "sm", "md", "lg"], "default": "md" },
+            "dividers": { "type": "boolean", "default": false }
+          },
+          "required": ["items"]
+        }
+      ]
+    },
+    "ButtonGroup": {
+      "allOf": [
+        { "$ref": "#/definitions/base" },
+        {
+          "type": "object",
+          "properties": {
+            "type": { "const": "ButtonGroup" },
+            "buttons": { "type": "array", "items": { "$ref": "#/definitions/Button" } },
+            "orientation": { "enum": ["horizontal", "vertical"], "default": "horizontal" },
+            "gap": { "enum": ["sm", "md", "lg"], "default": "md" }
+          },
+          "required": ["buttons"]
+        }
+      ]
+    },
+    "widgetNode": {
+      "oneOf": [
+        { "$ref": "#/definitions/Frame" },
+        { "$ref": "#/definitions/FrameHeader" },
+        { "$ref": "#/definitions/Row" },
+        { "$ref": "#/definitions/Col" },
+        { "$ref": "#/definitions/Spacer" },
+        { "$ref": "#/definitions/Divider" },
+        { "$ref": "#/definitions/Text" },
+        { "$ref": "#/definitions/Icon" },
+        { "$ref": "#/definitions/Avatar" },
+        { "$ref": "#/definitions/Amount" },
+        { "$ref": "#/definitions/Time" },
+        { "$ref": "#/definitions/Badge" },
+        { "$ref": "#/definitions/Button" },
+        { "$ref": "#/definitions/KeyValueRow" },
+        { "$ref": "#/definitions/KeyValueList" },
+        { "$ref": "#/definitions/ButtonGroup" }
+      ]
+    }
+  },
+  "$ref": "#/definitions/widgetNode"
+}

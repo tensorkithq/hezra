@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://moniewave.com/schemas/limit.json",
+  "title": "Limit Widget",
+  "description": "Widget composition for displaying account or beneficiary limits",
+  "type": "object",
+  "properties": {
+    "type": { "const": "Limit" },
+    "data": {
+      "type": "object",
+      "required": ["limit_type", "amount_limit", "currency"],
+      "properties": {
+        "limit_type": { "enum": ["account_balance", "daily_transfer", "monthly_transfer", "beneficiary"] },
+        "amount_limit": { "type": "number" },
+        "currency": { "type": "string" },
+        "period": { "enum": ["daily", "weekly", "monthly"] },
+        "beneficiary_id": { "type": "string" },
+        "current_usage": { "type": "number" },
+        "alerts_at_percent": { "type": "number" }
+      }
+    }
+  },
+  "required": ["type", "data"],
+  "example": {
+    "type": "Frame",
+    "size": "md",
+    "padding": "md",
+    "children": [
+      {
+        "type": "FrameHeader",
+        "title": "Transfer Limit",
+        "expandable": true
+      },
+      {
+        "type": "Col",
+        "gap": "md",
+        "children": [
+          {
+            "type": "Row",
+            "align": "between",
+            "children": [
+              { "type": "Text", "value": "Daily Limit", "size": "md", "weight": "medium" },
+              { "type": "Badge", "label": "Active", "variant": "success" }
+            ]
+          },
+          {
+            "type": "KeyValueList",
+            "gap": "md",
+            "dividers": true,
+            "items": [
+              {
+                "type": "KeyValueRow",
+                "label": "Limit Amount",
+                "value": { "type": "Amount", "value": 500000, "currency": "NGN", "size": "md", "weight": "semibold" },
+                "emphasis": true
+              },
+              {
+                "type": "KeyValueRow",
+                "label": "Current Usage",
+                "value": { "type": "Amount", "value": 150000, "currency": "NGN", "size": "sm" }
+              },
+              {
+                "type": "KeyValueRow",
+                "label": "Remaining",
+                "value": { "type": "Amount", "value": 350000, "currency": "NGN", "size": "sm", "color": "success" }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
