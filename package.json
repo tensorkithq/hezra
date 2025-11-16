@@ -1,0 +1,30 @@
+{
+  "name": "hezra",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Voice-powered financial assistant with OpenAI Realtime API and Paystack integration",
+  "keywords": [
+    "voice-assistant",
+    "openai-realtime-api",
+    "paystack",
+    "financial-tools",
+    "react",
+    "golang",
+    "turborepo"
+  ],
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "clean": "turbo clean",
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\""
+  },
+  "devDependencies": {
+    "prettier": "^3.5.1",
+    "turbo": "^2.5.8"
+  },
+  "packageManager": "pnpm@10.13.1",
+  "engines": {
+    "node": ">=18"
+  }
+}

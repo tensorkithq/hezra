@@ -1,0 +1,26 @@
+{
+  "name": "@moniewave/xmcp",
+  "version": "0.1.0",
+  "description": "ChatGPT widgets using xmcp and React",
+  "keywords": [
+    "chatgpt",
+    "react",
+    "xmcp"
+  ],
+  "scripts": {
+    "build": "xmcp build",
+    "dev": "xmcp dev",
+    "start": "node dist/http.js",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "xmcp": "0.3.5",
+    "zod": "3.24.4"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2"
+  }
+}
