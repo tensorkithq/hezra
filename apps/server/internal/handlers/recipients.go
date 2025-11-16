@@ -46,28 +46,26 @@ func NewRecipientHandler(client *paystack.Client) *RecipientHandler {
 
 // Recipient represents a cached transfer recipient
 type Recipient struct {
-	ID            int                    `json:"id"`
-	RecipientCode string                 `json:"recipient_code"`
-	Type          string                 `json:"type"`
-	Name          string                 `json:"name"`
-	AccountNumber string                 `json:"account_number"`
-	BankCode      string                 `json:"bank_code"`
-	BankName      string                 `json:"bank_name"`
-	Currency      string                 `json:"currency"`
-	Description   string                 `json:"description"`
-	Metadata      map[string]interface{} `json:"metadata,omitempty"`
-	CreatedAt     time.Time              `json:"created_at"`
-	UpdatedAt     time.Time              `json:"updated_at"`
+	ID            int       `json:"id"`
+	RecipientCode string    `json:"recipient_code"`
+	Type          string    `json:"type"`
+	Name          string    `json:"name"`
+	AccountNumber string    `json:"account_number"`
+	BankCode      string    `json:"bank_code"`
+	BankName      string    `json:"bank_name"`
+	Currency      string    `json:"currency"`
+	Description   string    `json:"description"`
+	CreatedAt     time.Time `json:"created_at"`
+	UpdatedAt     time.Time `json:"updated_at"`
 }
 
 type CreateRecipientWithCacheRequest struct {
-	Type          string                 `json:"type"`
-	Name          string                 `json:"name"`
-	AccountNumber string                 `json:"account_number"`
-	BankCode      string                 `json:"bank_code"`
-	Currency      string                 `json:"currency,omitempty"`
-	Description   string                 `json:"description,omitempty"`
-	Metadata      map[string]interface{} `json:"metadata,omitempty"`
+	Type          string `json:"type"`
+	Name          string `json:"name"`
+	AccountNumber string `json:"account_number"`
+	BankCode      string `json:"bank_code"`
+	Currency      string `json:"currency,omitempty"`
+	Description   string `json:"description,omitempty"`
 }
 
 // Create creates a new transfer recipient in Paystack and caches it locally
@@ -111,7 +109,6 @@ func (h *RecipientHandler) Create(w http.ResponseWriter, r *http.Request) {
 		AccountNumber: req.AccountNumber,
 		BankCode:      req.BankCode,
 		Currency:      req.Currency,
-		Metadata:      req.Metadata,
 	}
 
 	result, err := h.client.Transfer.CreateRecipient(recipient)
@@ -129,20 +126,10 @@ func (h *RecipientHandler) Create(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	// Serialize metadata to JSON for storage
-	var metadataJSON []byte
-	if req.Metadata != nil {
-		metadataJSON, err = json.Marshal(req.Metadata)
-		if err != nil {
-			fmt.Printf("Warning: Failed to marshal metadata: %v\n", err)
-			metadataJSON = nil
-		}
-	}
-
 	// Cache in SQLite
 	query := `
-		INSERT INTO recipients (recipient_code, type, name, account_number, bank_code, bank_name, currency, description, metadata, created_at, updated_at)
-		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		INSERT INTO recipients (recipient_code, type, name, account_number, bank_code, bank_name, currency, description, created_at, updated_at)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 	`
 	now := time.Now()
 	_, err = database.DB.Exec(
@@ -155,7 +142,6 @@ func (h *RecipientHandler) Create(w http.ResponseWriter, r *http.Request) {
 		bankName,
 		req.Currency,
 		req.Description,
-		metadataJSON,
 		now,
 		now,
 	)
@@ -171,7 +157,7 @@ func (h *RecipientHandler) Create(w http.ResponseWriter, r *http.Request) {
 // List lists all cached recipients from SQLite
 func (h *RecipientHandler) List(w http.ResponseWriter, r *http.Request) {
 	query := `
-		SELECT id, recipient_code, type, name, account_number, bank_code, bank_name, currency, description, metadata, created_at, updated_at
+		SELECT id, recipient_code, type, name, account_number, bank_code, bank_name, currency, description, created_at, updated_at
 		FROM recipients
 		ORDER BY created_at DESC
 	`
@@ -186,7 +172,7 @@ func (h *RecipientHandler) List(w http.ResponseWriter, r *http.Request) {
 	recipients := []Recipient{}
 	for rows.Next() {
 		var recipient Recipient
-		var bankName, description, metadataJSON sql.NullString
+		var bankName, description sql.NullString
 
 		err := rows.Scan(
 			&recipient.ID,
@@ -198,7 +184,6 @@ func (h *RecipientHandler) List(w http.ResponseWriter, r *http.Request) {
 			&bankName,
 			&recipient.Currency,
 			&description,
-			&metadataJSON,
 			&recipient.CreatedAt,
 			&recipient.UpdatedAt,
 		)
@@ -212,12 +197,6 @@ func (h *RecipientHandler) List(w http.ResponseWriter, r *http.Request) {
 		}
 		if description.Valid {
 			recipient.Description = description.String
-		}
-		if metadataJSON.Valid && metadataJSON.String != "" {
-			var metadata map[string]interface{}
-			if err := json.Unmarshal([]byte(metadataJSON.String), &metadata); err == nil {
-				recipient.Metadata = metadata
-			}
 		}
 
 		recipients = append(recipients, recipient)
@@ -240,13 +219,13 @@ func (h *RecipientHandler) Get(w http.ResponseWriter, r *http.Request) {
 	}
 
 	query := `
-		SELECT id, recipient_code, type, name, account_number, bank_code, bank_name, currency, description, metadata, created_at, updated_at
+		SELECT id, recipient_code, type, name, account_number, bank_code, bank_name, currency, description, created_at, updated_at
 		FROM recipients
 		WHERE recipient_code = ?
 	`
 
 	var recipient Recipient
-	var bankName, description, metadataJSON sql.NullString
+	var bankName, description sql.NullString
 
 	err := database.DB.QueryRow(query, recipientCode).Scan(
 		&recipient.ID,
@@ -258,7 +237,6 @@ func (h *RecipientHandler) Get(w http.ResponseWriter, r *http.Request) {
 		&bankName,
 		&recipient.Currency,
 		&description,
-		&metadataJSON,
 		&recipient.CreatedAt,
 		&recipient.UpdatedAt,
 	)
@@ -273,12 +251,6 @@ func (h *RecipientHandler) Get(w http.ResponseWriter, r *http.Request) {
 	}
 	if description.Valid {
 		recipient.Description = description.String
-	}
-	if metadataJSON.Valid && metadataJSON.String != "" {
-		var metadata map[string]interface{}
-		if err := json.Unmarshal([]byte(metadataJSON.String), &metadata); err == nil {
-			recipient.Metadata = metadata
-		}
 	}
 
 	WriteJSONSuccess(w, recipient)

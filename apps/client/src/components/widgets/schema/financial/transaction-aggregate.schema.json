@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://moniewave.com/schemas/transaction-aggregate.json",
+  "title": "Transaction Aggregate Widget",
+  "description": "Widget composition for displaying transaction analytics and aggregates",
+  "type": "object",
+  "properties": {
+    "type": { "const": "TransactionAggregate" },
+    "data": {
+      "type": "object",
+      "required": ["metric", "value", "currency", "period"],
+      "properties": {
+        "metric": { "type": "string" },
+        "value": { "type": "number" },
+        "currency": { "type": "string" },
+        "period": {
+          "type": "object",
+          "properties": {
+            "from": { "type": "string" },
+            "to": { "type": "string" }
+          }
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "category": { "type": "string" },
+              "value": { "type": "number" }
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["type", "data"],
+  "example": {
+    "type": "Frame",
+    "size": "md",
+    "padding": "md",
+    "children": [
+      {
+        "type": "FrameHeader",
+        "title": "Transaction Analytics",
+        "expandable": true
+      },
+      {
+        "type": "Col",
+        "gap": "md",
+        "children": [
+          {
+            "type": "Row",
+            "align": "center",
+            "gap": "sm",
+            "children": [
+              { "type": "Icon", "name": "TrendingUp", "size": "md", "color": "success" },
+              { "type": "Text", "value": "Top Categories", "size": "lg", "weight": "semibold" }
+            ]
+          },
+          { "type": "Divider", "spacing": "md" },
+          {
+            "type": "KeyValueList",
+            "gap": "md",
+            "dividers": true,
+            "items": [
+              {
+                "type": "KeyValueRow",
+                "label": "Family Transfers",
+                "value": { "type": "Amount", "value": 42500, "currency": "NGN", "size": "sm", "weight": "medium" }
+              },
+              {
+                "type": "KeyValueRow",
+                "label": "Food",
+                "value": { "type": "Amount", "value": 18000, "currency": "NGN", "size": "sm", "weight": "medium" }
+              },
+              {
+                "type": "KeyValueRow",
+                "label": "Transport",
+                "value": { "type": "Amount", "value": 9000, "currency": "NGN", "size": "sm", "weight": "medium" }
+              }
+            ]
+          },
+          { "type": "Divider", "spacing": "md" },
+          {
+            "type": "Row",
+            "align": "between",
+            "children": [
+              { "type": "Text", "value": "Total", "size": "sm", "weight": "semibold" },
+              { "type": "Amount", "value": 69500, "currency": "NGN", "size": "md", "weight": "bold", "color": "default" }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

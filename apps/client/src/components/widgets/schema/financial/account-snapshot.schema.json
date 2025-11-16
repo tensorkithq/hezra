@@ -1,0 +1,92 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://moniewave.com/schemas/account-snapshot.json",
+  "title": "Account Snapshot Widget",
+  "description": "Widget composition for displaying account balance and KPIs",
+  "type": "object",
+  "properties": {
+    "type": { "const": "AccountSnapshot" },
+    "data": {
+      "type": "object",
+      "required": ["balance", "window"],
+      "properties": {
+        "balance": {
+          "type": "object",
+          "properties": {
+            "currency": { "type": "string" },
+            "available": { "type": "number" }
+          }
+        },
+        "window": { "enum": ["this_week", "this_month", "last_month", "this_year"] },
+        "transfers": {
+          "type": "object",
+          "properties": {
+            "count": { "type": "number" },
+            "value": { "type": "number" }
+          }
+        },
+        "invoices": {
+          "type": "object",
+          "properties": {
+            "sent": { "type": "number" },
+            "paid": { "type": "number" },
+            "value_paid": { "type": "number" }
+          }
+        }
+      }
+    }
+  },
+  "required": ["type", "data"],
+  "example": {
+    "type": "Frame",
+    "size": "lg",
+    "padding": "lg",
+    "children": [
+      {
+        "type": "FrameHeader",
+        "title": "Account Overview",
+        "expandable": true
+      },
+      {
+        "type": "Col",
+        "gap": "lg",
+        "children": [
+          {
+            "type": "Col",
+            "gap": "sm",
+            "align": "center",
+            "children": [
+              { "type": "Text", "value": "Available Balance", "size": "sm", "color": "muted" },
+              { "type": "Amount", "value": 720000, "currency": "NGN", "size": "xl", "weight": "bold", "color": "default" }
+            ]
+          },
+          { "type": "Divider", "spacing": "lg" },
+          {
+            "type": "Row",
+            "gap": "lg",
+            "children": [
+              {
+                "type": "Col",
+                "gap": "sm",
+                "children": [
+                  { "type": "Text", "value": "Transfers", "size": "xs", "color": "muted" },
+                  { "type": "Text", "value": "14", "size": "lg", "weight": "semibold" },
+                  { "type": "Amount", "value": 155000, "currency": "NGN", "size": "sm", "showCurrency": false }
+                ]
+              },
+              {
+                "type": "Col",
+                "gap": "sm",
+                "children": [
+                  { "type": "Text", "value": "Invoices Paid", "size": "xs", "color": "muted" },
+                  { "type": "Text", "value": "3/5", "size": "lg", "weight": "semibold" },
+                  { "type": "Amount", "value": 610000, "currency": "NGN", "size": "sm", "showCurrency": false }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

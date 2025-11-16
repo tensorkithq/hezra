@@ -120,7 +120,6 @@ func runMigrations() error {
 		bank_name TEXT,
 		currency TEXT DEFAULT 'NGN',
 		description TEXT,
-		metadata TEXT,
 		created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 		updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 	);`
