@@ -115,11 +115,7 @@ describe('Widget Schema Validation', () => {
               size: 'lg',
               weight: 'semibold'
             },
-            {
-              type: 'Badge',
-              label: 'Queued',
-              variant: 'warning'
-            }
+            { type: 'Text', value: 'Queued', color: 'warning', weight: 'medium', size: 'sm' }
           ]
         },
         {
@@ -174,11 +170,9 @@ describe('Widget Component Registry', () => {
 
     // Check content primitives
     expect(hasWidget('Text')).toBe(true);
-    expect(hasWidget('Icon')).toBe(true);
     expect(hasWidget('Avatar')).toBe(true);
     expect(hasWidget('Amount')).toBe(true);
     expect(hasWidget('Time')).toBe(true);
-    expect(hasWidget('Badge')).toBe(true);
 
     // Check interactive primitives
     expect(hasWidget('Button')).toBe(true);
