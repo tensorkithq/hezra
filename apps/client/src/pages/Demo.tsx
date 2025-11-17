@@ -304,17 +304,7 @@ const AccountSnapshotModal: React.FC<AccountSnapshotModalProps> = ({
           className="flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity"
           aria-label="Close"
         >
-          <div className="relative w-6 h-6 shrink-0">
-            <div className="absolute inset-[18.75%]">
-              <div className="absolute inset-0">
-                <img
-                  alt="Close"
-                  className="block max-w-none w-full h-full"
-                  src={accountCloseIcon}
-                />
-              </div>
-            </div>
-          </div>
+          <X className="w-6 h-6 text-white" />
         </button>
       </div>
 
@@ -414,17 +404,7 @@ const PaymentSummaryModal: React.FC<PaymentSummaryModalProps> = ({
           className="flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity"
           aria-label="Close"
         >
-          <div className="relative w-6 h-6 shrink-0">
-            <div className="absolute inset-[18.75%]">
-              <div className="absolute inset-0">
-                <img
-                  alt="Close"
-                  className="block max-w-none w-full h-full"
-                  src={accountCloseIcon}
-                />
-              </div>
-            </div>
-          </div>
+          <X className="w-6 h-6 text-white" />
         </button>
       </div>
 
@@ -523,17 +503,7 @@ const InvoiceModal: React.FC<InvoiceModalProps> = ({
           className="flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity"
           aria-label="Close"
         >
-          <div className="relative w-6 h-6 shrink-0">
-            <div className="absolute inset-[18.75%]">
-              <div className="absolute inset-0">
-                <img
-                  alt="Close"
-                  className="block max-w-none w-full h-full"
-                  src={accountCloseIcon}
-                />
-              </div>
-            </div>
-          </div>
+          <X className="w-6 h-6 text-white" />
         </button>
       </div>
 
@@ -865,17 +835,7 @@ const AccountInformationModal: React.FC<AccountInformationModalProps> = ({
           className="flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity"
           aria-label="Close"
         >
-          <div className="relative w-6 h-6 shrink-0">
-            <div className="absolute inset-[18.75%]">
-              <div className="absolute inset-0">
-                <img
-                  alt="Close"
-                  className="block max-w-none w-full h-full"
-                  src={accountCloseIcon}
-                />
-              </div>
-            </div>
-          </div>
+          <X className="w-6 h-6 text-white" />
         </button>
       </div>
 

@@ -168,13 +168,7 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
           Receipt
         </p>
         <button onClick={onClose} className="flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity" aria-label="Close">
-          <div className="relative w-6 h-6 shrink-0">
-            <div className="absolute inset-[18.75%]">
-              <div className="absolute inset-0">
-                <img alt="Close" className="block max-w-none w-full h-full" src={closeIcon} />
-              </div>
-            </div>
-          </div>
+          <X className="w-6 h-6 text-white" />
         </button>
       </div>
 
@@ -744,13 +738,7 @@ const AccountInformationModal: React.FC<AccountInformationModalProps> = ({
       <div className="flex gap-4 items-start justify-center w-full shrink-0">
         <p className="flex-1 font-momo font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">{title}</p>
         <button onClick={onClose} className="flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity" aria-label="Close">
-          <div className="relative w-6 h-6 shrink-0">
-            <div className="absolute inset-[18.75%]">
-              <div className="absolute inset-0">
-                <img alt="Close" className="block max-w-none w-full h-full" src={accountCloseIcon} />
-              </div>
-            </div>
-          </div>
+          <X className="w-6 h-6 text-white" />
         </button>
       </div>
       <div className="flex flex-col gap-4 items-start w-full shrink-0">
@@ -1089,7 +1077,7 @@ const OpenAIVoiceInterface = () => {
             }`}
             aria-label="Toggle logs"
           >
-            <span className="font-momo text-sm font-medium whitespace-nowrap text-[#aba9a9]">
+            <span className="font-momo block text-sm font-medium whitespace-nowrap text-[#aba9a9]">
               Show Logs
             </span>
           </button>
