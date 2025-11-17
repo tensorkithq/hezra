@@ -43,25 +43,47 @@ const widgetExamples: Record<string, WidgetExample> = {
       ],
     },
   },
-  frameWithHeader: {
-    name: 'Frame with Header',
-    description: 'Frame with header, title, and close button',
+  frameCustomized: {
+    name: 'Frame Customized',
+    description: 'Frame with size and padding customization (JSON schema props)',
     category: 'primitives',
     spec: {
       type: 'Frame',
-      hasHeader: true,
-      title: 'Payment Details',
+      size: 'md',
+      padding: 'lg',
       children: [
         {
           type: 'Text',
-          value: 'This Frame includes a header with title and close button',
+          value: 'Payment Details',
+          size: 'lg',
+          weight: 'semibold',
+        },
+        {
+          type: 'Divider',
+          spacing: 'md',
+        },
+        {
+          type: 'Text',
+          value: 'This Frame uses size="md" and padding="lg" - props available in the JSON schema',
           size: 'sm',
           color: 'muted',
         },
         {
-          type: 'Text',
-          value: 'Content goes here...',
-          size: 'md',
+          type: 'KeyValueList',
+          gap: 'sm',
+          dividers: true,
+          items: [
+            {
+              type: 'KeyValueRow',
+              label: 'Size',
+              value: { type: 'Text', value: 'md', color: 'emphasis' },
+            },
+            {
+              type: 'KeyValueRow',
+              label: 'Padding',
+              value: { type: 'Text', value: 'lg', color: 'emphasis' },
+            },
+          ],
         },
       ],
     },
@@ -72,8 +94,6 @@ const widgetExamples: Record<string, WidgetExample> = {
     category: 'primitives',
     spec: {
       type: 'Frame',
-      size: 'md',
-      padding: 'md',
       children: [
         { type: 'Text', value: 'Extra small text', size: 'xs' },
         { type: 'Text', value: 'Small text', size: 'sm' },
@@ -102,8 +122,6 @@ const widgetExamples: Record<string, WidgetExample> = {
     category: 'primitives',
     spec: {
       type: 'Frame',
-      size: 'md',
-      padding: 'md',
       children: [
         { type: 'Text', value: 'Button Variants:', weight: 'semibold', size: 'md' },
         { type: 'Spacer', grow: 1 },
@@ -153,8 +171,6 @@ const widgetExamples: Record<string, WidgetExample> = {
     category: 'primitives',
     spec: {
       type: 'Frame',
-      size: 'md',
-      padding: 'md',
       children: [
         { type: 'Text', value: 'Row with start alignment:', weight: 'semibold', size: 'sm' },
         {
@@ -187,8 +203,6 @@ const widgetExamples: Record<string, WidgetExample> = {
     category: 'primitives',
     spec: {
       type: 'Frame',
-      size: 'md',
-      padding: 'md',
       children: [
         { type: 'Text', value: 'Column Layout:', weight: 'semibold' },
         { type: 'Spacer', grow: 1 },
@@ -211,8 +225,6 @@ const widgetExamples: Record<string, WidgetExample> = {
     category: 'primitives',
     spec: {
       type: 'Frame',
-      size: 'md',
-      padding: 'md',
       children: [
         {
           type: 'Row',
@@ -232,8 +244,6 @@ const widgetExamples: Record<string, WidgetExample> = {
     category: 'primitives',
     spec: {
       type: 'Frame',
-      size: 'md',
-      padding: 'md',
       children: [
         { type: 'Text', value: 'Section 1', size: 'sm' },
         { type: 'Divider', spacing: 'md', orientation: 'horizontal' },
@@ -247,8 +257,6 @@ const widgetExamples: Record<string, WidgetExample> = {
     category: 'primitives',
     spec: {
       type: 'Frame',
-      size: 'md',
-      padding: 'md',
       children: [
         { type: 'Text', value: 'Avatar Sizes:', weight: 'semibold', size: 'md' },
         { type: 'Spacer', grow: 1 },
@@ -283,8 +291,6 @@ const widgetExamples: Record<string, WidgetExample> = {
     category: 'primitives',
     spec: {
       type: 'Frame',
-      size: 'md',
-      padding: 'md',
       children: [
         { type: 'Text', value: 'Amount Sizes:', weight: 'semibold', size: 'md' },
         { type: 'Spacer', grow: 1 },
@@ -321,8 +327,6 @@ const widgetExamples: Record<string, WidgetExample> = {
     category: 'primitives',
     spec: {
       type: 'Frame',
-      size: 'md',
-      padding: 'md',
       children: [
         { type: 'Text', value: 'Time Formats:', weight: 'semibold', size: 'md' },
         { type: 'Spacer', grow: 1 },
@@ -377,8 +381,6 @@ const widgetExamples: Record<string, WidgetExample> = {
     category: 'patterns',
     spec: {
       type: 'Frame',
-      size: 'md',
-      padding: 'md',
       children: [
         {
           type: 'KeyValueRow',
@@ -405,8 +407,6 @@ const widgetExamples: Record<string, WidgetExample> = {
     category: 'patterns',
     spec: {
       type: 'Frame',
-      size: 'md',
-      padding: 'md',
       children: [
         {
           type: 'KeyValueList',
@@ -445,8 +445,6 @@ const widgetExamples: Record<string, WidgetExample> = {
     category: 'patterns',
     spec: {
       type: 'Frame',
-      size: 'md',
-      padding: 'md',
       children: [
         { type: 'Text', value: 'Horizontal ButtonGroup:', weight: 'semibold', size: 'sm' },
         { type: 'Spacer', grow: 1 },
@@ -487,8 +485,6 @@ const widgetExamples: Record<string, WidgetExample> = {
       type: 'Frame',
       hasHeader: true,
       title: 'Payment Batch',
-      size: 'md',
-      padding: 'md',
       children: [
         {
           type: 'Row',
@@ -538,8 +534,6 @@ const widgetExamples: Record<string, WidgetExample> = {
       type: 'Frame',
       hasHeader: true,
       title: 'Virtual Card',
-      size: 'md',
-      padding: 'lg',
       children: [
         {
           type: 'Row',
@@ -593,8 +587,6 @@ const widgetExamples: Record<string, WidgetExample> = {
       type: 'Frame',
       hasHeader: true,
       title: 'Invoice',
-      size: 'md',
-      padding: 'md',
       children: [
         {
           type: 'Row',
@@ -654,8 +646,6 @@ const widgetExamples: Record<string, WidgetExample> = {
       type: 'Frame',
       hasHeader: true,
       title: 'Account Overview',
-      size: 'lg',
-      padding: 'lg',
       children: [
         {
           type: 'Col',
@@ -708,8 +698,6 @@ const widgetExamples: Record<string, WidgetExample> = {
       type: 'Frame',
       hasHeader: true,
       title: 'Transaction Analytics',
-      size: 'md',
-      padding: 'md',
       children: [
         {
           type: 'Col',
@@ -768,8 +756,6 @@ const widgetExamples: Record<string, WidgetExample> = {
       type: 'Frame',
       hasHeader: true,
       title: 'Transfer Limit',
-      size: 'md',
-      padding: 'md',
       children: [
         {
           type: 'Col',
@@ -819,8 +805,6 @@ const widgetExamples: Record<string, WidgetExample> = {
       type: 'Frame',
       hasHeader: true,
       title: 'Transaction Details',
-      size: 'md',
-      padding: 'md',
       children: [
         {
           type: 'Row',
