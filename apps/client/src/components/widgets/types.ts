@@ -36,6 +36,11 @@ export interface FrameProps extends BaseWidgetProps {
   type: 'Frame';
   children?: React.ReactNode;
   className?: string;
+  hasHeader?: boolean;
+  title?: string;
+  onClose?: () => void;
+  onExpand?: () => void;
+  isExpanded?: boolean;
 }
 
 export interface FrameHeaderProps extends BaseWidgetProps {

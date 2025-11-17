@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Mic, MicOff, X, Maximize2 } from "lucide-react";
+import { Mic, MicOff, X } from "lucide-react";
 import { useOpenAIVoiceAgent } from "./useOpenAIVoiceAgent";
 import VoiceOrbFixed from "../VoiceOrbFixed";
 import ConversationMessage from "../ConversationMessage";
@@ -11,6 +11,7 @@ import {
   SidebarProvider,
 } from "@/components/ui/sidebar";
 import VoiceOrb from "../VoiceOrb";
+import { Frame } from "../widgets/primitives/Frame";
 
 // Sidebar Types
 export type SidebarVariant = 'save-beneficiary' | 'account-info' | 'receipt' | 'account-snapshot' | 'payment-summary' | 'invoice' | 'limit' | 'transaction-aggregate' | 'virtual-card';
@@ -73,41 +74,15 @@ const Sidebar: React.FC<SidebarProps> = ({
   };
 
   return (
-    <div
-      className={`
-        bg-black rounded-[32px] p-10 flex flex-col gap-10 items-start relative w-full h-full min-h-0
-        ${className}
-      `}
+    <Frame
+      type="Frame"
+      className={className}
+      hasHeader={true}
+      title={getTitleText()}
+      onClose={onClose}
+      onExpand={onExpand}
+      isExpanded={isExpanded}
     >
-      {/* Title Bar */}
-      <div className="flex gap-4 items-start justify-center w-full shrink-0">
-        <p className="flex-1 font-momo font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">
-          {getTitleText()}
-        </p>
-        
-        <div className="flex gap-2 items-center">
-          {/* Expand Button - Only show on mobile */}
-          {onExpand && (
-            <button
-              onClick={onExpand}
-              className="md:hidden flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity"
-              aria-label={isExpanded ? "Collapse" : "Expand"}
-            >
-              <Maximize2 className="w-6 h-6 text-white" />
-            </button>
-          )}
-          
-          {/* Close Button */}
-          <button
-            onClick={onClose}
-            className="flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity"
-            aria-label="Close"
-          >
-            <X className="w-6 h-6 text-white" />
-          </button>
-        </div>
-      </div>
-
       {/* Form Fields */}
       <div className={`flex flex-col gap-4 items-start w-full flex-1 min-h-0 ${isExpanded ? 'overflow-y-auto' : 'overflow-hidden'}`}>
         {fields.map((field, index) => {
@@ -133,7 +108,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
       {/* Ring Border */}
       <div className="absolute border border-black border-solid inset-[-8px] rounded-[40px] pointer-events-none" />
-    </div>
+    </Frame>
   );
 };
 
@@ -161,17 +136,12 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
   onDownload,
 }) => {
   return (
-    <div className="bg-black rounded-[32px] p-10 flex flex-col gap-10 items-start relative w-full h-full">
-      {/* Title Bar */}
-      <div className="flex gap-4 items-start justify-center w-full shrink-0">
-        <p className="flex-1 font-momo font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">
-          Receipt
-        </p>
-        <button onClick={onClose} className="flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity" aria-label="Close">
-          <X className="w-6 h-6 text-white" />
-        </button>
-      </div>
-
+    <Frame
+      type="Frame"
+      hasHeader={true}
+      title="Receipt"
+      onClose={onClose}
+    >
       {/* Carousel Section */}
       <div className="flex gap-4 items-start w-full shrink-0 overflow-x-auto pb-2">
         {receiptImages.length > 0 ? (
@@ -216,7 +186,7 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
 
       {/* Ring Border */}
       <div className="absolute border border-black border-solid inset-[-8px] rounded-[40px] pointer-events-none" />
-    </div>
+    </Frame>
   );
 };
 
@@ -258,25 +228,15 @@ const AccountSnapshotModal: React.FC<AccountSnapshotModalProps> = ({
   };
 
   return (
-    <div className={`bg-black rounded-[32px] p-10 flex flex-col gap-10 items-start relative w-full h-full min-h-0 ${className}`}>
-      <div className="flex gap-4 items-start justify-center w-full shrink-0">
-        <p className="flex-1 font-momo font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">Account Overview</p>
-        <div className="flex gap-2 items-center">
-          {/* Expand Button - Only show on mobile */}
-          {onExpand && (
-            <button
-              onClick={onExpand}
-              className="md:hidden flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity"
-              aria-label={isExpanded ? "Collapse" : "Expand"}
-            >
-              <Maximize2 className="w-6 h-6 text-white" />
-            </button>
-          )}
-          <button onClick={onClose} className="flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity" aria-label="Close">
-            <X className="w-6 h-6 text-white" />
-          </button>
-        </div>
-      </div>
+    <Frame
+      type="Frame"
+      className={className}
+      hasHeader={true}
+      title="Account Overview"
+      onClose={onClose}
+      onExpand={onExpand}
+      isExpanded={isExpanded}
+    >
       <div className={`flex flex-col gap-4 items-start w-full flex-1 min-h-0 ${isExpanded ? 'overflow-y-auto' : 'overflow-hidden'}`}>
         {[
           { label: 'Available Balance', value: formatCurrency(balance) },
@@ -296,7 +256,7 @@ const AccountSnapshotModal: React.FC<AccountSnapshotModalProps> = ({
         })}
       </div>
       <div className="absolute border border-black border-solid inset-[-8px] rounded-[40px] pointer-events-none" />
-    </div>
+    </Frame>
   );
 };
 
@@ -346,25 +306,15 @@ const PaymentSummaryModal: React.FC<PaymentSummaryModalProps> = ({
   };
 
   return (
-    <div className={`bg-black rounded-[32px] p-10 flex flex-col gap-10 items-start relative w-full h-full min-h-0 ${className}`}>
-      <div className="flex gap-4 items-start justify-center w-full shrink-0">
-        <p className="flex-1 font-momo font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">Payment Batch</p>
-        <div className="flex gap-2 items-center">
-          {/* Expand Button - Only show on mobile */}
-          {onExpand && (
-            <button
-              onClick={onExpand}
-              className="md:hidden flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity"
-              aria-label={isExpanded ? "Collapse" : "Expand"}
-            >
-              <Maximize2 className="w-6 h-6 text-white" />
-            </button>
-          )}
-          <button onClick={onClose} className="flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity" aria-label="Close">
-            <X className="w-6 h-6 text-white" />
-          </button>
-        </div>
-      </div>
+    <Frame
+      type="Frame"
+      className={className}
+      hasHeader={true}
+      title="Payment Batch"
+      onClose={onClose}
+      onExpand={onExpand}
+      isExpanded={isExpanded}
+    >
       <div className={`flex flex-col gap-4 items-start w-full flex-1 min-h-0 ${isExpanded ? 'overflow-y-auto' : 'overflow-hidden'}`}>
         {[
           { label: 'Batch Reference', value: batchReference },
@@ -383,7 +333,7 @@ const PaymentSummaryModal: React.FC<PaymentSummaryModalProps> = ({
         })}
       </div>
       <div className="absolute border border-black border-solid inset-[-8px] rounded-[40px] pointer-events-none" />
-    </div>
+    </Frame>
   );
 };
 
@@ -433,25 +383,15 @@ const InvoiceModal: React.FC<InvoiceModalProps> = ({
   };
 
   return (
-    <div className={`bg-black rounded-[32px] p-10 flex flex-col gap-10 items-start relative w-full h-full min-h-0 ${className}`}>
-      <div className="flex gap-4 items-start justify-center w-full shrink-0">
-        <p className="flex-1 font-momo font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">Invoice</p>
-        <div className="flex gap-2 items-center">
-          {/* Expand Button - Only show on mobile */}
-          {onExpand && (
-            <button
-              onClick={onExpand}
-              className="md:hidden flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity"
-              aria-label={isExpanded ? "Collapse" : "Expand"}
-            >
-              <Maximize2 className="w-6 h-6 text-white" />
-            </button>
-          )}
-          <button onClick={onClose} className="flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity" aria-label="Close">
-            <X className="w-6 h-6 text-white" />
-          </button>
-        </div>
-      </div>
+    <Frame
+      type="Frame"
+      className={className}
+      hasHeader={true}
+      title="Invoice"
+      onClose={onClose}
+      onExpand={onExpand}
+      isExpanded={isExpanded}
+    >
       <div className={`flex flex-col gap-4 items-start w-full flex-1 min-h-0 ${isExpanded ? 'overflow-y-auto' : 'overflow-hidden'}`}>
         {[
           { label: 'Invoice Number', value: invoiceNumber },
@@ -471,7 +411,7 @@ const InvoiceModal: React.FC<InvoiceModalProps> = ({
         })}
       </div>
       <div className="absolute border border-black border-solid inset-[-8px] rounded-[40px] pointer-events-none" />
-    </div>
+    </Frame>
   );
 };
 
@@ -509,25 +449,15 @@ const LimitModal: React.FC<LimitModalProps> = ({
   };
 
   return (
-    <div className={`bg-black rounded-[32px] p-10 flex flex-col gap-10 items-start relative w-full h-full min-h-0 ${className}`}>
-      <div className="flex gap-4 items-start justify-center w-full shrink-0">
-        <p className="flex-1 font-momo font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">Account Limits</p>
-        <div className="flex gap-2 items-center">
-          {/* Expand Button - Only show on mobile */}
-          {onExpand && (
-            <button
-              onClick={onExpand}
-              className="md:hidden flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity"
-              aria-label={isExpanded ? "Collapse" : "Expand"}
-            >
-              <Maximize2 className="w-6 h-6 text-white" />
-            </button>
-          )}
-          <button onClick={onClose} className="flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity" aria-label="Close">
-            <X className="w-6 h-6 text-white" />
-          </button>
-        </div>
-      </div>
+    <Frame
+      type="Frame"
+      className={className}
+      hasHeader={true}
+      title="Account Limits"
+      onClose={onClose}
+      onExpand={onExpand}
+      isExpanded={isExpanded}
+    >
       <div className={`flex flex-col gap-4 items-start w-full flex-1 min-h-0 ${isExpanded ? 'overflow-y-auto' : 'overflow-hidden'}`}>
         {[
           { label: 'Account Balance Limit', value: formatCurrency(accountLimit) },
@@ -545,7 +475,7 @@ const LimitModal: React.FC<LimitModalProps> = ({
         })}
       </div>
       <div className="absolute border border-black border-solid inset-[-8px] rounded-[40px] pointer-events-none" />
-    </div>
+    </Frame>
   );
 };
 
@@ -583,25 +513,15 @@ const TransactionAggregateModal: React.FC<TransactionAggregateModalProps> = ({
   };
 
   return (
-    <div className={`bg-black rounded-[32px] p-10 flex flex-col gap-10 items-start relative w-full h-full min-h-0 ${className}`}>
-      <div className="flex gap-4 items-start justify-center w-full shrink-0">
-        <p className="flex-1 font-momo font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">Transaction Analytics</p>
-        <div className="flex gap-2 items-center">
-          {/* Expand Button - Only show on mobile */}
-          {onExpand && (
-            <button
-              onClick={onExpand}
-              className="md:hidden flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity"
-              aria-label={isExpanded ? "Collapse" : "Expand"}
-            >
-              <Maximize2 className="w-6 h-6 text-white" />
-            </button>
-          )}
-          <button onClick={onClose} className="flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity" aria-label="Close">
-            <X className="w-6 h-6 text-white" />
-          </button>
-        </div>
-      </div>
+    <Frame
+      type="Frame"
+      className={className}
+      hasHeader={true}
+      title="Transaction Analytics"
+      onClose={onClose}
+      onExpand={onExpand}
+      isExpanded={isExpanded}
+    >
       <div className={`flex flex-col gap-4 items-start w-full flex-1 min-h-0 ${isExpanded ? 'overflow-y-auto' : 'overflow-hidden'}`}>
         {[
           { label: 'Period', value: period },
@@ -619,7 +539,7 @@ const TransactionAggregateModal: React.FC<TransactionAggregateModalProps> = ({
         })}
       </div>
       <div className="absolute border border-black border-solid inset-[-8px] rounded-[40px] pointer-events-none" />
-    </div>
+    </Frame>
   );
 };
 
@@ -667,25 +587,15 @@ const VirtualCardModal: React.FC<VirtualCardModalProps> = ({
   };
 
   return (
-    <div className={`bg-black rounded-[32px] p-10 flex flex-col gap-10 items-start relative w-full h-full min-h-0 ${className}`}>
-      <div className="flex gap-4 items-start justify-center w-full shrink-0">
-        <p className="flex-1 font-momo font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">Virtual Card</p>
-        <div className="flex gap-2 items-center">
-          {/* Expand Button - Only show on mobile */}
-          {onExpand && (
-            <button
-              onClick={onExpand}
-              className="md:hidden flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity"
-              aria-label={isExpanded ? "Collapse" : "Expand"}
-            >
-              <Maximize2 className="w-6 h-6 text-white" />
-            </button>
-          )}
-          <button onClick={onClose} className="flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity" aria-label="Close">
-            <X className="w-6 h-6 text-white" />
-          </button>
-        </div>
-      </div>
+    <Frame
+      type="Frame"
+      className={className}
+      hasHeader={true}
+      title="Virtual Card"
+      onClose={onClose}
+      onExpand={onExpand}
+      isExpanded={isExpanded}
+    >
       <div className={`flex flex-col gap-4 items-start w-full flex-1 min-h-0 ${isExpanded ? 'overflow-y-auto' : 'overflow-hidden'}`}>
         {[
           { label: 'Card Label', value: cardLabel },
@@ -704,7 +614,7 @@ const VirtualCardModal: React.FC<VirtualCardModalProps> = ({
         })}
       </div>
       <div className="absolute border border-black border-solid inset-[-8px] rounded-[40px] pointer-events-none" />
-    </div>
+    </Frame>
   );
 };
 
@@ -734,13 +644,13 @@ const AccountInformationModal: React.FC<AccountInformationModalProps> = ({
   className = '',
 }) => {
   return (
-    <div className={`bg-black rounded-[32px] p-10 flex flex-col gap-10 items-start relative w-full h-full ${className}`}>
-      <div className="flex gap-4 items-start justify-center w-full shrink-0">
-        <p className="flex-1 font-momo font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">{title}</p>
-        <button onClick={onClose} className="flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity" aria-label="Close">
-          <X className="w-6 h-6 text-white" />
-        </button>
-      </div>
+    <Frame
+      type="Frame"
+      className={className}
+      hasHeader={true}
+      title={title}
+      onClose={onClose}
+    >
       <div className="flex flex-col gap-4 items-start w-full shrink-0">
         {fields.map((field, index) => {
           const isLast = index === fields.length - 1;
@@ -753,7 +663,7 @@ const AccountInformationModal: React.FC<AccountInformationModalProps> = ({
         })}
       </div>
       <div className="absolute border border-black border-solid inset-[-8px] rounded-[40px] pointer-events-none" />
-    </div>
+    </Frame>
   );
 };
 
