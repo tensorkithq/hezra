@@ -4,6 +4,17 @@
  * Widget container - the default wrapper for all widgets.
  * Implements the modal styling pattern used throughout the application.
  * Can optionally render a header with title, expand, and close buttons.
+ *
+ * Supports two rendering modes:
+ * 1. JSON Widget Mode: When used via WidgetRenderer with __render prop
+ *    - Expects children: WidgetNode[]
+ *    - Renders children via __render function
+ * 2. Direct React Mode: When used directly in TSX (for modal components)
+ *    - Accepts React.ReactNode at runtime when __render is undefined
+ *    - Falls through to render children as-is
+ *
+ * Note: TypeScript type is WidgetNode[] for JSON spec correctness,
+ * but runtime safely handles React.ReactNode when __render is undefined.
  */
 
 import { X, Maximize2 } from 'lucide-react';

@@ -34,7 +34,7 @@ export type Action =
 // Layout Primitives
 export interface FrameProps extends BaseWidgetProps {
   type: 'Frame';
-  children?: React.ReactNode;
+  children?: WidgetNode[];
   className?: string;
   hasHeader?: boolean;
   title?: string;
