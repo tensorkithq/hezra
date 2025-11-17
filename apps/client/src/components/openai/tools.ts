@@ -179,11 +179,7 @@ export const generateToolPreviewWidget = (toolName: string, args: any) => {
                   { type: 'Text', value: args.batch_reference, size: 'lg', weight: 'semibold' }
                 ]
               },
-              {
-                type: 'Badge',
-                label: 'Pending Approval',
-                variant: 'warning'
-              }
+              { type: 'Text', value: 'Pending Approval', color: 'warning', weight: 'medium', size: 'sm' }
             ]
           },
           { type: 'Divider', spacing: 'md' },
@@ -275,7 +271,7 @@ export const generateToolPreviewWidget = (toolName: string, args: any) => {
               {
                 type: 'KeyValueRow',
                 label: 'Period',
-                value: { type: 'Badge', label: args.period, variant: 'default' }
+                value: { type: 'Text', value: args.period, weight: 'medium', size: 'sm' }
               },
               {
                 type: 'KeyValueRow',
@@ -306,7 +302,7 @@ export const generateToolPreviewWidget = (toolName: string, args: any) => {
             align: 'between',
             children: [
               { type: 'Text', value: args.label, size: 'lg', weight: 'semibold' },
-              { type: 'Badge', label: 'Pending', variant: 'warning' }
+              { type: 'Text', value: 'Pending', color: 'warning', weight: 'medium', size: 'sm' }
             ]
           },
           { type: 'Divider', spacing: 'md' },
@@ -327,7 +323,7 @@ export const generateToolPreviewWidget = (toolName: string, args: any) => {
               args.spend_period ? {
                 type: 'KeyValueRow',
                 label: 'Limit Period',
-                value: { type: 'Badge', label: args.spend_period.replace('_', ' '), variant: 'default' }
+                value: { type: 'Text', value: args.spend_period.replace('_', ' '), weight: 'medium', size: 'sm' }
               } : null,
               args.expires_at ? {
                 type: 'KeyValueRow',
@@ -353,7 +349,7 @@ export const generateToolPreviewWidget = (toolName: string, args: any) => {
             align: 'between',
             children: [
               { type: 'Text', value: args.invoice_number, size: 'lg', weight: 'semibold' },
-              { type: 'Badge', label: 'Draft', variant: 'default' }
+              { type: 'Text', value: 'Draft', weight: 'medium', size: 'sm' }
             ]
           },
           { type: 'Divider', spacing: 'md' },
@@ -404,7 +400,7 @@ export const generateToolPreviewWidget = (toolName: string, args: any) => {
               {
                 type: 'KeyValueRow',
                 label: 'Metric',
-                value: { type: 'Badge', label: args.metric.replace(/_/g, ' '), variant: 'default' }
+                value: { type: 'Text', value: args.metric.replace(/_/g, ' '), weight: 'medium', size: 'sm' }
               },
               {
                 type: 'KeyValueRow',
@@ -442,12 +438,12 @@ export const generateToolPreviewWidget = (toolName: string, args: any) => {
               {
                 type: 'KeyValueRow',
                 label: 'Scope',
-                value: { type: 'Badge', label: args.scope || 'all', variant: 'default' }
+                value: { type: 'Text', value: args.scope || 'all', weight: 'medium', size: 'sm' }
               },
               {
                 type: 'KeyValueRow',
                 label: 'Time Window',
-                value: { type: 'Badge', label: (args.window || 'this_month').replace(/_/g, ' '), variant: 'default' }
+                value: { type: 'Text', value: (args.window || 'this_month').replace(/_/g, ' '), weight: 'medium', size: 'sm' }
               },
               args.beneficiary_id ? {
                 type: 'KeyValueRow',
@@ -523,11 +519,7 @@ export const executeToolCall = async (toolName: string, args: any) => {
                     { type: 'Text', value: args.batch_reference, size: 'lg', weight: 'semibold' }
                   ]
                 },
-                {
-                  type: 'Badge',
-                  label: 'Queued',
-                  variant: 'warning'
-                }
+                { type: 'Text', value: 'Queued', color: 'warning', weight: 'medium', size: 'sm' }
               ]
             },
             { type: 'Divider', spacing: 'md' },
@@ -607,7 +599,7 @@ export const executeToolCall = async (toolName: string, args: any) => {
               align: 'between',
               children: [
                 { type: 'Text', value: args.label, size: 'lg', weight: 'semibold' },
-                { type: 'Badge', label: 'Active', variant: 'success' }
+                { type: 'Text', value: 'Active', color: 'success', weight: 'medium', size: 'sm' }
               ]
             },
             { type: 'Divider', spacing: 'md' },
@@ -679,7 +671,7 @@ export const executeToolCall = async (toolName: string, args: any) => {
               align: 'between',
               children: [
                 { type: 'Text', value: args.invoice_number, size: 'lg', weight: 'semibold' },
-                { type: 'Badge', label: 'Sent', variant: 'default' }
+                { type: 'Text', value: 'Sent', weight: 'medium', size: 'sm' }
               ]
             },
             { type: 'Divider', spacing: 'md' },
@@ -741,7 +733,6 @@ export const executeToolCall = async (toolName: string, args: any) => {
                     align: 'center',
                     gap: 'sm',
                     children: [
-                      { type: 'Icon', name: 'TrendingUp', size: 'md', color: 'success' },
                       { type: 'Text', value: 'Top Categories', size: 'lg', weight: 'semibold' }
                     ]
                   },
