@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Mic, MicOff, X, Search } from "lucide-react";
+import { Mic, MicOff, X, Search, Maximize2 } from "lucide-react";
 import { useOpenAIVoiceAgent } from "./useOpenAIVoiceAgent";
 import VoiceOrbFixed from "../VoiceOrbFixed";
 import ConversationMessage from "../ConversationMessage";
@@ -10,19 +10,6 @@ import {
   SidebarContent,
   SidebarProvider,
 } from "@/components/ui/sidebar";
-
-// Asset URLs - Desktop
-const desktopMicrophone = "https://www.figma.com/api/mcp/asset/63705224-77da-4bde-b75e-9850073335a5";
-const desktopX = "https://www.figma.com/api/mcp/asset/9069ceb0-5bf4-46a6-af3f-c90723f95cc3";
-
-// Asset URLs - Mobile  
-const mobileMicrophone = "https://www.figma.com/api/mcp/asset/5acda19f-003d-4f5e-8fe7-d7f0e8af0623";
-const mobileX = "https://www.figma.com/api/mcp/asset/3842a2d0-7c39-4449-a845-96b026eeb481";
-
-// Widget Asset URLs
-const closeIcon = "https://www.figma.com/api/mcp/asset/f4a54d9b-b28d-4ee9-b842-5e90bb32a276";
-const expandIcon = "https://www.figma.com/api/mcp/asset/78ae5741-9dc3-46e0-a956-9ae8007c4e60";
-const accountCloseIcon = "https://www.figma.com/api/mcp/asset/c7ccbd97-262c-48ff-bc02-5bee248c7a5d";
 
 // Sidebar Types
 export type SidebarVariant = 'save-beneficiary' | 'account-info' | 'receipt' | 'account-snapshot' | 'payment-summary' | 'invoice' | 'limit' | 'transaction-aggregate' | 'virtual-card';
@@ -105,17 +92,7 @@ const Sidebar: React.FC<SidebarProps> = ({
               className="md:hidden flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity"
               aria-label={isExpanded ? "Collapse" : "Expand"}
             >
-              <div className="relative w-6 h-6 shrink-0">
-                <div className="absolute inset-[18.75%]">
-                  <div className="absolute inset-0">
-                    <img
-                      alt={isExpanded ? "Collapse" : "Expand"}
-                      className="block max-w-none w-full h-full"
-                      src={expandIcon}
-                    />
-                  </div>
-                </div>
-              </div>
+              <Maximize2 className="w-6 h-6 text-white" />
             </button>
           )}
           
@@ -125,17 +102,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             className="flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity"
             aria-label="Close"
           >
-            <div className="relative w-6 h-6 shrink-0">
-              <div className="absolute inset-[18.75%]">
-                <div className="absolute inset-0">
-                  <img
-                    alt="Close"
-                    className="block max-w-none w-full h-full"
-                    src={closeIcon}
-                  />
-                </div>
-              </div>
-            </div>
+            <X className="w-6 h-6 text-white" />
           </button>
         </div>
       </div>
@@ -307,27 +274,11 @@ const AccountSnapshotModal: React.FC<AccountSnapshotModalProps> = ({
               className="md:hidden flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity"
               aria-label={isExpanded ? "Collapse" : "Expand"}
             >
-              <div className="relative w-6 h-6 shrink-0">
-                <div className="absolute inset-[18.75%]">
-                  <div className="absolute inset-0">
-                    <img
-                      alt={isExpanded ? "Collapse" : "Expand"}
-                      className="block max-w-none w-full h-full"
-                      src={expandIcon}
-                    />
-                  </div>
-                </div>
-              </div>
+              <Maximize2 className="w-6 h-6 text-white" />
             </button>
           )}
           <button onClick={onClose} className="flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity" aria-label="Close">
-            <div className="relative w-6 h-6 shrink-0">
-              <div className="absolute inset-[18.75%]">
-                <div className="absolute inset-0">
-                  <img alt="Close" className="block max-w-none w-full h-full" src={accountCloseIcon} />
-                </div>
-              </div>
-            </div>
+            <X className="w-6 h-6 text-white" />
           </button>
         </div>
       </div>
@@ -411,27 +362,11 @@ const PaymentSummaryModal: React.FC<PaymentSummaryModalProps> = ({
               className="md:hidden flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity"
               aria-label={isExpanded ? "Collapse" : "Expand"}
             >
-              <div className="relative w-6 h-6 shrink-0">
-                <div className="absolute inset-[18.75%]">
-                  <div className="absolute inset-0">
-                    <img
-                      alt={isExpanded ? "Collapse" : "Expand"}
-                      className="block max-w-none w-full h-full"
-                      src={expandIcon}
-                    />
-                  </div>
-                </div>
-              </div>
+              <Maximize2 className="w-6 h-6 text-white" />
             </button>
           )}
           <button onClick={onClose} className="flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity" aria-label="Close">
-            <div className="relative w-6 h-6 shrink-0">
-              <div className="absolute inset-[18.75%]">
-                <div className="absolute inset-0">
-                  <img alt="Close" className="block max-w-none w-full h-full" src={accountCloseIcon} />
-                </div>
-              </div>
-            </div>
+            <X className="w-6 h-6 text-white" />
           </button>
         </div>
       </div>
@@ -514,27 +449,11 @@ const InvoiceModal: React.FC<InvoiceModalProps> = ({
               className="md:hidden flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity"
               aria-label={isExpanded ? "Collapse" : "Expand"}
             >
-              <div className="relative w-6 h-6 shrink-0">
-                <div className="absolute inset-[18.75%]">
-                  <div className="absolute inset-0">
-                    <img
-                      alt={isExpanded ? "Collapse" : "Expand"}
-                      className="block max-w-none w-full h-full"
-                      src={expandIcon}
-                    />
-                  </div>
-                </div>
-              </div>
+              <Maximize2 className="w-6 h-6 text-white" />
             </button>
           )}
           <button onClick={onClose} className="flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity" aria-label="Close">
-            <div className="relative w-6 h-6 shrink-0">
-              <div className="absolute inset-[18.75%]">
-                <div className="absolute inset-0">
-                  <img alt="Close" className="block max-w-none w-full h-full" src={accountCloseIcon} />
-                </div>
-              </div>
-            </div>
+            <X className="w-6 h-6 text-white" />
           </button>
         </div>
       </div>
@@ -606,27 +525,11 @@ const LimitModal: React.FC<LimitModalProps> = ({
               className="md:hidden flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity"
               aria-label={isExpanded ? "Collapse" : "Expand"}
             >
-              <div className="relative w-6 h-6 shrink-0">
-                <div className="absolute inset-[18.75%]">
-                  <div className="absolute inset-0">
-                    <img
-                      alt={isExpanded ? "Collapse" : "Expand"}
-                      className="block max-w-none w-full h-full"
-                      src={expandIcon}
-                    />
-                  </div>
-                </div>
-              </div>
+              <Maximize2 className="w-6 h-6 text-white" />
             </button>
           )}
           <button onClick={onClose} className="flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity" aria-label="Close">
-            <div className="relative w-6 h-6 shrink-0">
-              <div className="absolute inset-[18.75%]">
-                <div className="absolute inset-0">
-                  <img alt="Close" className="block max-w-none w-full h-full" src={accountCloseIcon} />
-                </div>
-              </div>
-            </div>
+            <X className="w-6 h-6 text-white" />
           </button>
         </div>
       </div>
@@ -696,27 +599,11 @@ const TransactionAggregateModal: React.FC<TransactionAggregateModalProps> = ({
               className="md:hidden flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity"
               aria-label={isExpanded ? "Collapse" : "Expand"}
             >
-              <div className="relative w-6 h-6 shrink-0">
-                <div className="absolute inset-[18.75%]">
-                  <div className="absolute inset-0">
-                    <img
-                      alt={isExpanded ? "Collapse" : "Expand"}
-                      className="block max-w-none w-full h-full"
-                      src={expandIcon}
-                    />
-                  </div>
-                </div>
-              </div>
+              <Maximize2 className="w-6 h-6 text-white" />
             </button>
           )}
           <button onClick={onClose} className="flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity" aria-label="Close">
-            <div className="relative w-6 h-6 shrink-0">
-              <div className="absolute inset-[18.75%]">
-                <div className="absolute inset-0">
-                  <img alt="Close" className="block max-w-none w-full h-full" src={accountCloseIcon} />
-                </div>
-              </div>
-            </div>
+            <X className="w-6 h-6 text-white" />
           </button>
         </div>
       </div>
@@ -796,27 +683,11 @@ const VirtualCardModal: React.FC<VirtualCardModalProps> = ({
               className="md:hidden flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity"
               aria-label={isExpanded ? "Collapse" : "Expand"}
             >
-              <div className="relative w-6 h-6 shrink-0">
-                <div className="absolute inset-[18.75%]">
-                  <div className="absolute inset-0">
-                    <img
-                      alt={isExpanded ? "Collapse" : "Expand"}
-                      className="block max-w-none w-full h-full"
-                      src={expandIcon}
-                    />
-                  </div>
-                </div>
-              </div>
+              <Maximize2 className="w-6 h-6 text-white" />
             </button>
           )}
           <button onClick={onClose} className="flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity" aria-label="Close">
-            <div className="relative w-6 h-6 shrink-0">
-              <div className="absolute inset-[18.75%]">
-                <div className="absolute inset-0">
-                  <img alt="Close" className="block max-w-none w-full h-full" src={accountCloseIcon} />
-                </div>
-              </div>
-            </div>
+            <X className="w-6 h-6 text-white" />
           </button>
         </div>
       </div>
@@ -1112,17 +983,7 @@ const OpenAIVoiceInterface = () => {
                   }`}
                   aria-label="Start voice input"
                 >
-                  <div className="relative w-10 h-10 shrink-0">
-                    <div className="absolute inset-[6.25%_18.75%_3.13%_18.75%]">
-                      <div className="absolute inset-0">
-                        <img 
-                          alt="Microphone icon" 
-                          className="block max-w-none w-full h-full" 
-                          src={desktopMicrophone} 
-                        />
-                      </div>
-                    </div>
-                  </div>
+                  <Mic className="w-10 h-10 text-white" />
                 </button>
               )}
 
@@ -1133,17 +994,7 @@ const OpenAIVoiceInterface = () => {
                   className="bg-black flex items-center p-4 rounded-[56px] shrink-0 hover:bg-black/90 transition-colors duration-200 cursor-pointer"
                   aria-label="Close"
                 >
-                  <div className="relative w-10 h-10 shrink-0">
-                    <div className="absolute inset-[18.75%]">
-                      <div className="absolute inset-0">
-                        <img 
-                          alt="Close icon" 
-                          className="block max-w-none w-full h-full" 
-                          src={desktopX} 
-                        />
-                      </div>
-                    </div>
-                  </div>
+                  <X className="w-10 h-10 text-white" />
                 </button>
               )}
             </div>
@@ -1184,17 +1035,7 @@ const OpenAIVoiceInterface = () => {
                   }`}
                   aria-label="Start voice input"
                 >
-                  <div className="relative w-8 h-8 shrink-0">
-                    <div className="absolute inset-[6.25%_18.75%_3.13%_18.75%]">
-                      <div className="absolute inset-0">
-                        <img 
-                          alt="Microphone icon" 
-                          className="block max-w-none w-full h-full" 
-                          src={mobileMicrophone} 
-                        />
-                      </div>
-                    </div>
-                  </div>
+                  <Mic className="w-8 h-8 text-white" />
                 </button>
               )}
 
@@ -1205,17 +1046,7 @@ const OpenAIVoiceInterface = () => {
                   className="bg-black flex items-center p-3 rounded-[56px] shrink-0 active:bg-black/90 transition-colors duration-200"
                   aria-label="Close"
                 >
-                  <div className="relative w-8 h-8 shrink-0">
-                    <div className="absolute inset-[18.75%]">
-                      <div className="absolute inset-0">
-                        <img 
-                          alt="Close icon" 
-                          className="block max-w-none w-full h-full" 
-                          src={mobileX} 
-                        />
-                      </div>
-                    </div>
-                  </div>
+                  <X className="w-8 h-8 text-white" />
                 </button>
               )}
             </div>
