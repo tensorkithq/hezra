@@ -15,11 +15,9 @@ import { Divider } from './Divider';
 
 // Content primitives
 import { Text } from './Text';
-import { Icon } from './Icon';
 import { Avatar } from './Avatar';
 import { Amount } from './Amount';
 import { Time } from './Time';
-import { Badge } from './Badge';
 
 // Interactive primitives
 import { Button } from './Button';
@@ -36,11 +34,9 @@ registerWidget('Col', Col);
 registerWidget('Spacer', Spacer);
 registerWidget('Divider', Divider);
 registerWidget('Text', Text);
-registerWidget('Icon', Icon);
 registerWidget('Avatar', Avatar);
 registerWidget('Amount', Amount);
 registerWidget('Time', Time);
-registerWidget('Badge', Badge);
 registerWidget('Button', Button);
 registerWidget('KeyValueRow', KeyValueRow);
 registerWidget('KeyValueList', KeyValueList);
@@ -54,11 +50,9 @@ export {
   Spacer,
   Divider,
   Text,
-  Icon,
   Avatar,
   Amount,
   Time,
-  Badge,
   Button,
   KeyValueRow,
   KeyValueList,

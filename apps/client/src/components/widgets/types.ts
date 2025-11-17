@@ -81,13 +81,6 @@ export interface TextProps extends BaseWidgetProps {
   as?: 'span' | 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 }
 
-export interface IconProps extends BaseWidgetProps {
-  type: 'Icon';
-  name: string;
-  size?: 'xs' | 'sm' | 'md' | 'lg';
-  color?: 'default' | 'secondary' | 'emphasis' | 'muted' | 'danger' | 'success' | 'warning';
-}
-
 export interface AvatarProps extends BaseWidgetProps {
   type: 'Avatar';
   src?: string;
@@ -112,13 +105,6 @@ export interface TimeProps extends BaseWidgetProps {
   format?: 'relative' | 'absolute' | 'time' | 'date';
   size?: 'xs' | 'sm' | 'md';
   color?: 'default' | 'secondary' | 'muted';
-}
-
-export interface BadgeProps extends BaseWidgetProps {
-  type: 'Badge';
-  label: string;
-  variant?: 'default' | 'secondary' | 'success' | 'warning' | 'danger' | 'outline';
-  size?: 'sm' | 'md';
 }
 
 // Interactive Primitives
@@ -164,11 +150,9 @@ export type WidgetNode =
   | SpacerProps
   | DividerProps
   | TextProps
-  | IconProps
   | AvatarProps
   | AmountProps
   | TimeProps
-  | BadgeProps
   | ButtonProps
   | KeyValueRowProps
   | KeyValueListProps
