@@ -30,40 +30,38 @@ const widgetExamples: Record<string, WidgetExample> = {
   // ======================
   frame: {
     name: 'Frame',
-    description: 'Container for widgets with different sizes and padding',
+    description: 'Container for widgets with optional header, title, and action buttons',
     category: 'primitives',
     spec: {
       type: 'Frame',
-      size: 'md',
-      padding: 'md',
       children: [
         {
           type: 'Text',
-          value: 'This is a Frame container with medium size and padding',
+          value: 'This is a Frame container without a header',
           size: 'md',
         },
       ],
     },
   },
-  frameheader: {
-    name: 'FrameHeader',
-    description: 'Header with title and optional expand icon',
+  frameWithHeader: {
+    name: 'Frame with Header',
+    description: 'Frame with header, title, and close button',
     category: 'primitives',
     spec: {
       type: 'Frame',
-      size: 'md',
-      padding: 'md',
+      hasHeader: true,
+      title: 'Payment Details',
       children: [
         {
-          type: 'FrameHeader',
-          title: 'Payment Details',
-          expandable: true,
+          type: 'Text',
+          value: 'This Frame includes a header with title and close button',
+          size: 'sm',
+          color: 'muted',
         },
         {
           type: 'Text',
           value: 'Content goes here...',
-          size: 'sm',
-          color: 'muted',
+          size: 'md',
         },
       ],
     },
@@ -566,14 +564,11 @@ const widgetExamples: Record<string, WidgetExample> = {
     category: 'financial',
     spec: {
       type: 'Frame',
+      hasHeader: true,
+      title: 'Payment Batch',
       size: 'md',
       padding: 'md',
       children: [
-        {
-          type: 'FrameHeader',
-          title: 'Payment Batch',
-          expandable: true,
-        },
         {
           type: 'Row',
           align: 'between',
@@ -624,14 +619,11 @@ const widgetExamples: Record<string, WidgetExample> = {
     category: 'financial',
     spec: {
       type: 'Frame',
+      hasHeader: true,
+      title: 'Virtual Card',
       size: 'md',
       padding: 'lg',
       children: [
-        {
-          type: 'FrameHeader',
-          title: 'Virtual Card',
-          expandable: true,
-        },
         {
           type: 'Row',
           align: 'between',
@@ -682,14 +674,11 @@ const widgetExamples: Record<string, WidgetExample> = {
     category: 'financial',
     spec: {
       type: 'Frame',
+      hasHeader: true,
+      title: 'Invoice',
       size: 'md',
       padding: 'md',
       children: [
-        {
-          type: 'FrameHeader',
-          title: 'Invoice',
-          expandable: true,
-        },
         {
           type: 'Row',
           align: 'between',
@@ -746,14 +735,11 @@ const widgetExamples: Record<string, WidgetExample> = {
     category: 'financial',
     spec: {
       type: 'Frame',
+      hasHeader: true,
+      title: 'Account Overview',
       size: 'lg',
       padding: 'lg',
       children: [
-        {
-          type: 'FrameHeader',
-          title: 'Account Overview',
-          expandable: true,
-        },
         {
           type: 'Col',
           gap: 'lg',
@@ -803,14 +789,11 @@ const widgetExamples: Record<string, WidgetExample> = {
     category: 'financial',
     spec: {
       type: 'Frame',
+      hasHeader: true,
+      title: 'Transaction Analytics',
       size: 'md',
       padding: 'md',
       children: [
-        {
-          type: 'FrameHeader',
-          title: 'Transaction Analytics',
-          expandable: true,
-        },
         {
           type: 'Col',
           gap: 'md',
@@ -867,14 +850,11 @@ const widgetExamples: Record<string, WidgetExample> = {
     category: 'financial',
     spec: {
       type: 'Frame',
+      hasHeader: true,
+      title: 'Transfer Limit',
       size: 'md',
       padding: 'md',
       children: [
-        {
-          type: 'FrameHeader',
-          title: 'Transfer Limit',
-          expandable: true,
-        },
         {
           type: 'Col',
           gap: 'md',
@@ -921,14 +901,11 @@ const widgetExamples: Record<string, WidgetExample> = {
     category: 'financial',
     spec: {
       type: 'Frame',
+      hasHeader: true,
+      title: 'Transaction Details',
       size: 'md',
       padding: 'md',
       children: [
-        {
-          type: 'FrameHeader',
-          title: 'Transaction Details',
-          expandable: true,
-        },
         {
           type: 'Row',
           align: 'between',
