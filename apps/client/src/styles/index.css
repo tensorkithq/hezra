@@ -69,7 +69,7 @@ All colors MUST be HSL.
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground font-vietnam;
+    @apply bg-background text-foreground font-sans;
     /* Enhanced font rendering for crisp text on all devices */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
