@@ -163,6 +163,8 @@ export const generateToolPreviewWidget = (toolName: string, args: any) => {
       const totalAmount = args.items.reduce((sum: number, item: any) => sum + item.amount, 0);
       return {
         type: 'Frame',
+        hasHeader: true,
+        title: 'Payment Preview',
         size: 'md',
         padding: 'md',
         children: [
@@ -222,6 +224,8 @@ export const generateToolPreviewWidget = (toolName: string, args: any) => {
     case 'set_account_limits':
       return {
         type: 'Frame',
+        hasHeader: true,
+        title: 'Account Limits Preview',
         size: 'md',
         padding: 'md',
         children: [
@@ -253,6 +257,8 @@ export const generateToolPreviewWidget = (toolName: string, args: any) => {
     case 'set_beneficiary_transfer_limit':
       return {
         type: 'Frame',
+        hasHeader: true,
+        title: 'Beneficiary Limit Preview',
         size: 'md',
         padding: 'md',
         children: [
@@ -290,6 +296,8 @@ export const generateToolPreviewWidget = (toolName: string, args: any) => {
     case 'create_virtual_card':
       return {
         type: 'Frame',
+        hasHeader: true,
+        title: 'Virtual Card Preview',
         size: 'md',
         padding: 'lg',
         children: [
@@ -335,6 +343,8 @@ export const generateToolPreviewWidget = (toolName: string, args: any) => {
       const total = args.line_items.reduce((sum: number, item: any) => sum + (item.amount * (item.quantity ?? 1)), 0);
       return {
         type: 'Frame',
+        hasHeader: true,
+        title: 'Invoice Preview',
         size: 'md',
         padding: 'md',
         children: [
@@ -381,6 +391,8 @@ export const generateToolPreviewWidget = (toolName: string, args: any) => {
     case 'aggregate_transactions':
       return {
         type: 'Frame',
+        hasHeader: true,
+        title: 'Analytics Query Preview',
         size: 'md',
         padding: 'md',
         children: [
@@ -417,6 +429,8 @@ export const generateToolPreviewWidget = (toolName: string, args: any) => {
     case 'account_snapshot':
       return {
         type: 'Frame',
+        hasHeader: true,
+        title: 'Snapshot Query Preview',
         size: 'md',
         padding: 'md',
         children: [
@@ -454,6 +468,8 @@ export const generateToolPreviewWidget = (toolName: string, args: any) => {
       // Fallback generic preview
       return {
         type: 'Frame',
+        hasHeader: true,
+        title: 'Tool Preview',
         size: 'md',
         padding: 'md',
         children: [
@@ -491,6 +507,8 @@ export const executeToolCall = async (toolName: string, args: any) => {
 
         _widget: {
           type: 'Frame',
+          hasHeader: true,
+          title: 'Payment Batch',
           size: 'md',
           padding: 'md',
           children: [
@@ -579,6 +597,8 @@ export const executeToolCall = async (toolName: string, args: any) => {
 
         _widget: {
           type: 'Frame',
+          hasHeader: true,
+          title: 'Virtual Card',
           size: 'md',
           padding: 'lg',
           children: [
@@ -649,6 +669,8 @@ export const executeToolCall = async (toolName: string, args: any) => {
 
         _widget: {
           type: 'Frame',
+          hasHeader: true,
+          title: 'Invoice',
           size: 'md',
           padding: 'md',
           children: [
@@ -705,6 +727,8 @@ export const executeToolCall = async (toolName: string, args: any) => {
 
           _widget: {
             type: 'Frame',
+            hasHeader: true,
+            title: 'Transaction Analytics',
             size: 'md',
             padding: 'md',
             children: [
@@ -785,6 +809,8 @@ export const executeToolCall = async (toolName: string, args: any) => {
 
         _widget: {
           type: 'Frame',
+          hasHeader: true,
+          title: 'Account Overview',
           size: 'lg',
           padding: 'lg',
           children: [
