@@ -1013,7 +1013,7 @@ const OpenAIVoiceInterface = () => {
             </div>
 
             {/* Control Buttons - Mobile */}
-            <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex items-center justify-center gap-6 z-10">
+            <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 flex items-center justify-center gap-6 z-10">
               {/* Mic Toggle */}
               <button
                 onClick={isConnected ? handleDisconnect : handleConnect}
@@ -1041,7 +1041,7 @@ const OpenAIVoiceInterface = () => {
             </div>
 
             {/* Messages Display - Above Icons */}
-            {messages.length > 0 && (
+            {/* {messages.length > 0 && (
               <div className="absolute bottom-24 left-6 right-6 flex items-end justify-center">
                 <div className="w-full max-w-xl">
                   <div className="space-y-2 w-full">
@@ -1056,7 +1056,7 @@ const OpenAIVoiceInterface = () => {
                   </div>
                 </div>
               </div>
-            )}
+            )} */}
           </div>
 
           {/* Status Indicator */}
@@ -1070,7 +1070,7 @@ const OpenAIVoiceInterface = () => {
           {/* Floating Show Logs Button - Bottom Right */}
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className={`fixed bottom-8 right-8 md:right-16 flex items-center px-3 py-1 rounded-[10px] shrink-0 transition-colors duration-200 cursor-pointer ${
+            className={`fixed bottom-20 right-8 md:right-16 flex items-center px-3 py-1 rounded-[10px] shrink-0 transition-colors duration-200 cursor-pointer ${
               sidebarOpen
                 ? "bg-accent text-foreground shadow-lg"
                 : "bg-[#f0f0f080] hover:bg-black/90 text-white"
