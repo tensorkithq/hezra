@@ -57,13 +57,6 @@ const FrameSchema = BaseSchema.extend({
   children: z.array(z.lazy(() => WidgetNodeSchema)).optional(),
 });
 
-const FrameHeaderSchema = BaseSchema.extend({
-  type: z.literal('FrameHeader'),
-  title: z.string(),
-  expandable: z.boolean().default(true),
-  actions: z.array(ActionSchema).optional(),
-});
-
 const RowSchema = BaseSchema.extend({
   type: z.literal('Row'),
   align: z.enum(['start', 'center', 'end', 'between', 'stretch']).default('start'),
@@ -188,7 +181,6 @@ const ButtonGroupSchema = BaseSchema.extend({
 // Widget node discriminated union
 const WidgetNodeSchema: z.ZodType<any> = z.discriminatedUnion('type', [
   FrameSchema,
-  FrameHeaderSchema,
   RowSchema,
   ColSchema,
   SpacerSchema,
@@ -226,7 +218,6 @@ export {
   BaseSchema,
   ActionSchema,
   FrameSchema,
-  FrameHeaderSchema,
   RowSchema,
   ColSchema,
   SpacerSchema,

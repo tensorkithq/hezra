@@ -35,11 +35,6 @@
     "padding": "md",
     "children": [
       {
-        "type": "FrameHeader",
-        "title": "Invoice",
-        "expandable": true
-      },
-      {
         "type": "Row",
         "align": "between",
         "children": [

@@ -28,11 +28,6 @@
     "padding": "lg",
     "children": [
       {
-        "type": "FrameHeader",
-        "title": "Virtual Card",
-        "expandable": true
-      },
-      {
         "type": "Row",
         "align": "between",
         "children": [

@@ -106,11 +106,6 @@ describe('Widget Schema Validation', () => {
       padding: 'md',
       children: [
         {
-          type: 'FrameHeader',
-          title: 'Payment Batch',
-          expandable: true
-        },
-        {
           type: 'Row',
           align: 'between',
           children: [
@@ -159,7 +154,7 @@ describe('Widget Schema Validation', () => {
 
     const result = validateWidget(widget);
     expect(result.type).toBe('Frame');
-    expect(result.children).toHaveLength(4);
+    expect(result.children).toHaveLength(3);
   });
 });
 
@@ -172,7 +167,6 @@ describe('Widget Component Registry', () => {
 
     // Check layout primitives
     expect(hasWidget('Frame')).toBe(true);
-    expect(hasWidget('FrameHeader')).toBe(true);
     expect(hasWidget('Row')).toBe(true);
     expect(hasWidget('Col')).toBe(true);
     expect(hasWidget('Spacer')).toBe(true);

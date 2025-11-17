@@ -26,11 +26,6 @@
     "padding": "md",
     "children": [
       {
-        "type": "FrameHeader",
-        "title": "Payment Batch",
-        "expandable": true
-      },
-      {
         "type": "Row",
         "align": "between",
         "children": [

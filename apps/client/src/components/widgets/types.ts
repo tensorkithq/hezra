@@ -43,13 +43,6 @@ export interface FrameProps extends BaseWidgetProps {
   isExpanded?: boolean;
 }
 
-export interface FrameHeaderProps extends BaseWidgetProps {
-  type: 'FrameHeader';
-  title: string;
-  expandable?: boolean;
-  actions?: Action[];
-}
-
 export interface RowProps extends BaseWidgetProps {
   type: 'Row';
   align?: 'start' | 'center' | 'end' | 'between' | 'stretch';
@@ -166,7 +159,6 @@ export interface ButtonGroupProps extends BaseWidgetProps {
 // Union type of all widget nodes
 export type WidgetNode =
   | FrameProps
-  | FrameHeaderProps
   | RowProps
   | ColProps
   | SpacerProps
