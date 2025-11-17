@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Mic, MicOff, X, Search, Maximize2 } from "lucide-react";
+import { Mic, MicOff, X, Maximize2 } from "lucide-react";
 import { useOpenAIVoiceAgent } from "./useOpenAIVoiceAgent";
 import VoiceOrbFixed from "../VoiceOrbFixed";
 import ConversationMessage from "../ConversationMessage";
@@ -10,6 +10,7 @@ import {
   SidebarContent,
   SidebarProvider,
 } from "@/components/ui/sidebar";
+import VoiceOrb from "../VoiceOrb";
 
 // Sidebar Types
 export type SidebarVariant = 'save-beneficiary' | 'account-info' | 'receipt' | 'account-snapshot' | 'payment-summary' | 'invoice' | 'limit' | 'transaction-aggregate' | 'virtual-card';
@@ -971,30 +972,30 @@ const OpenAIVoiceInterface = () => {
               </div>
             </div>
 
-            {/* Icons */}
-            <div className="flex gap-4 items-start">
-              {/* Microphone Button - Only show when disconnected */}
-              {!isConnected && (
-                <button
-                  onClick={handleConnect}
-                  disabled={isConnecting}
-                  className={`flex items-center p-4 rounded-[56px] shrink-0 transition-colors duration-200 cursor-pointer bg-black hover:bg-black/90 ${
-                    isConnecting ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
-                  aria-label="Start voice input"
-                >
-                  <Mic className="w-10 h-10 text-white" />
-                </button>
-              )}
+            {/* Control Buttons */}
+            <div className="flex items-center justify-center gap-6">
+              {/* Mic Toggle */}
+              <button
+                onClick={isConnected ? handleDisconnect : handleConnect}
+                disabled={isConnecting}
+                className={`w-16 h-16 rounded-full flex items-center justify-center transition-colors ${
+                  isConnected
+                    ? "bg-red-500 hover:bg-red-600 text-white"
+                    : "bg-black hover:bg-black/90 text-white"
+                } disabled:opacity-50`}
+                aria-label={isConnected ? "Disconnect voice" : "Connect voice"}
+              >
+                {isConnected ? <MicOff className="w-6 h-6" /> : <Mic className="w-6 h-6" />}
+              </button>
 
-              {/* Close Button - Only show when connected */}
+              {/* Close/End Button - Only show when connected */}
               {isConnected && (
                 <button
                   onClick={handleDisconnect}
-                  className="bg-black flex items-center p-4 rounded-[56px] shrink-0 hover:bg-black/90 transition-colors duration-200 cursor-pointer"
-                  aria-label="Close"
+                  className="w-16 h-16 rounded-full bg-gray-800 hover:bg-gray-700 text-white flex items-center justify-center transition-colors"
+                  aria-label="End session"
                 >
-                  <X className="w-10 h-10 text-white" />
+                  <X className="w-6 h-6" />
                 </button>
               )}
             </div>
@@ -1017,36 +1018,36 @@ const OpenAIVoiceInterface = () => {
             </div>
 
             {/* Bubble - Directly Above Icons */}
-            <div className="absolute bottom-32 left-1/2 transform -translate-x-1/2 flex items-center justify-center">
+            <div className="absolute bottom-64 left-1/2 transform -translate-x-1/2 flex items-center justify-center">
               <div className="relative w-[200px] h-[200px] shrink-0 flex items-center justify-center">
-                <VoiceOrbFixed isActive={isConnected} isSpeaking={isSpeaking} />
+                <VoiceOrb isActive={isConnected} isSpeaking={isSpeaking} />
               </div>
             </div>
 
-            {/* Icons - At Bottom, Smaller */}
-            <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-4 items-start z-10">
-              {/* Microphone Button - Only show when disconnected */}
-              {!isConnected && (
-                <button
-                  onClick={handleConnect}
-                  disabled={isConnecting}
-                  className={`flex items-center p-3 rounded-[56px] shrink-0 transition-colors duration-200 bg-black active:bg-black/90 ${
-                    isConnecting ? "opacity-50" : ""
-                  }`}
-                  aria-label="Start voice input"
-                >
-                  <Mic className="w-8 h-8 text-white" />
-                </button>
-              )}
+            {/* Control Buttons - Mobile */}
+            <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex items-center justify-center gap-6 z-10">
+              {/* Mic Toggle */}
+              <button
+                onClick={isConnected ? handleDisconnect : handleConnect}
+                disabled={isConnecting}
+                className={`w-16 h-16 rounded-full flex items-center justify-center transition-colors ${
+                  isConnected
+                    ? "bg-red-500 active:bg-red-600 text-white"
+                    : "bg-black active:bg-black/90 text-white"
+                } disabled:opacity-50`}
+                aria-label={isConnected ? "Disconnect voice" : "Connect voice"}
+              >
+                {isConnected ? <MicOff className="w-6 h-6" /> : <Mic className="w-6 h-6" />}
+              </button>
 
-              {/* Close Button - Only show when connected */}
+              {/* Close/End Button - Only show when connected */}
               {isConnected && (
                 <button
                   onClick={handleDisconnect}
-                  className="bg-black flex items-center p-3 rounded-[56px] shrink-0 active:bg-black/90 transition-colors duration-200"
-                  aria-label="Close"
+                  className="w-16 h-16 rounded-full bg-gray-800 active:bg-gray-700 text-white flex items-center justify-center transition-colors"
+                  aria-label="End session"
                 >
-                  <X className="w-8 h-8 text-white" />
+                  <X className="w-6 h-6" />
                 </button>
               )}
             </div>
@@ -1078,10 +1079,10 @@ const OpenAIVoiceInterface = () => {
             </div>
           )}
 
-          {/* Floating Show Logs Button - Bottom Left */}
+          {/* Floating Show Logs Button - Bottom Right */}
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className={`fixed bottom-8 left-8 md:left-16 flex items-center px-3 py-1 rounded-[10px] shrink-0 transition-colors duration-200 cursor-pointer ${
+            className={`fixed bottom-8 right-8 md:right-16 flex items-center px-3 py-1 rounded-[10px] shrink-0 transition-colors duration-200 cursor-pointer ${
               sidebarOpen
                 ? "bg-accent text-foreground shadow-lg"
                 : "bg-[#f0f0f080] hover:bg-black/90 text-white"
