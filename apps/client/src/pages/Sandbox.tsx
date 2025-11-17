@@ -55,8 +55,8 @@ const widgetExamples: Record<string, WidgetExample> = {
     category: 'primitives',
     spec: {
       type: 'Frame',
-      size: 'md',
-      padding: 'lg',
+      hasHeader: true,
+      title: "Customized Frame",
       children: [
         {
           type: 'Text',
