@@ -80,7 +80,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     >
       {/* Title Bar */}
       <div className="flex gap-4 items-start justify-center w-full shrink-0">
-        <p className="flex-1 font-['Avenir_Next',sans-serif] font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">
+        <p className="flex-1 font-momo font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">
           {getTitleText()}
         </p>
         
@@ -119,10 +119,10 @@ const Sidebar: React.FC<SidebarProps> = ({
                 ${!isLast ? 'border-b border-white/16 pb-4' : ''}
               `}
             >
-              <p className="flex-1 font-['Avenir_Next',sans-serif] font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">
+              <p className="flex-1 font-momo font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">
                 {field.label}
               </p>
-              <p className="font-['Avenir_Next',sans-serif] font-bold shrink-0">
+              <p className="font-momo font-bold shrink-0">
                 {field.value}
               </p>
             </div>
@@ -163,7 +163,7 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
     <div className="bg-black rounded-[32px] p-10 flex flex-col gap-10 items-start relative w-full h-full">
       {/* Title Bar */}
       <div className="flex gap-4 items-start justify-center w-full shrink-0">
-        <p className="flex-1 font-['Avenir_Next',sans-serif] font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">
+        <p className="flex-1 font-momo font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">
           Receipt
         </p>
         <button onClick={onClose} className="flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity" aria-label="Close">
@@ -202,8 +202,8 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
           const isLast = index === 3;
           return (
             <div key={index} className={`flex gap-2 items-center justify-center w-full text-base leading-6 text-white shrink-0 ${!isLast ? 'border-b border-white/16 pb-4' : ''}`}>
-              <p className="flex-1 font-['Avenir_Next',sans-serif] font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">{field.label}</p>
-              <p className="font-['Avenir_Next',sans-serif] font-bold shrink-0">{field.value}</p>
+              <p className="flex-1 font-momo font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">{field.label}</p>
+              <p className="font-momo font-bold shrink-0">{field.value}</p>
             </div>
           );
         })}
@@ -212,10 +212,10 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
       {/* Action Buttons */}
       <div className="flex gap-4 items-start w-full shrink-0">
         <button onClick={onShare} className="border border-solid border-white flex-1 flex gap-2 items-center justify-center px-6 py-4 rounded-[56px] shrink-0 min-h-0 min-w-0 hover:bg-white/10 transition-colors" aria-label="Share">
-          <p className="font-['Avenir_Next',sans-serif] font-semibold text-base leading-6 text-white tracking-[0.64px] overflow-ellipsis overflow-hidden shrink-0">Share</p>
+          <p className="font-momo font-semibold text-base leading-6 text-white tracking-[0.64px] overflow-ellipsis overflow-hidden shrink-0">Share</p>
         </button>
         <button onClick={onDownload} className="bg-white flex-1 flex gap-2 items-center justify-center px-6 py-4 rounded-[56px] shrink-0 min-h-0 min-w-0 hover:bg-white/90 transition-colors" aria-label="Download">
-          <p className="font-['Avenir_Next',sans-serif] font-semibold text-base leading-6 text-black tracking-[0.64px] overflow-ellipsis overflow-hidden shrink-0">Download</p>
+          <p className="font-momo font-semibold text-base leading-6 text-black tracking-[0.64px] overflow-ellipsis overflow-hidden shrink-0">Download</p>
         </button>
       </div>
 
@@ -265,7 +265,7 @@ const AccountSnapshotModal: React.FC<AccountSnapshotModalProps> = ({
   return (
     <div className={`bg-black rounded-[32px] p-10 flex flex-col gap-10 items-start relative w-full h-full min-h-0 ${className}`}>
       <div className="flex gap-4 items-start justify-center w-full shrink-0">
-        <p className="flex-1 font-['Avenir_Next',sans-serif] font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">Account Overview</p>
+        <p className="flex-1 font-momo font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">Account Overview</p>
         <div className="flex gap-2 items-center">
           {/* Expand Button - Only show on mobile */}
           {onExpand && (
@@ -294,8 +294,8 @@ const AccountSnapshotModal: React.FC<AccountSnapshotModalProps> = ({
           const isLast = index === 5;
           return (
             <div key={index} className={`flex gap-2 items-center justify-center w-full text-base leading-6 text-white shrink-0 ${!isLast ? 'border-b border-white/16 pb-4' : ''}`}>
-              <p className="flex-1 font-['Avenir_Next',sans-serif] font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">{field.label}</p>
-              <p className="font-['Avenir_Next',sans-serif] font-bold shrink-0">{field.value}</p>
+              <p className="flex-1 font-momo font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">{field.label}</p>
+              <p className="font-momo font-bold shrink-0">{field.value}</p>
             </div>
           );
         })}
@@ -353,7 +353,7 @@ const PaymentSummaryModal: React.FC<PaymentSummaryModalProps> = ({
   return (
     <div className={`bg-black rounded-[32px] p-10 flex flex-col gap-10 items-start relative w-full h-full min-h-0 ${className}`}>
       <div className="flex gap-4 items-start justify-center w-full shrink-0">
-        <p className="flex-1 font-['Avenir_Next',sans-serif] font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">Payment Batch</p>
+        <p className="flex-1 font-momo font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">Payment Batch</p>
         <div className="flex gap-2 items-center">
           {/* Expand Button - Only show on mobile */}
           {onExpand && (
@@ -381,8 +381,8 @@ const PaymentSummaryModal: React.FC<PaymentSummaryModalProps> = ({
           const isLast = index === 4;
           return (
             <div key={index} className={`flex gap-2 items-center justify-center w-full text-base leading-6 text-white shrink-0 ${!isLast ? 'border-b border-white/16 pb-4' : ''}`}>
-              <p className="flex-1 font-['Avenir_Next',sans-serif] font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">{field.label}</p>
-              <p className="font-['Avenir_Next',sans-serif] font-bold shrink-0">{field.value}</p>
+              <p className="flex-1 font-momo font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">{field.label}</p>
+              <p className="font-momo font-bold shrink-0">{field.value}</p>
             </div>
           );
         })}
@@ -440,7 +440,7 @@ const InvoiceModal: React.FC<InvoiceModalProps> = ({
   return (
     <div className={`bg-black rounded-[32px] p-10 flex flex-col gap-10 items-start relative w-full h-full min-h-0 ${className}`}>
       <div className="flex gap-4 items-start justify-center w-full shrink-0">
-        <p className="flex-1 font-['Avenir_Next',sans-serif] font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">Invoice</p>
+        <p className="flex-1 font-momo font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">Invoice</p>
         <div className="flex gap-2 items-center">
           {/* Expand Button - Only show on mobile */}
           {onExpand && (
@@ -469,8 +469,8 @@ const InvoiceModal: React.FC<InvoiceModalProps> = ({
           const isLast = index === 5;
           return (
             <div key={index} className={`flex gap-2 items-center justify-center w-full text-base leading-6 text-white shrink-0 ${!isLast ? 'border-b border-white/16 pb-4' : ''}`}>
-              <p className="flex-1 font-['Avenir_Next',sans-serif] font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">{field.label}</p>
-              <p className="font-['Avenir_Next',sans-serif] font-bold shrink-0">{field.value}</p>
+              <p className="flex-1 font-momo font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">{field.label}</p>
+              <p className="font-momo font-bold shrink-0">{field.value}</p>
             </div>
           );
         })}
@@ -516,7 +516,7 @@ const LimitModal: React.FC<LimitModalProps> = ({
   return (
     <div className={`bg-black rounded-[32px] p-10 flex flex-col gap-10 items-start relative w-full h-full min-h-0 ${className}`}>
       <div className="flex gap-4 items-start justify-center w-full shrink-0">
-        <p className="flex-1 font-['Avenir_Next',sans-serif] font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">Account Limits</p>
+        <p className="flex-1 font-momo font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">Account Limits</p>
         <div className="flex gap-2 items-center">
           {/* Expand Button - Only show on mobile */}
           {onExpand && (
@@ -543,8 +543,8 @@ const LimitModal: React.FC<LimitModalProps> = ({
           const isLast = index === 3;
           return (
             <div key={index} className={`flex gap-2 items-center justify-center w-full text-base leading-6 text-white shrink-0 ${!isLast ? 'border-b border-white/16 pb-4' : ''}`}>
-              <p className="flex-1 font-['Avenir_Next',sans-serif] font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">{field.label}</p>
-              <p className="font-['Avenir_Next',sans-serif] font-bold shrink-0">{field.value}</p>
+              <p className="flex-1 font-momo font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">{field.label}</p>
+              <p className="font-momo font-bold shrink-0">{field.value}</p>
             </div>
           );
         })}
@@ -590,7 +590,7 @@ const TransactionAggregateModal: React.FC<TransactionAggregateModalProps> = ({
   return (
     <div className={`bg-black rounded-[32px] p-10 flex flex-col gap-10 items-start relative w-full h-full min-h-0 ${className}`}>
       <div className="flex gap-4 items-start justify-center w-full shrink-0">
-        <p className="flex-1 font-['Avenir_Next',sans-serif] font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">Transaction Analytics</p>
+        <p className="flex-1 font-momo font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">Transaction Analytics</p>
         <div className="flex gap-2 items-center">
           {/* Expand Button - Only show on mobile */}
           {onExpand && (
@@ -617,8 +617,8 @@ const TransactionAggregateModal: React.FC<TransactionAggregateModalProps> = ({
           const isLast = index === 3;
           return (
             <div key={index} className={`flex gap-2 items-center justify-center w-full text-base leading-6 text-white shrink-0 ${!isLast ? 'border-b border-white/16 pb-4' : ''}`}>
-              <p className="flex-1 font-['Avenir_Next',sans-serif] font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">{field.label}</p>
-              <p className="font-['Avenir_Next',sans-serif] font-bold shrink-0">{field.value}</p>
+              <p className="flex-1 font-momo font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">{field.label}</p>
+              <p className="font-momo font-bold shrink-0">{field.value}</p>
             </div>
           );
         })}
@@ -674,7 +674,7 @@ const VirtualCardModal: React.FC<VirtualCardModalProps> = ({
   return (
     <div className={`bg-black rounded-[32px] p-10 flex flex-col gap-10 items-start relative w-full h-full min-h-0 ${className}`}>
       <div className="flex gap-4 items-start justify-center w-full shrink-0">
-        <p className="flex-1 font-['Avenir_Next',sans-serif] font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">Virtual Card</p>
+        <p className="flex-1 font-momo font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">Virtual Card</p>
         <div className="flex gap-2 items-center">
           {/* Expand Button - Only show on mobile */}
           {onExpand && (
@@ -702,8 +702,8 @@ const VirtualCardModal: React.FC<VirtualCardModalProps> = ({
           const isLast = index === 4;
           return (
             <div key={index} className={`flex gap-2 items-center justify-center w-full text-base leading-6 text-white shrink-0 ${!isLast ? 'border-b border-white/16 pb-4' : ''}`}>
-              <p className="flex-1 font-['Avenir_Next',sans-serif] font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">{field.label}</p>
-              <p className="font-['Avenir_Next',sans-serif] font-bold shrink-0">{field.value}</p>
+              <p className="flex-1 font-momo font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">{field.label}</p>
+              <p className="font-momo font-bold shrink-0">{field.value}</p>
             </div>
           );
         })}
@@ -741,7 +741,7 @@ const AccountInformationModal: React.FC<AccountInformationModalProps> = ({
   return (
     <div className={`bg-black rounded-[32px] p-10 flex flex-col gap-10 items-start relative w-full h-full ${className}`}>
       <div className="flex gap-4 items-start justify-center w-full shrink-0">
-        <p className="flex-1 font-['Avenir_Next',sans-serif] font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">{title}</p>
+        <p className="flex-1 font-momo font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">{title}</p>
         <button onClick={onClose} className="flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity" aria-label="Close">
           <div className="relative w-6 h-6 shrink-0">
             <div className="absolute inset-[18.75%]">
@@ -757,8 +757,8 @@ const AccountInformationModal: React.FC<AccountInformationModalProps> = ({
           const isLast = index === fields.length - 1;
           return (
             <div key={index} className={`flex gap-2 items-center justify-center w-full text-base leading-6 text-white shrink-0 ${!isLast ? 'border-b border-white/16 pb-4' : ''}`}>
-              <p className="flex-1 font-['Avenir_Next',sans-serif] font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">{field.label}</p>
-              <p className="font-['Avenir_Next',sans-serif] font-bold shrink-0">{field.value}</p>
+              <p className="flex-1 font-momo font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">{field.label}</p>
+              <p className="font-momo font-bold shrink-0">{field.value}</p>
             </div>
           );
         })}
@@ -960,12 +960,12 @@ const OpenAIVoiceInterface = () => {
             {/* Texts */}
             <div className="flex flex-col gap-4 items-center w-full max-w-[240px] text-center text-black">
               <div className="h-[64px] flex items-center justify-center w-full overflow-hidden relative">
-                <p className="font-['Avenir_Next',sans-serif] font-semibold text-[24px] leading-[32px] max-w-[200px] w-full text-center break-words overflow-hidden">
+                <p className="font-momo font-semibold text-[24px] leading-[32px] max-w-[200px] w-full text-center break-words overflow-hidden">
                   What would you like to do today?
                 </p>
               </div>
               <div className="h-[48px] flex items-center justify-center w-full">
-                <p className="font-['Avenir_Next',sans-serif] italic text-[16px] leading-[24px] w-full whitespace-pre-wrap">
+                <p className="font-momo italic text-[16px] leading-[24px] w-full whitespace-pre-wrap">
                   {isConnected ? (aiStatus || "Ready") : examplePrompts[currentPromptIndex]}
                 </p>
               </div>
@@ -1005,12 +1005,12 @@ const OpenAIVoiceInterface = () => {
             {/* Texts - At Top */}
             <div className="absolute top-16 left-6 right-6 flex flex-col gap-3 items-center text-center text-black">
               <div className="h-[64px] flex items-center justify-center w-full overflow-hidden relative">
-                <p className="font-['Avenir_Next',sans-serif] font-semibold text-[24px] leading-[32px] max-w-[200px] w-full text-center break-words overflow-hidden">
+                <p className="font-momo font-semibold text-[24px] leading-[32px] max-w-[200px] w-full text-center break-words overflow-hidden">
                   {currentTranscript || "What would you like to do today?"}
                 </p>
               </div>
               <div className="h-[48px] flex items-center justify-center w-full">
-                <p className="font-['Avenir_Next',sans-serif] italic text-[16px] leading-[24px] max-w-[240px] text-center whitespace-pre-wrap">
+                <p className="font-momo italic text-[16px] leading-[24px] max-w-[240px] text-center whitespace-pre-wrap">
                   {isConnected ? (aiStatus || "Ready") : examplePrompts[currentPromptIndex]}
                 </p>
               </div>
@@ -1088,7 +1088,7 @@ const OpenAIVoiceInterface = () => {
             }`}
             aria-label="Toggle logs"
           >
-            <span className="font-['Avenir_Next',sans-serif] text-sm font-medium whitespace-nowrap text-[#aba9a9]">
+            <span className="font-momo text-sm font-medium whitespace-nowrap text-[#aba9a9]">
               Show Logs
             </span>
           </button>

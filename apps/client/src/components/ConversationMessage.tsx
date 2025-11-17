@@ -15,7 +15,7 @@ const ConversationMessage = ({ role, content }: ConversationMessageProps) => {
         "max-w-[85%]  px-3 py-1.5",
         role === "user" ? "ml-auto opacity-60" : ""
       )}>
-        <p className="text-xs font-vietnam leading-relaxed text-black/80">{content}</p>
+        <p className="text-xs font-sans leading-relaxed text-black/80">{content}</p>
       </div>
     </div>
   );

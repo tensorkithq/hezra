@@ -91,7 +91,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     >
       {/* Title Bar */}
       <div className="flex gap-4 items-start justify-center w-full shrink-0">
-        <p className="flex-1 font-['Avenir_Next',sans-serif] font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">
+        <p className="flex-1 font-momo font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">
           {getTitleText()}
         </p>
         
@@ -117,10 +117,10 @@ const Sidebar: React.FC<SidebarProps> = ({
                 ${!isLast ? 'border-b border-white/16 pb-4' : ''}
               `}
             >
-              <p className="flex-1 font-['Avenir_Next',sans-serif] font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">
+              <p className="flex-1 font-momo font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">
                 {field.label}
               </p>
-              <p className="font-['Avenir_Next',sans-serif] font-bold shrink-0">
+              <p className="font-momo font-bold shrink-0">
                 {field.value}
               </p>
             </div>
@@ -163,7 +163,7 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
     >
       {/* Title Bar */}
       <div className="flex gap-4 items-start justify-center w-full shrink-0">
-        <p className="flex-1 font-['Avenir_Next',sans-serif] font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">
+        <p className="flex-1 font-momo font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">
           Receipt
         </p>
         
@@ -212,10 +212,10 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
                 ${!isLast ? 'border-b border-white/16 pb-4' : ''}
               `}
             >
-              <p className="flex-1 font-['Avenir_Next',sans-serif] font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">
+              <p className="flex-1 font-momo font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">
                 {field.label}
               </p>
-              <p className="font-['Avenir_Next',sans-serif] font-bold shrink-0">
+              <p className="font-momo font-bold shrink-0">
                 {field.value}
               </p>
             </div>
@@ -230,7 +230,7 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
           className="border border-solid border-white flex-1 flex gap-2 items-center justify-center px-6 py-4 rounded-[56px] shrink-0 min-h-0 min-w-0 hover:bg-white/10 transition-colors"
           aria-label="Share"
         >
-          <p className="font-['Avenir_Next',sans-serif] font-semibold text-base leading-6 text-white tracking-[0.64px] overflow-ellipsis overflow-hidden shrink-0">
+          <p className="font-momo font-semibold text-base leading-6 text-white tracking-[0.64px] overflow-ellipsis overflow-hidden shrink-0">
             Share
           </p>
         </button>
@@ -240,7 +240,7 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
           className="bg-white flex-1 flex gap-2 items-center justify-center px-6 py-4 rounded-[56px] shrink-0 min-h-0 min-w-0 hover:bg-white/90 transition-colors"
           aria-label="Download"
         >
-          <p className="font-['Avenir_Next',sans-serif] font-semibold text-base leading-6 text-black tracking-[0.64px] overflow-ellipsis overflow-hidden shrink-0">
+          <p className="font-momo font-semibold text-base leading-6 text-black tracking-[0.64px] overflow-ellipsis overflow-hidden shrink-0">
             Download
           </p>
         </button>
@@ -294,7 +294,7 @@ const AccountSnapshotModal: React.FC<AccountSnapshotModalProps> = ({
     >
       {/* Title Bar */}
       <div className="flex gap-4 items-start justify-center w-full shrink-0">
-        <p className="flex-1 font-['Avenir_Next',sans-serif] font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">
+        <p className="flex-1 font-momo font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">
           Account Overview
         </p>
         
@@ -337,10 +337,10 @@ const AccountSnapshotModal: React.FC<AccountSnapshotModalProps> = ({
                 ${!isLast ? 'border-b border-white/16 pb-4' : ''}
               `}
             >
-              <p className="flex-1 font-['Avenir_Next',sans-serif] font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">
+              <p className="flex-1 font-momo font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">
                 {field.label}
               </p>
-              <p className="font-['Avenir_Next',sans-serif] font-bold shrink-0">
+              <p className="font-momo font-bold shrink-0">
                 {field.value}
               </p>
             </div>
@@ -404,7 +404,7 @@ const PaymentSummaryModal: React.FC<PaymentSummaryModalProps> = ({
     >
       {/* Title Bar */}
       <div className="flex gap-4 items-start justify-center w-full shrink-0">
-        <p className="flex-1 font-['Avenir_Next',sans-serif] font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">
+        <p className="flex-1 font-momo font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">
           Payment Batch
         </p>
         
@@ -446,10 +446,10 @@ const PaymentSummaryModal: React.FC<PaymentSummaryModalProps> = ({
                 ${!isLast ? 'border-b border-white/16 pb-4' : ''}
               `}
             >
-              <p className="flex-1 font-['Avenir_Next',sans-serif] font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">
+              <p className="flex-1 font-momo font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">
                 {field.label}
               </p>
-              <p className="font-['Avenir_Next',sans-serif] font-bold shrink-0">
+              <p className="font-momo font-bold shrink-0">
                 {field.value}
               </p>
             </div>
@@ -513,7 +513,7 @@ const InvoiceModal: React.FC<InvoiceModalProps> = ({
     >
       {/* Title Bar */}
       <div className="flex gap-4 items-start justify-center w-full shrink-0">
-        <p className="flex-1 font-['Avenir_Next',sans-serif] font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">
+        <p className="flex-1 font-momo font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">
           Invoice
         </p>
         
@@ -556,10 +556,10 @@ const InvoiceModal: React.FC<InvoiceModalProps> = ({
                 ${!isLast ? 'border-b border-white/16 pb-4' : ''}
               `}
             >
-              <p className="flex-1 font-['Avenir_Next',sans-serif] font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">
+              <p className="flex-1 font-momo font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">
                 {field.label}
               </p>
-              <p className="font-['Avenir_Next',sans-serif] font-bold shrink-0">
+              <p className="font-momo font-bold shrink-0">
                 {field.value}
               </p>
             </div>
@@ -610,7 +610,7 @@ const LimitModal: React.FC<LimitModalProps> = ({
       `}
     >
       <div className="flex gap-4 items-start justify-center w-full shrink-0">
-        <p className="flex-1 font-['Avenir_Next',sans-serif] font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">
+        <p className="flex-1 font-momo font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">
           Account Limits
         </p>
         <button
@@ -637,10 +637,10 @@ const LimitModal: React.FC<LimitModalProps> = ({
                 ${!isLast ? 'border-b border-white/16 pb-4' : ''}
               `}
             >
-              <p className="flex-1 font-['Avenir_Next',sans-serif] font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">
+              <p className="flex-1 font-momo font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">
                 {field.label}
               </p>
-              <p className="font-['Avenir_Next',sans-serif] font-bold shrink-0">
+              <p className="font-momo font-bold shrink-0">
                 {field.value}
               </p>
             </div>
@@ -689,7 +689,7 @@ const TransactionAggregateModal: React.FC<TransactionAggregateModalProps> = ({
       `}
     >
       <div className="flex gap-4 items-start justify-center w-full shrink-0">
-        <p className="flex-1 font-['Avenir_Next',sans-serif] font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">
+        <p className="flex-1 font-momo font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">
           Transaction Analytics
         </p>
         <button
@@ -716,10 +716,10 @@ const TransactionAggregateModal: React.FC<TransactionAggregateModalProps> = ({
                 ${!isLast ? 'border-b border-white/16 pb-4' : ''}
               `}
             >
-              <p className="flex-1 font-['Avenir_Next',sans-serif] font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">
+              <p className="flex-1 font-momo font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">
                 {field.label}
               </p>
-              <p className="font-['Avenir_Next',sans-serif] font-bold shrink-0">
+              <p className="font-momo font-bold shrink-0">
                 {field.value}
               </p>
             </div>
@@ -778,7 +778,7 @@ const VirtualCardModal: React.FC<VirtualCardModalProps> = ({
       `}
     >
       <div className="flex gap-4 items-start justify-center w-full shrink-0">
-        <p className="flex-1 font-['Avenir_Next',sans-serif] font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">
+        <p className="flex-1 font-momo font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">
           Virtual Card
         </p>
         <button
@@ -806,10 +806,10 @@ const VirtualCardModal: React.FC<VirtualCardModalProps> = ({
                 ${!isLast ? 'border-b border-white/16 pb-4' : ''}
               `}
             >
-              <p className="flex-1 font-['Avenir_Next',sans-serif] font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">
+              <p className="flex-1 font-momo font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">
                 {field.label}
               </p>
-              <p className="font-['Avenir_Next',sans-serif] font-bold shrink-0">
+              <p className="font-momo font-bold shrink-0">
                 {field.value}
               </p>
             </div>
@@ -855,7 +855,7 @@ const AccountInformationModal: React.FC<AccountInformationModalProps> = ({
     >
       {/* Title Bar */}
       <div className="flex gap-4 items-start justify-center w-full shrink-0">
-        <p className="flex-1 font-['Avenir_Next',sans-serif] font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">
+        <p className="flex-1 font-momo font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">
           {title}
         </p>
         
@@ -891,10 +891,10 @@ const AccountInformationModal: React.FC<AccountInformationModalProps> = ({
                 ${!isLast ? 'border-b border-white/16 pb-4' : ''}
               `}
             >
-              <p className="flex-1 font-['Avenir_Next',sans-serif] font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">
+              <p className="flex-1 font-momo font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">
                 {field.label}
               </p>
-              <p className="font-['Avenir_Next',sans-serif] font-bold shrink-0">
+              <p className="font-momo font-bold shrink-0">
                 {field.value}
               </p>
             </div>
@@ -1200,12 +1200,12 @@ const GenerativeUX: React.FC<GenerativeUXProps> = ({
         {/* Texts */}
         <div className="flex flex-col gap-4 items-center w-full max-w-[240px] text-center text-black">
           <div className="h-[64px] flex items-center justify-center w-full overflow-hidden relative">
-            <p className="font-['Avenir_Next',sans-serif] font-semibold text-[24px] leading-[32px] max-w-[200px] w-full text-center break-words overflow-hidden">
+            <p className="font-momo font-semibold text-[24px] leading-[32px] max-w-[200px] w-full text-center break-words overflow-hidden">
               {headingText}
             </p>
           </div>
           <div className="h-[48px] flex items-center justify-center w-full">
-            <p className="font-['Avenir_Next',sans-serif] italic text-[16px] leading-[24px] w-full whitespace-pre-wrap">
+            <p className="font-momo italic text-[16px] leading-[24px] w-full whitespace-pre-wrap">
               {isConnected ? (aiStatus || "Ready") : examplePrompts[currentPromptIndex]}
             </p>
           </div>
@@ -1240,7 +1240,7 @@ const GenerativeUX: React.FC<GenerativeUXProps> = ({
 
         {/* User Prompt */}
         {showUserPrompt && (
-          <p className="font-['Avenir_Next',sans-serif] italic text-[16px] leading-[24px] max-w-[240px] min-w-full text-black text-center w-min whitespace-pre-wrap">
+          <p className="font-momo italic text-[16px] leading-[24px] max-w-[240px] min-w-full text-black text-center w-min whitespace-pre-wrap">
             {userPrompt}
           </p>
         )}
@@ -1251,12 +1251,12 @@ const GenerativeUX: React.FC<GenerativeUXProps> = ({
         {/* Texts */}
         <div className="flex flex-1 flex-col gap-4 items-center w-full max-w-[240px] text-center text-black min-h-0">
           <div className="h-[64px] flex items-center justify-center w-full overflow-hidden relative">
-            <p className="font-['Avenir_Next',sans-serif] font-semibold text-[24px] leading-[32px] max-w-[200px] w-full text-center break-words overflow-hidden">
+            <p className="font-momo font-semibold text-[24px] leading-[32px] max-w-[200px] w-full text-center break-words overflow-hidden">
               {headingText}
             </p>
           </div>
           <div className="h-[48px] flex items-center justify-center w-full">
-            <p className="font-['Avenir_Next',sans-serif] italic text-[16px] leading-[24px] w-full whitespace-pre-wrap">
+            <p className="font-momo italic text-[16px] leading-[24px] w-full whitespace-pre-wrap">
               {isConnected ? (aiStatus || "Ready") : examplePrompts[currentPromptIndex]}
             </p>
           </div>

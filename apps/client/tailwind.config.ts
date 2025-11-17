@@ -14,8 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        vietnam: ['Sansation', 'sans-serif'],
-        sansation: ['Sansation', 'sans-serif'],
+        sans: ['"Momo Trust Sans"', 'sans-serif'],
+        momo: ['"Momo Trust Sans"', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
