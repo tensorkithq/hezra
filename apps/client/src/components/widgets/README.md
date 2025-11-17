@@ -4,6 +4,137 @@
 
 The Widget System is a JSON-driven UI renderer for displaying interactive financial widgets in the Moniewave Voice Assistant. It provides a declarative way to compose rich UIs from atomic primitives without writing React code.
 
+## How It Works: The Renderer Pattern
+
+### `__render` and `__path` - The Core Mechanism
+
+The widget system uses a **recursive rendering pattern** to convert JSON specifications into React components. Every primitive component receives two special props:
+
+#### `__render` - The Widget Factory Function
+
+```typescript
+__render: (node: WidgetNode, path?: string) => JSX.Element | null
+```
+
+This function takes a JSON widget node and returns the corresponding React component. Think of it as a "type router" that maps widget types to their implementations:
+
+```typescript
+// Simplified example of what __render does internally
+function render(node: WidgetNode, path: string) {
+  switch (node.type) {
+    case 'Button': return <Button {...node} __render={render} __path={path} />;
+    case 'Text': return <Text {...node} __render={render} __path={path} />;
+    case 'Frame': return <Frame {...node} __render={render} __path={path} />;
+    // ... and so on
+  }
+}
+```
+
+#### `__path` - The Breadcrumb Trail
+
+```typescript
+__path: string  // Example: "root.children[0].buttons[1]"
+```
+
+This tracks the location of each widget in the JSON tree, like a file path. It's used for:
+- **Debugging**: Know exactly where errors occur in complex widget trees
+- **Action context**: Identify which specific widget triggered an action
+- **Unique keys**: Generate stable React keys for list rendering
+
+**Path examples:**
+```
+"root"                           // Top-level widget
+"root.children[0]"               // First child of root
+"root.children[1].buttons[2]"    // Third button in second child
+```
+
+### Rendering Flow Example
+
+Given this JSON widget:
+
+```json
+{
+  "type": "Frame",
+  "children": [
+    {
+      "type": "ButtonGroup",
+      "buttons": [
+        { "type": "Button", "label": "Approve" },
+        { "type": "Button", "label": "Reject" }
+      ]
+    }
+  ]
+}
+```
+
+**What happens:**
+
+1. **WidgetRenderer** starts with `__path = "root"`
+2. Calls `__render(frame, "root")` → renders `<Frame>`
+3. **Frame** maps over `children[0]` and calls:
+   - `__render(children[0], "root.children[0]")` → renders `<ButtonGroup>`
+4. **ButtonGroup** maps over `buttons` and calls:
+   - `__render(buttons[0], "root.children[0].buttons[0]")` → renders "Approve" button
+   - `__render(buttons[1], "root.children[0].buttons[1]")` → renders "Reject" button
+
+**Result**: A tree of React components with traceable paths.
+
+### Real-World Usage in ButtonGroup
+
+```typescript
+export function ButtonGroup({
+  buttons,
+  __path,
+  __render,
+}: ButtonGroupProps & RendererProps) {
+  return (
+    <div className="flex gap-2">
+      {buttons.map((button, i) =>
+        __render(button, `${__path}.buttons[${i}]`)
+        //        ^^^^^^  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        //        |       Extends path: "root.buttons[0]"
+        //        Converts JSON → <Button /> component
+      )}
+    </div>
+  );
+}
+```
+
+**Why this pattern?**
+- ✅ **Composability**: Widgets can contain other widgets infinitely deep
+- ✅ **Type safety**: Each widget validates its children via Zod schemas
+- ✅ **Debuggability**: Errors show the exact path: `"Error at root.children[2].buttons[1]"`
+- ✅ **Server-driven UI**: The entire UI structure comes from JSON (ChatGPT tools, APIs, etc.)
+
+### When You Need These Props
+
+**You need `__render` and `__path` when:**
+- Creating a **container widget** (Frame, Row, Col, ButtonGroup, etc.)
+- Your widget has a `children` or array prop that contains other widgets
+- You need to recursively render nested widget trees
+
+**You DON'T need them when:**
+- Creating a **leaf widget** (Text, Icon, Badge, etc.)
+- Your widget has no children or nested widgets
+- You're using the widget outside the JSON system (direct React usage)
+
+### Direct React Usage (Without __render/__path)
+
+You can also use primitives directly in React code. The Frame component supports both modes:
+
+```tsx
+// JSON-driven mode (requires __render and __path)
+<WidgetRenderer spec={jsonSpec} />
+
+// Direct React mode (no __render/__path needed)
+<Frame className="custom-class">
+  <Text value="Hello" />
+  <Button label="Click me" />
+</Frame>
+```
+
+The Frame component intelligently detects which mode it's in and handles rendering appropriately.
+
 ## Architecture
 
 ### Two-Layer System
