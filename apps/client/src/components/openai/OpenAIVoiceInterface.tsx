@@ -1109,7 +1109,7 @@ const OpenAIVoiceInterface = () => {
                 <div className="absolute bottom-8 left-4 right-4 md:left-10 md:right-10 flex gap-4">
                   <button
                     onClick={rejectTool}
-                    className="flex-1 px-4 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                    className="flex-1 px-4 py-3 bg-gray-900/30 ring-1 ring-gray-200/50 text-white rounded-lg hover:bg-gray-700 transition-colors"
                   >
                     Reject
                   </button>
