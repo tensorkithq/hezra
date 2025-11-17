@@ -92,21 +92,6 @@
         }
       ]
     },
-    "FrameHeader": {
-      "allOf": [
-        { "$ref": "#/definitions/base" },
-        {
-          "type": "object",
-          "properties": {
-            "type": { "const": "FrameHeader" },
-            "title": { "type": "string" },
-            "expandable": { "type": "boolean", "default": true },
-            "actions": { "type": "array", "items": { "$ref": "#/definitions/action" } }
-          },
-          "required": ["title"]
-        }
-      ]
-    },
     "Row": {
       "allOf": [
         { "$ref": "#/definitions/base" },
@@ -327,7 +312,6 @@
     "widgetNode": {
       "oneOf": [
         { "$ref": "#/definitions/Frame" },
-        { "$ref": "#/definitions/FrameHeader" },
         { "$ref": "#/definitions/Row" },
         { "$ref": "#/definitions/Col" },
         { "$ref": "#/definitions/Spacer" },

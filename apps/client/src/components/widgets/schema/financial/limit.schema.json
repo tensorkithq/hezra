@@ -27,11 +27,6 @@
     "padding": "md",
     "children": [
       {
-        "type": "FrameHeader",
-        "title": "Transfer Limit",
-        "expandable": true
-      },
-      {
         "type": "Col",
         "gap": "md",
         "children": [

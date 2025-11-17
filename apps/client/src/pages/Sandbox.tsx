@@ -45,29 +45,6 @@ const widgetExamples: Record<string, WidgetExample> = {
       ],
     },
   },
-  frameheader: {
-    name: 'FrameHeader',
-    description: 'Header with title and optional expand icon',
-    category: 'primitives',
-    spec: {
-      type: 'Frame',
-      size: 'md',
-      padding: 'md',
-      children: [
-        {
-          type: 'FrameHeader',
-          title: 'Payment Details',
-          expandable: true,
-        },
-        {
-          type: 'Text',
-          value: 'Content goes here...',
-          size: 'sm',
-          color: 'muted',
-        },
-      ],
-    },
-  },
   text: {
     name: 'Text',
     description: 'Text component with various sizes, weights, and colors',
@@ -570,11 +547,6 @@ const widgetExamples: Record<string, WidgetExample> = {
       padding: 'md',
       children: [
         {
-          type: 'FrameHeader',
-          title: 'Payment Batch',
-          expandable: true,
-        },
-        {
           type: 'Row',
           align: 'between',
           children: [
@@ -628,11 +600,6 @@ const widgetExamples: Record<string, WidgetExample> = {
       padding: 'lg',
       children: [
         {
-          type: 'FrameHeader',
-          title: 'Virtual Card',
-          expandable: true,
-        },
-        {
           type: 'Row',
           align: 'between',
           children: [
@@ -685,11 +652,6 @@ const widgetExamples: Record<string, WidgetExample> = {
       size: 'md',
       padding: 'md',
       children: [
-        {
-          type: 'FrameHeader',
-          title: 'Invoice',
-          expandable: true,
-        },
         {
           type: 'Row',
           align: 'between',
@@ -750,11 +712,6 @@ const widgetExamples: Record<string, WidgetExample> = {
       padding: 'lg',
       children: [
         {
-          type: 'FrameHeader',
-          title: 'Account Overview',
-          expandable: true,
-        },
-        {
           type: 'Col',
           gap: 'lg',
           children: [
@@ -806,11 +763,6 @@ const widgetExamples: Record<string, WidgetExample> = {
       size: 'md',
       padding: 'md',
       children: [
-        {
-          type: 'FrameHeader',
-          title: 'Transaction Analytics',
-          expandable: true,
-        },
         {
           type: 'Col',
           gap: 'md',
@@ -871,11 +823,6 @@ const widgetExamples: Record<string, WidgetExample> = {
       padding: 'md',
       children: [
         {
-          type: 'FrameHeader',
-          title: 'Transfer Limit',
-          expandable: true,
-        },
-        {
           type: 'Col',
           gap: 'md',
           children: [
@@ -924,11 +871,6 @@ const widgetExamples: Record<string, WidgetExample> = {
       size: 'md',
       padding: 'md',
       children: [
-        {
-          type: 'FrameHeader',
-          title: 'Transaction Details',
-          expandable: true,
-        },
         {
           type: 'Row',
           align: 'between',

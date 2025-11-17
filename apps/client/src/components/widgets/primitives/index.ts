@@ -8,7 +8,6 @@ import { registerWidget } from '../registry';
 
 // Layout primitives
 import { Frame } from './Frame';
-import { FrameHeader } from './FrameHeader';
 import { Row } from './Row';
 import { Col } from './Col';
 import { Spacer } from './Spacer';
@@ -32,7 +31,6 @@ import { ButtonGroup } from './ButtonGroup';
 
 // Register all primitives
 registerWidget('Frame', Frame);
-registerWidget('FrameHeader', FrameHeader);
 registerWidget('Row', Row);
 registerWidget('Col', Col);
 registerWidget('Spacer', Spacer);
@@ -51,7 +49,6 @@ registerWidget('ButtonGroup', ButtonGroup);
 // Export all primitives
 export {
   Frame,
-  FrameHeader,
   Row,
   Col,
   Spacer,

@@ -13,7 +13,7 @@ The Widget System is a JSON-driven UI renderer for displaying interactive financ
 
 ### Key Components
 
-- **Primitives**: 16 atomic components (13 atoms + 3 patterns)
+- **Primitives**: 15 atomic components (12 atoms + 3 patterns)
 - **Renderer**: Validates and renders JSON widget specifications
 - **Schemas**: Zod validators + JSON Schema definitions
 - **Theme**: CSS custom properties for styling
@@ -55,7 +55,7 @@ function MyComponent() {
 
 ## Primitive Components
 
-### Layout Primitives
+### Layout Primitives (5)
 
 #### Frame
 Widget container - the default wrapper for all widgets.
@@ -66,17 +66,6 @@ Widget container - the default wrapper for all widgets.
   "size": "md",           // "sm" | "md" | "lg" | "full"
   "padding": "md",        // "none" | "sm" | "md" | "lg"
   "children": []
-}
-```
-
-#### FrameHeader
-Header with title and optional expand icon.
-
-```json
-{
-  "type": "FrameHeader",
-  "title": "Payment Batch",
-  "expandable": true
 }
 ```
 
@@ -126,7 +115,7 @@ Separator/rule for visual separation.
 }
 ```
 
-### Content Primitives
+### Content Primitives (6)
 
 #### Text
 Text display with size, weight, color, and semantic HTML support.
@@ -209,7 +198,7 @@ Status indicator badge.
 }
 ```
 
-### Interactive Primitives
+### Interactive Primitives (1)
 
 #### Button
 Action button with icon support.
@@ -231,7 +220,7 @@ Action button with icon support.
 }
 ```
 
-### Pattern Components
+### Pattern Components (3)
 
 #### KeyValueRow
 Single label-value pair display.
@@ -324,11 +313,6 @@ Handle actions in the renderer options:
   "size": "md",
   "padding": "md",
   "children": [
-    {
-      "type": "FrameHeader",
-      "title": "Payment Batch",
-      "expandable": true
-    },
     {
       "type": "Row",
       "align": "between",

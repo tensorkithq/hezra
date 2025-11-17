@@ -43,11 +43,6 @@
     "padding": "lg",
     "children": [
       {
-        "type": "FrameHeader",
-        "title": "Account Overview",
-        "expandable": true
-      },
-      {
         "type": "Col",
         "gap": "lg",
         "children": [

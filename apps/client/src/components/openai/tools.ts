@@ -167,11 +167,6 @@ export const generateToolPreviewWidget = (toolName: string, args: any) => {
         padding: 'md',
         children: [
           {
-            type: 'FrameHeader',
-            title: 'Payment Preview',
-            expandable: false
-          },
-          {
             type: 'Row',
             align: 'between',
             children: [
@@ -231,11 +226,6 @@ export const generateToolPreviewWidget = (toolName: string, args: any) => {
         padding: 'md',
         children: [
           {
-            type: 'FrameHeader',
-            title: 'Account Limits Preview',
-            expandable: false
-          },
-          {
             type: 'KeyValueList',
             gap: 'md',
             dividers: true,
@@ -266,11 +256,6 @@ export const generateToolPreviewWidget = (toolName: string, args: any) => {
         size: 'md',
         padding: 'md',
         children: [
-          {
-            type: 'FrameHeader',
-            title: 'Beneficiary Limit Preview',
-            expandable: false
-          },
           {
             type: 'KeyValueList',
             gap: 'md',
@@ -308,11 +293,6 @@ export const generateToolPreviewWidget = (toolName: string, args: any) => {
         size: 'md',
         padding: 'lg',
         children: [
-          {
-            type: 'FrameHeader',
-            title: 'Virtual Card Preview',
-            expandable: false
-          },
           {
             type: 'Row',
             align: 'between',
@@ -358,11 +338,6 @@ export const generateToolPreviewWidget = (toolName: string, args: any) => {
         size: 'md',
         padding: 'md',
         children: [
-          {
-            type: 'FrameHeader',
-            title: 'Invoice Preview',
-            expandable: false
-          },
           {
             type: 'Row',
             align: 'between',
@@ -410,11 +385,6 @@ export const generateToolPreviewWidget = (toolName: string, args: any) => {
         padding: 'md',
         children: [
           {
-            type: 'FrameHeader',
-            title: 'Analytics Query Preview',
-            expandable: false
-          },
-          {
             type: 'KeyValueList',
             gap: 'md',
             dividers: true,
@@ -450,11 +420,6 @@ export const generateToolPreviewWidget = (toolName: string, args: any) => {
         size: 'md',
         padding: 'md',
         children: [
-          {
-            type: 'FrameHeader',
-            title: 'Snapshot Query Preview',
-            expandable: false
-          },
           {
             type: 'KeyValueList',
             gap: 'md',
@@ -493,11 +458,6 @@ export const generateToolPreviewWidget = (toolName: string, args: any) => {
         padding: 'md',
         children: [
           {
-            type: 'FrameHeader',
-            title: 'Tool Preview',
-            expandable: false
-          },
-          {
             type: 'Col',
             gap: 'md',
             children: [
@@ -534,11 +494,6 @@ export const executeToolCall = async (toolName: string, args: any) => {
           size: 'md',
           padding: 'md',
           children: [
-            {
-              type: 'FrameHeader',
-              title: 'Payment Batch',
-              expandable: true
-            },
             {
               type: 'Row',
               align: 'between',
@@ -628,11 +583,6 @@ export const executeToolCall = async (toolName: string, args: any) => {
           padding: 'lg',
           children: [
             {
-              type: 'FrameHeader',
-              title: 'Virtual Card',
-              expandable: true
-            },
-            {
               type: 'Row',
               align: 'between',
               children: [
@@ -703,11 +653,6 @@ export const executeToolCall = async (toolName: string, args: any) => {
           padding: 'md',
           children: [
             {
-              type: 'FrameHeader',
-              title: 'Invoice',
-              expandable: true
-            },
-            {
               type: 'Row',
               align: 'between',
               children: [
@@ -763,11 +708,6 @@ export const executeToolCall = async (toolName: string, args: any) => {
             size: 'md',
             padding: 'md',
             children: [
-              {
-                type: 'FrameHeader',
-                title: 'Transaction Analytics',
-                expandable: true
-              },
               {
                 type: 'Col',
                 gap: 'md',
@@ -848,11 +788,6 @@ export const executeToolCall = async (toolName: string, args: any) => {
           size: 'lg',
           padding: 'lg',
           children: [
-            {
-              type: 'FrameHeader',
-              title: 'Account Overview',
-              expandable: true
-            },
             {
               type: 'Col',
               gap: 'lg',
