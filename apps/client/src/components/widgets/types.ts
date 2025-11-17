@@ -34,9 +34,8 @@ export type Action =
 // Layout Primitives
 export interface FrameProps extends BaseWidgetProps {
   type: 'Frame';
-  size?: 'sm' | 'md' | 'lg' | 'full';
-  padding?: 'none' | 'sm' | 'md' | 'lg';
-  children?: WidgetNode[];
+  children?: React.ReactNode;
+  className?: string;
 }
 
 export interface FrameHeaderProps extends BaseWidgetProps {
