@@ -30,15 +30,21 @@ const widgetExamples: Record<string, WidgetExample> = {
   // ======================
   frame: {
     name: 'Frame',
-    description: 'Container for widgets with optional header, title, and action buttons',
+    description: 'Basic container widget with default size and padding',
     category: 'primitives',
     spec: {
       type: 'Frame',
       children: [
         {
           type: 'Text',
-          value: 'This is a Frame container without a header',
+          value: 'This is a basic Frame container with default settings',
           size: 'md',
+        },
+        {
+          type: 'Text',
+          value: 'Size defaults to "md" and padding defaults to "md"',
+          size: 'sm',
+          color: 'muted',
         },
       ],
     },
