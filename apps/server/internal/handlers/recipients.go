@@ -255,3 +255,121 @@ func (h *RecipientHandler) Get(w http.ResponseWriter, r *http.Request) {
 
 	WriteJSONSuccess(w, recipient)
 }
+
+// RecipientSearchResult represents a search result with match scoring
+type RecipientSearchResult struct {
+	Recipient
+	MatchScore float64 `json:"match_score"`
+}
+
+// Search searches for recipients by name, account number, or bank name
+func (h *RecipientHandler) Search(w http.ResponseWriter, r *http.Request) {
+	query := r.URL.Query().Get("q")
+	if query == "" {
+		WriteJSONBadRequest(w, "q query parameter is required")
+		return
+	}
+
+	// Get limit parameter (default 10)
+	limit := 10
+	if limitStr := r.URL.Query().Get("limit"); limitStr != "" {
+		fmt.Sscanf(limitStr, "%d", &limit)
+	}
+
+	// Get offset parameter (default 0)
+	offset := 0
+	if offsetStr := r.URL.Query().Get("offset"); offsetStr != "" {
+		fmt.Sscanf(offsetStr, "%d", &offset)
+	}
+
+	// Build SQL query with fuzzy matching
+	// Priority: exact name > partial name > account number > bank name
+	sqlQuery := `
+		SELECT
+			id, recipient_code, type, name, account_number, bank_code, bank_name, currency, description, created_at, updated_at,
+			CASE
+				WHEN LOWER(name) = LOWER(?) THEN 1.0
+				WHEN LOWER(name) LIKE LOWER(?) THEN 0.9
+				WHEN account_number = ? THEN 0.85
+				WHEN LOWER(bank_name) LIKE LOWER(?) THEN 0.7
+				ELSE 0.5
+			END as match_score
+		FROM recipients
+		WHERE
+			LOWER(name) LIKE LOWER(?) OR
+			account_number = ? OR
+			LOWER(bank_name) LIKE LOWER(?)
+		ORDER BY match_score DESC, created_at DESC
+		LIMIT ? OFFSET ?
+	`
+
+	partialMatch := "%" + query + "%"
+
+	rows, err := database.DB.Query(
+		sqlQuery,
+		query,              // exact name match
+		partialMatch,       // partial name match
+		query,              // exact account number
+		partialMatch,       // partial bank name match
+		partialMatch,       // WHERE: partial name
+		query,              // WHERE: exact account number
+		partialMatch,       // WHERE: partial bank name
+		limit,
+		offset,
+	)
+	if err != nil {
+		WriteJSONError(w, fmt.Errorf("failed to search recipients: %w", err), http.StatusInternalServerError)
+		return
+	}
+	defer rows.Close()
+
+	results := []RecipientSearchResult{}
+	for rows.Next() {
+		var result RecipientSearchResult
+		var bankName, description sql.NullString
+
+		err := rows.Scan(
+			&result.ID,
+			&result.RecipientCode,
+			&result.Type,
+			&result.Name,
+			&result.AccountNumber,
+			&result.BankCode,
+			&bankName,
+			&result.Currency,
+			&description,
+			&result.CreatedAt,
+			&result.UpdatedAt,
+			&result.MatchScore,
+		)
+		if err != nil {
+			WriteJSONError(w, fmt.Errorf("failed to scan recipient: %w", err), http.StatusInternalServerError)
+			return
+		}
+
+		if bankName.Valid {
+			result.BankName = bankName.String
+		}
+		if description.Valid {
+			result.Description = description.String
+		}
+
+		results = append(results, result)
+	}
+
+	if err = rows.Err(); err != nil {
+		WriteJSONError(w, fmt.Errorf("error iterating recipients: %w", err), http.StatusInternalServerError)
+		return
+	}
+
+	// Build response with metadata
+	response := map[string]interface{}{
+		"results": results,
+		"total":   len(results),
+		"query":   query,
+		"limit":   limit,
+		"offset":  offset,
+	}
+
+	WriteJSONSuccessWithMessage(w, fmt.Sprintf("Found %d recipients matching '%s'", len(results), query), response)
+}

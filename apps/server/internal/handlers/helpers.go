@@ -20,6 +20,19 @@ func WriteJSONSuccess(w http.ResponseWriter, data interface{}) {
 	json.NewEncoder(w).Encode(response)
 }
 
+// WriteJSONSuccessWithMessage writes a successful JSON response with a custom message
+func WriteJSONSuccessWithMessage(w http.ResponseWriter, message string, data interface{}) {
+	response := dto.Response{
+		Status:  true,
+		Message: message,
+		Data:    data,
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(response)
+}
+
 // WriteJSONError writes an error JSON response
 func WriteJSONError(w http.ResponseWriter, err error, statusCode int) {
 	errResponse := dto.ErrorResponse{
