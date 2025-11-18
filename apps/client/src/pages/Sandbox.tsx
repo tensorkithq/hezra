@@ -506,42 +506,54 @@ const widgetExamples: Record<string, WidgetExample> = {
     category: 'financial',
     spec: {
       type: 'Frame',
-      hasHeader: true,
-      title: 'Payment Batch',
       children: [
         {
-          type: 'Row',
-          align: 'between',
+          type: 'FrameHeader',
           children: [
             {
-              type: 'Col',
-              gap: 'sm',
-              children: [
-                { type: 'Text', value: 'BATCH-2024-001', size: 'lg', weight: 'semibold' },
-              ],
+              type: 'FrameTitle',
+              value: 'Payment Batch',
             },
-            { type: 'Text', value: 'Queued', color: 'warning', weight: 'medium', size: 'sm' },
           ],
         },
-        { type: 'Divider', spacing: 'md' },
         {
-          type: 'Row',
-          gap: 'lg',
+          type: 'FrameContent',
           children: [
             {
-              type: 'Col',
-              gap: 'sm',
+              type: 'Row',
+              align: 'between',
               children: [
-                { type: 'Text', value: 'Total Amount', size: 'xs', color: 'muted' },
-                { type: 'Amount', value: 150000, currency: 'NGN', size: 'md', weight: 'semibold' },
+                {
+                  type: 'Col',
+                  gap: 'sm',
+                  children: [
+                    { type: 'Text', value: 'BATCH-2024-001', size: 'lg', weight: 'semibold' },
+                  ],
+                },
+                { type: 'Text', value: 'Queued', color: 'warning', weight: 'medium', size: 'sm' },
               ],
             },
+            { type: 'Divider', spacing: 'md' },
             {
-              type: 'Col',
-              gap: 'sm',
+              type: 'Row',
+              gap: 'lg',
               children: [
-                { type: 'Text', value: 'Recipients', size: 'xs', color: 'muted' },
-                { type: 'Text', value: '5', size: 'md', weight: 'semibold' },
+                {
+                  type: 'Col',
+                  gap: 'sm',
+                  children: [
+                    { type: 'Text', value: 'Total Amount', size: 'xs', color: 'muted' },
+                    { type: 'Amount', value: 150000, currency: 'NGN', size: 'md', weight: 'semibold' },
+                  ],
+                },
+                {
+                  type: 'Col',
+                  gap: 'sm',
+                  children: [
+                    { type: 'Text', value: 'Recipients', size: 'xs', color: 'muted' },
+                    { type: 'Text', value: '5', size: 'md', weight: 'semibold' },
+                  ],
+                },
               ],
             },
           ],
@@ -555,44 +567,57 @@ const widgetExamples: Record<string, WidgetExample> = {
     category: 'financial',
     spec: {
       type: 'Frame',
-      title: 'Virtual Card',
       children: [
         {
-          type: 'Row',
-          align: 'between',
+          type: 'FrameHeader',
           children: [
-            { type: 'Text', value: 'Marketing Ads', size: 'lg', weight: 'semibold' },
-            { type: 'Text', value: 'Active', color: 'success', weight: 'medium', size: 'sm' },
+            {
+              type: 'FrameTitle',
+              value: 'Virtual Card',
+            },
           ],
         },
-        { type: 'Divider', spacing: 'md' },
         {
-          type: 'Col',
-          gap: 'md',
+          type: 'FrameContent',
           children: [
             {
               type: 'Row',
-              gap: 'md',
+              align: 'between',
               children: [
-                { type: 'Text', value: '****', size: 'xl', weight: 'bold' },
-                { type: 'Text', value: '****', size: 'xl', weight: 'bold' },
-                { type: 'Text', value: '****', size: 'xl', weight: 'bold' },
-                { type: 'Text', value: '4532', size: 'xl', weight: 'bold' },
+                { type: 'Text', value: 'Marketing Ads', size: 'lg', weight: 'semibold' },
+                { type: 'Text', value: 'Active', color: 'success', weight: 'medium', size: 'sm' },
               ],
             },
+            { type: 'Divider', spacing: 'md' },
             {
-              type: 'KeyValueList',
+              type: 'Col',
               gap: 'md',
-              items: [
+              children: [
                 {
-                  type: 'KeyValueRow',
-                  label: 'Spend Limit',
-                  value: { type: 'Amount', value: 5000, currency: 'USD', size: 'sm' },
+                  type: 'Row',
+                  gap: 'md',
+                  children: [
+                    { type: 'Text', value: '****', size: 'xl', weight: 'bold' },
+                    { type: 'Text', value: '****', size: 'xl', weight: 'bold' },
+                    { type: 'Text', value: '****', size: 'xl', weight: 'bold' },
+                    { type: 'Text', value: '4532', size: 'xl', weight: 'bold' },
+                  ],
                 },
                 {
-                  type: 'KeyValueRow',
-                  label: 'Network',
-                  value: { type: 'Text', value: 'VISA', weight: 'medium' },
+                  type: 'KeyValueList',
+                  gap: 'md',
+                  items: [
+                    {
+                      type: 'KeyValueRow',
+                      label: 'Spend Limit',
+                      value: { type: 'Amount', value: 5000, currency: 'USD', size: 'sm' },
+                    },
+                    {
+                      type: 'KeyValueRow',
+                      label: 'Network',
+                      value: { type: 'Text', value: 'VISA', weight: 'medium' },
+                    },
+                  ],
                 },
               ],
             },
@@ -607,53 +632,64 @@ const widgetExamples: Record<string, WidgetExample> = {
     category: 'financial',
     spec: {
       type: 'Frame',
-      hasHeader: true,
-      title: 'Invoice',
       children: [
         {
-          type: 'Row',
-          align: 'between',
+          type: 'FrameHeader',
           children: [
-            { type: 'Text', value: 'INV-2024-001', size: 'lg', weight: 'semibold' },
-            { type: 'Text', value: 'Sent', weight: 'medium', size: 'sm' },
-          ],
-        },
-        { type: 'Divider', spacing: 'md' },
-        {
-          type: 'KeyValueList',
-          gap: 'md',
-          dividers: true,
-          items: [
             {
-              type: 'KeyValueRow',
-              label: 'Customer',
-              value: { type: 'Text', value: 'Acme Corp', weight: 'medium' },
-            },
-            {
-              type: 'KeyValueRow',
-              label: 'Amount Due',
-              value: { type: 'Amount', value: 250000, currency: 'NGN', size: 'md', weight: 'semibold' },
-              emphasis: true,
-            },
-            {
-              type: 'KeyValueRow',
-              label: 'Due Date',
-              value: { type: 'Text', value: '2024-12-31', color: 'muted' },
+              type: 'FrameTitle',
+              value: 'Invoice',
             },
           ],
         },
-        { type: 'Divider', spacing: 'md' },
         {
-          type: 'ButtonGroup',
-          orientation: 'horizontal',
-          gap: 'md',
-          buttons: [
+          type: 'FrameContent',
+          children: [
             {
-              type: 'Button',
-              label: 'View Invoice',
-              variant: 'default',
-              icon: 'ExternalLink',
-              iconPosition: 'right',
+              type: 'Row',
+              align: 'between',
+              children: [
+                { type: 'Text', value: 'INV-2024-001', size: 'lg', weight: 'semibold' },
+                { type: 'Text', value: 'Sent', weight: 'medium', size: 'sm' },
+              ],
+            },
+            { type: 'Divider', spacing: 'md' },
+            {
+              type: 'KeyValueList',
+              gap: 'md',
+              dividers: true,
+              items: [
+                {
+                  type: 'KeyValueRow',
+                  label: 'Customer',
+                  value: { type: 'Text', value: 'Acme Corp', weight: 'medium' },
+                },
+                {
+                  type: 'KeyValueRow',
+                  label: 'Amount Due',
+                  value: { type: 'Amount', value: 250000, currency: 'NGN', size: 'md', weight: 'semibold' },
+                  emphasis: true,
+                },
+                {
+                  type: 'KeyValueRow',
+                  label: 'Due Date',
+                  value: { type: 'Text', value: '2024-12-31', color: 'muted' },
+                },
+              ],
+            },
+            { type: 'Divider', spacing: 'md' },
+            {
+              type: 'ButtonGroup',
+              gap: 'md',
+              buttons: [
+                {
+                  type: 'Button',
+                  label: 'View Invoice',
+                  variant: 'solid',
+                  icon: 'ExternalLink',
+                  iconPosition: 'right',
+                },
+              ],
             },
           ],
         },
@@ -666,43 +702,55 @@ const widgetExamples: Record<string, WidgetExample> = {
     category: 'financial',
     spec: {
       type: 'Frame',
-      hasHeader: true,
-      title: 'Account Overview',
       children: [
         {
-          type: 'Col',
-          gap: 'lg',
+          type: 'FrameHeader',
+          children: [
+            {
+              type: 'FrameTitle',
+              value: 'Account Overview',
+            },
+          ],
+        },
+        {
+          type: 'FrameContent',
           children: [
             {
               type: 'Col',
-              gap: 'sm',
-              align: 'center',
-              children: [
-                { type: 'Text', value: 'Available Balance', size: 'sm', color: 'muted' },
-                { type: 'Amount', value: 720000, currency: 'NGN', size: 'xl', weight: 'bold', color: 'default' },
-              ],
-            },
-            { type: 'Divider', spacing: 'lg' },
-            {
-              type: 'Row',
               gap: 'lg',
               children: [
                 {
                   type: 'Col',
                   gap: 'sm',
+                  align: 'center',
                   children: [
-                    { type: 'Text', value: 'Transfers', size: 'xs', color: 'muted' },
-                    { type: 'Text', value: '14', size: 'lg', weight: 'semibold' },
-                    { type: 'Amount', value: 155000, currency: 'NGN', size: 'sm', showCurrency: false },
+                    { type: 'Text', value: 'Available Balance', size: 'sm', color: 'muted' },
+                    { type: 'Amount', value: 720000, currency: 'NGN', size: 'xl', weight: 'bold', color: 'default' },
                   ],
                 },
+                { type: 'Divider', spacing: 'lg' },
                 {
-                  type: 'Col',
-                  gap: 'sm',
+                  type: 'Row',
+                  gap: 'lg',
                   children: [
-                    { type: 'Text', value: 'Invoices Paid', size: 'xs', color: 'muted' },
-                    { type: 'Text', value: '3/5', size: 'lg', weight: 'semibold' },
-                    { type: 'Amount', value: 610000, currency: 'NGN', size: 'sm', showCurrency: false },
+                    {
+                      type: 'Col',
+                      gap: 'sm',
+                      children: [
+                        { type: 'Text', value: 'Transfers', size: 'xs', color: 'muted' },
+                        { type: 'Text', value: '14', size: 'lg', weight: 'semibold' },
+                        { type: 'Amount', value: 155000, currency: 'NGN', size: 'sm', showCurrency: false },
+                      ],
+                    },
+                    {
+                      type: 'Col',
+                      gap: 'sm',
+                      children: [
+                        { type: 'Text', value: 'Invoices Paid', size: 'xs', color: 'muted' },
+                        { type: 'Text', value: '3/5', size: 'lg', weight: 'semibold' },
+                        { type: 'Amount', value: 610000, currency: 'NGN', size: 'sm', showCurrency: false },
+                      ],
+                    },
                   ],
                 },
               ],
@@ -718,51 +766,63 @@ const widgetExamples: Record<string, WidgetExample> = {
     category: 'financial',
     spec: {
       type: 'Frame',
-      hasHeader: true,
-      title: 'Transaction Analytics',
       children: [
         {
-          type: 'Col',
-          gap: 'md',
+          type: 'FrameHeader',
           children: [
             {
-              type: 'Row',
-              align: 'center',
-              gap: 'sm',
-              children: [
-                { type: 'Text', value: 'Top Categories', size: 'lg', weight: 'semibold' },
-              ],
+              type: 'FrameTitle',
+              value: 'Transaction Analytics',
             },
-            { type: 'Divider', spacing: 'md' },
+          ],
+        },
+        {
+          type: 'FrameContent',
+          children: [
             {
-              type: 'KeyValueList',
+              type: 'Col',
               gap: 'md',
-              dividers: true,
-              items: [
-                {
-                  type: 'KeyValueRow',
-                  label: 'Family Transfers',
-                  value: { type: 'Amount', value: 42500, currency: 'NGN', size: 'sm', weight: 'medium' },
-                },
-                {
-                  type: 'KeyValueRow',
-                  label: 'Food',
-                  value: { type: 'Amount', value: 18000, currency: 'NGN', size: 'sm', weight: 'medium' },
-                },
-                {
-                  type: 'KeyValueRow',
-                  label: 'Transport',
-                  value: { type: 'Amount', value: 9000, currency: 'NGN', size: 'sm', weight: 'medium' },
-                },
-              ],
-            },
-            { type: 'Divider', spacing: 'md' },
-            {
-              type: 'Row',
-              align: 'between',
               children: [
-                { type: 'Text', value: 'Total', size: 'sm', weight: 'semibold' },
-                { type: 'Amount', value: 69500, currency: 'NGN', size: 'md', weight: 'bold', color: 'default' },
+                {
+                  type: 'Row',
+                  align: 'center',
+                  gap: 'sm',
+                  children: [
+                    { type: 'Text', value: 'Top Categories', size: 'lg', weight: 'semibold' },
+                  ],
+                },
+                { type: 'Divider', spacing: 'md' },
+                {
+                  type: 'KeyValueList',
+                  gap: 'md',
+                  dividers: true,
+                  items: [
+                    {
+                      type: 'KeyValueRow',
+                      label: 'Family Transfers',
+                      value: { type: 'Amount', value: 42500, currency: 'NGN', size: 'sm', weight: 'medium' },
+                    },
+                    {
+                      type: 'KeyValueRow',
+                      label: 'Food',
+                      value: { type: 'Amount', value: 18000, currency: 'NGN', size: 'sm', weight: 'medium' },
+                    },
+                    {
+                      type: 'KeyValueRow',
+                      label: 'Transport',
+                      value: { type: 'Amount', value: 9000, currency: 'NGN', size: 'sm', weight: 'medium' },
+                    },
+                  ],
+                },
+                { type: 'Divider', spacing: 'md' },
+                {
+                  type: 'Row',
+                  align: 'between',
+                  children: [
+                    { type: 'Text', value: 'Total', size: 'sm', weight: 'semibold' },
+                    { type: 'Amount', value: 69500, currency: 'NGN', size: 'md', weight: 'bold', color: 'default' },
+                  ],
+                },
               ],
             },
           ],
@@ -776,41 +836,53 @@ const widgetExamples: Record<string, WidgetExample> = {
     category: 'financial',
     spec: {
       type: 'Frame',
-      hasHeader: true,
-      title: 'Transfer Limit',
       children: [
         {
-          type: 'Col',
-          gap: 'md',
+          type: 'FrameHeader',
           children: [
             {
-              type: 'Row',
-              align: 'between',
-              children: [
-                { type: 'Text', value: 'Daily Limit', size: 'md', weight: 'medium' },
-                { type: 'Text', value: 'Active', color: 'success', weight: 'medium', size: 'sm' },
-              ],
+              type: 'FrameTitle',
+              value: 'Transfer Limit',
             },
+          ],
+        },
+        {
+          type: 'FrameContent',
+          children: [
             {
-              type: 'KeyValueList',
+              type: 'Col',
               gap: 'md',
-              dividers: true,
-              items: [
+              children: [
                 {
-                  type: 'KeyValueRow',
-                  label: 'Limit Amount',
-                  value: { type: 'Amount', value: 500000, currency: 'NGN', size: 'md', weight: 'semibold' },
-                  emphasis: true,
+                  type: 'Row',
+                  align: 'between',
+                  children: [
+                    { type: 'Text', value: 'Daily Limit', size: 'md', weight: 'medium' },
+                    { type: 'Text', value: 'Active', color: 'success', weight: 'medium', size: 'sm' },
+                  ],
                 },
                 {
-                  type: 'KeyValueRow',
-                  label: 'Current Usage',
-                  value: { type: 'Amount', value: 150000, currency: 'NGN', size: 'sm' },
-                },
-                {
-                  type: 'KeyValueRow',
-                  label: 'Remaining',
-                  value: { type: 'Amount', value: 350000, currency: 'NGN', size: 'sm', color: 'success' },
+                  type: 'KeyValueList',
+                  gap: 'md',
+                  dividers: true,
+                  items: [
+                    {
+                      type: 'KeyValueRow',
+                      label: 'Limit Amount',
+                      value: { type: 'Amount', value: 500000, currency: 'NGN', size: 'md', weight: 'semibold' },
+                      emphasis: true,
+                    },
+                    {
+                      type: 'KeyValueRow',
+                      label: 'Current Usage',
+                      value: { type: 'Amount', value: 150000, currency: 'NGN', size: 'sm' },
+                    },
+                    {
+                      type: 'KeyValueRow',
+                      label: 'Remaining',
+                      value: { type: 'Amount', value: 350000, currency: 'NGN', size: 'sm', color: 'success' },
+                    },
+                  ],
                 },
               ],
             },
@@ -825,71 +897,82 @@ const widgetExamples: Record<string, WidgetExample> = {
     category: 'financial',
     spec: {
       type: 'Frame',
-      hasHeader: true,
-      title: 'Transaction Details',
       children: [
         {
-          type: 'Row',
-          align: 'between',
-          gap: 'md',
+          type: 'FrameHeader',
+          children: [
+            {
+              type: 'FrameTitle',
+              value: 'Transaction Details',
+            },
+          ],
+        },
+        {
+          type: 'FrameContent',
           children: [
             {
               type: 'Row',
-              align: 'start',
+              align: 'between',
               gap: 'md',
               children: [
-                { type: 'Avatar', fallback: 'JD', size: 'md' },
                 {
-                  type: 'Col',
-                  gap: 'none',
+                  type: 'Row',
+                  align: 'start',
+                  gap: 'md',
                   children: [
-                    { type: 'Text', value: 'John Doe', weight: 'semibold', size: 'md' },
-                    { type: 'Text', value: 'john@example.com', color: 'muted', size: 'sm' },
+                    { type: 'Avatar', fallback: 'JD', size: 'md' },
+                    {
+                      type: 'Col',
+                      gap: 'none',
+                      children: [
+                        { type: 'Text', value: 'John Doe', weight: 'semibold', size: 'md' },
+                        { type: 'Text', value: 'john@example.com', color: 'muted', size: 'sm' },
+                      ],
+                    },
                   ],
+                },
+                { type: 'Text', value: 'Success', color: 'success', weight: 'medium', size: 'sm' },
+              ],
+            },
+            { type: 'Divider', spacing: 'md' },
+            {
+              type: 'KeyValueList',
+              gap: 'sm',
+              items: [
+                {
+                  type: 'KeyValueRow',
+                  label: 'Reference',
+                  value: { type: 'Text', value: 'TRX-12345678', size: 'sm', color: 'secondary' },
+                },
+                {
+                  type: 'KeyValueRow',
+                  label: 'Date',
+                  value: { type: 'Time', value: new Date().toISOString(), format: 'absolute' },
+                },
+                {
+                  type: 'KeyValueRow',
+                  label: 'Amount',
+                  value: {
+                    type: 'Amount',
+                    value: 50000,
+                    currency: 'NGN',
+                    showCurrency: true,
+                    color: 'success',
+                    weight: 'semibold',
+                  },
+                  emphasis: true,
                 },
               ],
             },
-            { type: 'Text', value: 'Success', color: 'success', weight: 'medium', size: 'sm' },
-          ],
-        },
-        { type: 'Divider', spacing: 'md' },
-        {
-          type: 'KeyValueList',
-          gap: 'sm',
-          items: [
+            { type: 'Divider', spacing: 'md' },
             {
-              type: 'KeyValueRow',
-              label: 'Reference',
-              value: { type: 'Text', value: 'TRX-12345678', size: 'sm', color: 'secondary' },
+              type: 'ButtonGroup',
+              gap: 'sm',
+              buttons: [
+                { type: 'Button', label: 'View Receipt', variant: 'solid', fullWidth: true },
+                { type: 'Button', label: 'Refund', variant: 'outline', fullWidth: true },
+              ],
             },
-            {
-              type: 'KeyValueRow',
-              label: 'Date',
-              value: { type: 'Time', value: new Date().toISOString(), format: 'absolute' },
-            },
-            {
-              type: 'KeyValueRow',
-              label: 'Amount',
-              value: {
-                type: 'Amount',
-                value: 50000,
-                currency: 'NGN',
-                showCurrency: true,
-                color: 'success',
-                weight: 'semibold',
-              },
-              emphasis: true,
-            },
-          ],
-        },
-        { type: 'Divider', spacing: 'md' },
-        {
-          type: 'ButtonGroup',
-          orientation: 'horizontal',
-          gap: 'sm',
-          buttons: [
-            { type: 'Button', label: 'View Receipt', variant: 'default', fullWidth: true },
-            { type: 'Button', label: 'Refund', variant: 'outline', fullWidth: true },
           ],
         },
       ],
