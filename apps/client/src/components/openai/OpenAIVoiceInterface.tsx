@@ -11,7 +11,8 @@ import {
   SidebarProvider,
 } from "@/components/ui/sidebar";
 import VoiceOrb from "../VoiceOrb";
-import { Frame } from "../widgets/primitives";
+import { Frame, FrameTitle } from "../widgets/primitives";
+import { WidgetDisclosure } from "../widgets/WidgetDisclosure";
 import type { KeyValueListProps, KeyValueRowProps, FrameProps, WidgetNode, WidgetRendererProps } from "../widgets/types";
 
 // Helper to create KeyValueList widget spec
@@ -32,78 +33,6 @@ const createKeyValueListSpec = (
         color: 'emphasis',
       },
     })),
-  };
-};
-
-// Helper to create composable Frame widget spec
-const createComposableFrameSpec = (
-  title: string,
-  fields: Array<{ label: string; value: string | number }>,
-  options: {
-    className?: string;
-    onClose?: () => void;
-    onExpand?: () => void;
-    isExpanded?: boolean;
-  } = {}
-): FrameProps => {
-  const { className = '', onClose, onExpand, isExpanded = false } = options;
-
-  const children: WidgetNode[] = [];
-
-  // Add header if title or actions are provided
-  if (title || onClose || onExpand) {
-    const headerChildren: WidgetNode[] = [];
-
-    // Add title
-    if (title) {
-      headerChildren.push({
-        type: 'FrameTitle',
-        value: title,
-      });
-    }
-
-    // Add actions (expand and close buttons)
-    if (onExpand || onClose) {
-      const actions: WidgetNode[] = [];
-
-      if (onExpand) {
-        actions.push({
-          type: 'FrameExpand',
-          onExpand,
-          isExpanded,
-        });
-      }
-
-      if (onClose) {
-        actions.push({
-          type: 'FrameClose',
-          onClose,
-        });
-      }
-
-      headerChildren.push({
-        type: 'FrameActions',
-        children: actions,
-      });
-    }
-
-    children.push({
-      type: 'FrameHeader',
-      children: headerChildren,
-    });
-  }
-
-  // Add content
-  children.push({
-    type: 'FrameContent',
-    isExpanded,
-    children: [createKeyValueListSpec(fields)],
-  });
-
-  return {
-    type: 'Frame',
-    className,
-    children,
   };
 };
 
@@ -143,18 +72,23 @@ const FrameWidget: React.FC<FrameWidgetProps> = ({
   isExpanded,
   children,
 }) => {
-  // Frame handles close/expand internally if callbacks not provided
+  // Build Frame widget spec with FrameTitle if title provided
+  const frameChildren: WidgetNode[] = [];
+
+  if (title) {
+    frameChildren.push({
+      type: 'FrameTitle',
+      value: title,
+    });
+  }
+ 
   return (
-    <Frame
-      type="Frame"
-      className={className}
-      title={title}
-      onClose={onClose}
-      onExpand={onExpand}
-      isExpanded={isExpanded}
-    >
-      {children as WidgetNode[]}
-    </Frame>
+    <WidgetDisclosure onClose={onClose} onExpand={onExpand} isExpanded={isExpanded}>
+      <Frame className={className} type="Frame">
+        {frameChildren.length === 0 ? null : frameChildren}
+        {children as React.ReactNode}
+      </Frame>
+    </WidgetDisclosure>
   );
 };
 
@@ -343,6 +277,78 @@ const AccountSnapshotModal: React.FC<AccountSnapshotModalProps> = ({
     { label: 'Invoices Paid', value: `${invoicesPaid} of ${invoicesSent}` },
     { label: 'Invoice Value Paid', value: formatCurrency(invoiceValuePaid) },
   ];
+
+  // Helper to create composable Frame widget spec for this component
+  const createComposableFrameSpec = (
+    title: string,
+    fields: Array<{ label: string; value: string | number }>,
+    options: {
+      className?: string;
+      onClose?: () => void;
+      onExpand?: () => void;
+      isExpanded?: boolean;
+    } = {}
+  ): FrameProps => {
+    const { className = '', onClose, onExpand, isExpanded = false } = options;
+
+    const children: WidgetNode[] = [];
+
+    // Add header if title or actions are provided
+    if (title || onClose || onExpand) {
+      const headerChildren: WidgetNode[] = [];
+
+      // Add title
+      if (title) {
+        headerChildren.push({
+          type: 'FrameTitle',
+          value: title,
+        });
+      }
+
+      // Add actions (expand and close buttons)
+      if (onExpand || onClose) {
+        const actions: WidgetNode[] = [];
+
+        if (onExpand) {
+          actions.push({
+            type: 'FrameExpand',
+            onExpand,
+            isExpanded,
+          });
+        }
+
+        if (onClose) {
+          actions.push({
+            type: 'FrameClose',
+            onClose,
+          });
+        }
+
+        headerChildren.push({
+          type: 'FrameActions',
+          children: actions,
+        });
+      }
+
+      children.push({
+        type: 'FrameHeader',
+        children: headerChildren,
+      });
+    }
+
+    // Add content
+    children.push({
+      type: 'FrameContent',
+      isExpanded,
+      children: [createKeyValueListSpec(fields)],
+    });
+
+    return {
+      type: 'Frame',
+      className,
+      children,
+    };
+  };
 
   // Use composable Frame with pure widget mode
   const frameSpec = createComposableFrameSpec('Account Overview', fields, {
