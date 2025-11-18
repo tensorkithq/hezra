@@ -2,16 +2,16 @@
  * KeyValueList Pattern Component
  *
  * List of key-value rows with optional dividers.
+ * Matches the OpenAIVoiceInterface modal pattern with proper styling.
  */
 
 import { cn } from '@/lib/utils';
-import { Separator } from '@/components/ui/separator';
 import type { KeyValueListProps, RendererProps } from '../types';
 
 export function KeyValueList({
   items,
   gap = 'md',
-  dividers = false,
+  dividers = true,
   visible = true,
   id,
   testId,
@@ -35,14 +35,20 @@ export function KeyValueList({
       className={cn('widget-keyvalue-list flex flex-col', gapClasses[gap])}
       {...aria}
     >
-      {items.map((item, i) => (
-        <div key={item.key || i}>
-          {__render(item, `${__path}.items[${i}]`)}
-          {dividers && i < items.length - 1 && (
-            <Separator className="my-2" />
-          )}
-        </div>
-      ))}
+      {items.map((item, i) => {
+        const isLast = i === items.length - 1;
+        return (
+          <div
+            key={item.key || i}
+            className={cn(
+              'flex gap-2 items-center justify-center w-full text-base leading-6 text-white shrink-0',
+              dividers && !isLast && 'border-b border-white/16 pb-4'
+            )}
+          >
+            {__render(item, `${__path}.items[${i}]`)}
+          </div>
+        );
+      })}
     </div>
   );
 }

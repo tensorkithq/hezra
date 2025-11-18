@@ -2,6 +2,7 @@
  * KeyValueRow Pattern Component
  *
  * Single label-value pair display.
+ * Matches the OpenAIVoiceInterface modal pattern with proper styling.
  */
 
 import { cn } from '@/lib/utils';
@@ -21,16 +22,13 @@ export function KeyValueRow({
   if (!visible) return null;
 
   return (
-    <div
-      id={id}
-      data-testid={testId}
-      className={cn('widget-keyvalue-row flex justify-between items-center')}
-      {...aria}
-    >
-      <span className="text-sm text-widget-fg-secondary">{label}</span>
-      <div className={cn(emphasis && 'font-semibold')}>
+    <>
+      <p className="flex-1 font-momo font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">
+        {label}
+      </p>
+      <p className={cn('font-momo shrink-0', emphasis ? 'font-bold' : 'font-bold')}>
         {__render(value, `${__path}.value`)}
-      </div>
-    </div>
+      </p>
+    </>
   );
 }
