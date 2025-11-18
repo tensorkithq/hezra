@@ -6,7 +6,7 @@ This document summarizes the implementation of search and tool integration featu
 
 ## What Was Implemented
 
-### 1. Search Endpoints (3 new endpoints)
+### 1. Search Endpoints (2 endpoints)
 
 #### `/api/v1/recipients/search` (GET)
 - **Purpose**: Search for transfer recipients by name, account number, or bank name
@@ -16,12 +16,7 @@ This document summarizes the implementation of search and tool integration featu
   - Results sorted by relevance
   - Pagination support (limit, offset)
 - **Implementation**: `apps/server/internal/handlers/recipients.go:265-375`
-
-#### `/api/v1/customers/search` (GET)
-- **Purpose**: Search for customers by name, email, or phone
-- **Status**: Placeholder implementation (requires customer caching)
-- **Note**: Full implementation requires local customer caching similar to recipients
-- **Implementation**: `apps/server/internal/handlers/customers.go:115-143`
+- **Status**: ✅ Fully implemented and tested
 
 #### `/api/v1/service_providers` (Enhanced)
 - **Purpose**: Enhanced with match scoring for better search relevance
@@ -71,7 +66,6 @@ Developer reference with:
 
 #### New Functions
 - `RecipientHandler.Search()` - Full-featured recipient search
-- `CustomerHandler.Search()` - Placeholder for customer search
 - `sortProvidersByMatchScore()` - Service provider relevance sorting
 - `WriteJSONSuccessWithMessage()` - Helper for custom success messages
 
@@ -80,7 +74,6 @@ Developer reference with:
 
 #### New Types
 - `RecipientSearchResult` - Search result with match score
-- `CustomerSearchResult` - Customer search result type
 
 ## File Changes Summary
 
@@ -90,15 +83,14 @@ apps/server/
 │   ├── TOOL_INTEGRATION_PLAN.md         [NEW] 28.5K words
 │   ├── TOOL_SCHEMAS.json                 [NEW] Complete tool definitions
 │   ├── SEARCH_API_REFERENCE.md           [NEW] 14K words
-│   └── INDEX.md                          [UPDATE] Add new docs
+│   └── TOOL_INTEGRATION_SUMMARY.md       [NEW] Implementation summary
 ├── internal/
 │   ├── handlers/
 │   │   ├── recipients.go                 [MODIFIED] +118 lines (Search function)
-│   │   ├── customers.go                  [MODIFIED] +29 lines (Search placeholder)
 │   │   ├── service_providers.go          [MODIFIED] +50 lines (Match scoring)
 │   │   └── helpers.go                    [MODIFIED] +13 lines (Success helper)
 │   └── server/
-│       └── server.go                     [MODIFIED] +2 lines (New routes)
+│       └── server.go                     [MODIFIED] +1 line (New route)
 ```
 
 ## Key Features

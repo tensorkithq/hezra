@@ -70,7 +70,6 @@ func New(cfg *config.Config) *Server {
 		// Customer routes
 		r.Post("/customers/create", customerHandler.Create)
 		r.Post("/customers/list", customerHandler.List)
-		r.Get("/customers/search", customerHandler.Search)
 
 		// Transaction routes
 		r.Post("/transactions/initialize", transactionHandler.Initialize)

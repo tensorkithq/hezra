@@ -35,11 +35,12 @@ These tools help resolve user references to entities without side effects.
 | Tool Name | Purpose | Example Query |
 |-----------|---------|---------------|
 | `search_recipients` | Find transfer recipients by name | "andrew", "john doe" |
-| `search_customers` | Find customers by name/email/phone | "john", "john@example.com" |
 | `search_service_providers` | Find service providers | "barber", "tech support" |
 | `search_expenses` | Find past expenses | "last month utilities" |
 | `search_budgets` | Find budget limits | "monthly budget" |
 | `search_goals` | Find financial goals | "vacation fund" |
+
+**Note**: Customer search is not yet implemented. To find customers, use `/customers/list` and filter client-side, or implement customer caching similar to recipients.
 
 ### Category 2: Information Retrieval Tools (READ)
 These tools retrieve specific information about accounts, balances, and statuses.
@@ -102,9 +103,9 @@ Desired state:
 - ✅ User confirms: "Yes"
 - ✅ Agent executes: `send_money(recipient_code="RCP_xyz", amount=10000)`
 
-### Search Endpoints to Implement
+### Search Endpoints Implemented
 
-#### 1. `/recipients/search` (GET)
+#### 1. `/recipients/search` (GET) ✅
 **Query Parameters:**
 - `q`: Search query (name, account number, bank name)
 - `limit`: Max results (default 10)
@@ -155,41 +156,7 @@ Desired state:
 - Return results sorted by relevance (exact > partial)
 - Include match score for disambiguation
 
-#### 2. `/customers/search` (GET)
-**Query Parameters:**
-- `q`: Search query (name, email, phone)
-- `limit`: Max results (default 10)
-
-**Response:**
-```json
-{
-  "status": true,
-  "message": "Found 1 customer matching 'john'",
-  "data": {
-    "results": [
-      {
-        "customer_code": "CUS_abc123",
-        "email": "john.doe@example.com",
-        "first_name": "John",
-        "last_name": "Doe",
-        "phone": "+2348123456789",
-        "created_at": "2025-01-01T00:00:00Z",
-        "match_score": 1.0
-      }
-    ],
-    "total": 1,
-    "query": "john"
-  }
-}
-```
-
-**Search Algorithm:**
-- Exact match on `email`
-- Case-insensitive partial match on `first_name`, `last_name`
-- Partial match on `phone`
-- Combine name fields for full name search
-
-#### 3. `/service_providers/search` (GET)
+#### 2. `/service_providers` (Enhanced) ✅
 **Enhances existing `/service_providers` endpoint**
 
 **Query Parameters:**
@@ -377,13 +344,12 @@ Agent: [Re-executes search with more context or picks from list]
 
 ## Complete Tool Catalog
 
-### Search & Query Tools (18 total)
+### Search & Query Tools (17 total)
 
 | Tool Name | Endpoint | Parameters | Use Case |
 |-----------|----------|------------|----------|
 | `search_recipients` | GET `/recipients/search` | q, limit | Find recipient by name |
-| `search_customers` | GET `/customers/search` | q, limit | Find customer by name/email |
-| `search_service_providers` | GET `/service_providers` | q, category | Find service provider |
+| `search_service_providers` | GET `/service_providers` | search, category | Find service provider |
 | `search_expenses` | POST `/expenses/list` | category, status, dates | Find past expenses |
 | `search_budgets` | POST `/budgets/list` | limit_type, status | Find budgets |
 | `search_goals` | POST `/goals/list` | status, category | Find goals |
@@ -423,10 +389,10 @@ Agent: [Re-executes search with more context or picks from list]
 
 ### Phase 1: Core Search (Week 1)
 1. ✅ Implement `/recipients/search` endpoint
-2. ✅ Implement `/customers/search` endpoint
-3. ✅ Enhance `/service_providers` with search
-4. ✅ Test fuzzy matching algorithms
-5. ✅ Add match scoring
+2. ✅ Enhance `/service_providers` with search
+3. ✅ Test fuzzy matching algorithms
+4. ✅ Add match scoring
+5. ⏳ Customer search (requires caching implementation)
 
 ### Phase 2: Tool Schemas (Week 1)
 1. ✅ Define all 31 tool schemas (OpenAI format)

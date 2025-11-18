@@ -4,10 +4,11 @@ This document provides quick reference and examples for the new search endpoints
 
 ## Overview
 
-Three new search endpoints enable natural language lookups:
+Two search endpoints enable natural language lookups:
 1. **Recipients Search** - Find transfer recipients by name, account, or bank
-2. **Customer Search** - Find customers by name, email, or phone
-3. **Service Provider Search** - Enhanced with match scoring
+2. **Service Provider Search** - Enhanced with match scoring
+
+**Note**: Customer search is not yet implemented. Use `/customers/list` and filter client-side, or implement customer caching similar to recipients.
 
 All search endpoints return results sorted by relevance (match score) for better voice agent interactions.
 
@@ -102,88 +103,7 @@ else:
 
 ---
 
-## 2. Customer Search
-
-### Endpoint
-```
-GET /api/v1/customers/search?q={query}&limit={limit}
-```
-
-### Parameters
-- `q` (required): Search query - name, email, or phone
-- `limit` (optional): Max results (default: 10)
-
-### Match Scoring
-- **1.0**: Exact email match
-- **0.95**: Exact first/last name or full name match
-- **0.9**: Exact phone match
-- **0.8**: Partial email match
-- **0.75**: Partial full name match
-- **0.7**: Partial first/last name match
-- **0.65**: Partial phone match
-
-### Example Request
-```bash
-curl -X GET "http://localhost:4000/api/v1/customers/search?q=john"
-```
-
-### Example Response
-```json
-{
-  "status": true,
-  "message": "Found 3 customers matching 'john'",
-  "data": {
-    "results": [
-      {
-        "customer_code": "CUS_abc123",
-        "email": "john.doe@example.com",
-        "first_name": "John",
-        "last_name": "Doe",
-        "phone": "+2348123456789",
-        "created_at": "2025-01-01T00:00:00Z",
-        "match_score": 0.95
-      },
-      {
-        "customer_code": "CUS_xyz456",
-        "email": "johnny.smith@example.com",
-        "first_name": "Johnny",
-        "last_name": "Smith",
-        "phone": "+2348987654321",
-        "created_at": "2024-12-15T10:30:00Z",
-        "match_score": 0.7
-      }
-    ],
-    "total": 2,
-    "query": "john",
-    "limit": 10
-  }
-}
-```
-
-### Usage in Voice Agent
-
-**Scenario**: User says "Create invoice for John for 50000"
-
-```python
-# Step 1: Search for customer
-response = search_customers(q="john")
-
-if response.total == 0:
-    agent.say("I don't have a customer named John. Want to add them?")
-
-elif response.total == 1:
-    customer = response.results[0]
-    agent.say(f"Create ₦500 invoice for {customer.first_name} {customer.last_name} ({customer.email})?")
-
-else:
-    agent.say(f"I found {response.total} customers matching 'john'. Which one?")
-    for i, c in enumerate(response.results):
-        agent.say(f"{i+1}. {c.first_name} {c.last_name} - {c.email}")
-```
-
----
-
-## 3. Service Provider Search (Enhanced)
+## 2. Service Provider Search (Enhanced)
 
 ### Endpoint
 ```
@@ -432,26 +352,7 @@ curl -X POST http://localhost:4000/api/v1/recipients/create \
 curl -X GET "http://localhost:4000/api/v1/recipients/search?q=andrew"
 ```
 
-### Test 2: Customer Search by Email
-```bash
-# Create a test customer first
-curl -X POST http://localhost:4000/api/v1/customers/create \
-  -H "Content-Type: application/json" \
-  -d '{
-    "email": "john.doe@example.com",
-    "first_name": "John",
-    "last_name": "Doe",
-    "phone": "+2348123456789"
-  }'
-
-# Search by first name
-curl -X GET "http://localhost:4000/api/v1/customers/search?q=john"
-
-# Search by email
-curl -X GET "http://localhost:4000/api/v1/customers/search?q=john.doe@example.com"
-```
-
-### Test 3: Service Provider Search
+### Test 2: Service Provider Search
 ```bash
 # Search for camera-related services
 curl -X GET "http://localhost:4000/api/v1/service_providers?search=camera"
@@ -548,13 +449,13 @@ f"(account ending in {recipient.account_number[-4:]})?"
 ## Performance Notes
 
 - **Recipients Search**: Queries local SQLite database - very fast (<10ms)
-- **Customer Search**: Fetches from Paystack API - slower (~100-500ms)
 - **Service Provider Search**: In-memory filtering - very fast (<5ms)
 
-For production with many customers, consider:
-1. Caching Paystack customer data locally
-2. Implementing full-text search indexes
-3. Adding Redis for frequently searched items
+For production scalability, consider:
+1. Implementing customer caching locally (similar to recipients)
+2. Adding full-text search indexes to SQLite
+3. Using Redis for frequently searched items
+4. Implementing phonetic/fuzzy matching algorithms
 
 ---
 
@@ -565,7 +466,12 @@ The search endpoints enable natural, voice-friendly interactions:
 ✅ **No more asking for account numbers** - "Send to Andrew" works
 ✅ **Smart disambiguation** - System asks which Andrew if multiple exist
 ✅ **Relevance ranking** - Best matches first
-✅ **Fast lookups** - Cached locally when possible
+✅ **Fast lookups** - Cached locally (recipients, service providers)
 ✅ **Progressive disclosure** - Only ask for details when needed
+
+**Current Status:**
+- ✅ Recipient search: Fully implemented with local caching
+- ✅ Service provider search: Enhanced with match scoring
+- ⏳ Customer search: Not yet implemented (requires caching layer)
 
 This makes the voice agent feel intelligent and reduces user friction significantly.
