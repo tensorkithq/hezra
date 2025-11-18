@@ -11,7 +11,177 @@ import {
   SidebarProvider,
 } from "@/components/ui/sidebar";
 import VoiceOrb from "../VoiceOrb";
-import { Frame } from "../widgets/primitives/Frame";
+import {
+  Frame,
+  FrameHeader,
+  FrameTitle,
+  FrameActions,
+  FrameClose,
+  FrameExpand,
+} from "../widgets/primitives";
+import type { KeyValueListProps, KeyValueRowProps, FrameProps, WidgetNode, WidgetRendererProps } from "../widgets/types";
+
+// Helper to create KeyValueList widget spec
+const createKeyValueListSpec = (
+  fields: Array<{ label: string; value: string | number }>
+): KeyValueListProps => {
+  return {
+    type: 'KeyValueList',
+    gap: 'md',
+    dividers: true,
+    items: fields.map((field): KeyValueRowProps => ({
+      type: 'KeyValueRow',
+      label: field.label,
+      value: {
+        type: 'Text',
+        value: String(field.value),
+        weight: 'bold',
+        color: 'emphasis',
+      },
+    })),
+  };
+};
+
+// Helper to create composable Frame widget spec
+const createComposableFrameSpec = (
+  title: string,
+  fields: Array<{ label: string; value: string | number }>,
+  options: {
+    className?: string;
+    onClose?: () => void;
+    onExpand?: () => void;
+    isExpanded?: boolean;
+  } = {}
+): FrameProps => {
+  const { className = '', onClose, onExpand, isExpanded = false } = options;
+
+  const children: WidgetNode[] = [];
+
+  // Add header if title or actions are provided
+  if (title || onClose || onExpand) {
+    const headerChildren: WidgetNode[] = [];
+
+    // Add title
+    if (title) {
+      headerChildren.push({
+        type: 'FrameTitle',
+        value: title,
+      });
+    }
+
+    // Add actions (expand and close buttons)
+    if (onExpand || onClose) {
+      const actions: WidgetNode[] = [];
+
+      if (onExpand) {
+        actions.push({
+          type: 'FrameExpand',
+          onExpand,
+          isExpanded,
+        });
+      }
+
+      if (onClose) {
+        actions.push({
+          type: 'FrameClose',
+          onClose,
+        });
+      }
+
+      headerChildren.push({
+        type: 'FrameActions',
+        children: actions,
+      });
+    }
+
+    children.push({
+      type: 'FrameHeader',
+      children: headerChildren,
+    });
+  }
+
+  // Add content
+  children.push({
+    type: 'FrameContent',
+    isExpanded,
+    children: [createKeyValueListSpec(fields)],
+  });
+
+  return {
+    type: 'Frame',
+    className,
+    children,
+  };
+};
+
+// Widget wrapper for KeyValueList using the widget system
+interface KeyValueListWidgetProps {
+  fields: Array<{ label: string; value: string | number }>;
+  isExpanded?: boolean;
+}
+
+const KeyValueListWidget: React.FC<KeyValueListWidgetProps> = ({ fields, isExpanded = false }) => {
+  const keyValueListSpec = createKeyValueListSpec(fields);
+
+  return (
+    <div className={`flex-1 min-h-0 min-w-full ${isExpanded ? 'overflow-y-auto' : 'overflow-hidden'}`}>
+      <WidgetRenderer spec={keyValueListSpec} />
+    </div>
+  );
+};
+
+// Widget wrapper for Frame - uses composable Frame architecture
+interface FrameWidgetProps {
+  title?: string;
+  className?: string;
+  hasHeader?: boolean;
+  onClose?: () => void;
+  onExpand?: () => void;
+  isExpanded?: boolean;
+  children: React.ReactNode;
+}
+
+const FrameWidget: React.FC<FrameWidgetProps> = ({
+  title,
+  className = '',
+  hasHeader = true,
+  onClose,
+  onExpand,
+  isExpanded = false,
+  children,
+}) => {
+  // Render using Frame with direct React components (preserves callbacks)
+  return (
+    <Frame type="Frame" className={className}>
+      {hasHeader && (title || onClose || onExpand) && (
+        <FrameHeader type="FrameHeader">
+          {title && <FrameTitle type="FrameTitle" value={title} />}
+          {(onExpand || onClose) && (
+            <FrameActions type="FrameActions">
+              {onExpand && (
+                <FrameExpand
+                  type="FrameExpand"
+                  onExpand={onExpand}
+                  isExpanded={isExpanded}
+                />
+              )}
+              {onClose && (
+                <FrameClose
+                  type="FrameClose"
+                  onClose={onClose}
+                />
+              )}
+            </FrameActions>
+          )}
+        </FrameHeader>
+      )}
+      {/* Render React children in FrameContent div */}
+      <div className={`flex-1 min-h-0 min-w-full ${isExpanded ? 'overflow-y-auto' : 'overflow-hidden'}`}>
+        {children}
+      </div>
+    </Frame>
+  );
+};
 
 // Sidebar Types
 export type SidebarVariant = 'save-beneficiary' | 'account-info' | 'receipt' | 'account-snapshot' | 'payment-summary' | 'invoice' | 'limit' | 'transaction-aggregate' | 'virtual-card';
@@ -74,41 +244,16 @@ const Sidebar: React.FC<SidebarProps> = ({
   };
 
   return (
-    <Frame
-      type="Frame"
-      className={className}
+    <FrameWidget
+      className={`${className} ${isExpanded ? 'overflow-y-auto' : 'overflow-hidden'}`}
       hasHeader={true}
       title={getTitleText()}
       onClose={onClose}
       onExpand={onExpand}
       isExpanded={isExpanded}
     >
-      {/* Form Fields */}
-      <div className={`flex flex-col gap-4 items-start w-full flex-1 min-h-0 ${isExpanded ? 'overflow-y-auto' : 'overflow-hidden'}`}>
-        {fields.map((field, index) => {
-          const isLast = index === fields.length - 1;
-          return (
-            <div
-              key={index}
-              className={`
-                flex gap-2 items-center justify-center w-full text-base leading-6 text-white shrink-0
-                ${!isLast ? 'border-b border-white/16 pb-4' : ''}
-              `}
-            >
-              <p className="flex-1 font-momo font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">
-                {field.label}
-              </p>
-              <p className="font-momo font-bold shrink-0">
-                {field.value}
-              </p>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Ring Border */}
-      <div className="absolute border border-black border-solid inset-[-8px] rounded-[40px] pointer-events-none" />
-    </Frame>
+      <KeyValueListWidget fields={fields} isExpanded={isExpanded} />
+    </FrameWidget>
   );
 };
 
@@ -136,8 +281,7 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
   onDownload,
 }) => {
   return (
-    <Frame
-      type="Frame"
+    <FrameWidget
       hasHeader={true}
       title="Receipt"
       onClose={onClose}
@@ -158,20 +302,14 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
 
       {/* Form Fields */}
       <div className="flex flex-col gap-4 items-start w-full shrink-0">
-        {[
-          { label: 'Amount', value: amount },
-          { label: 'Account number', value: accountNumber },
-          { label: 'Bank name', value: bankName },
-          { label: 'Name', value: recipientName },
-        ].map((field, index) => {
-          const isLast = index === 3;
-          return (
-            <div key={index} className={`flex gap-2 items-center justify-center w-full text-base leading-6 text-white shrink-0 ${!isLast ? 'border-b border-white/16 pb-4' : ''}`}>
-              <p className="flex-1 font-momo font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">{field.label}</p>
-              <p className="font-momo font-bold shrink-0">{field.value}</p>
-            </div>
-          );
-        })}
+        <KeyValueListWidget
+          fields={[
+            { label: 'Amount', value: amount },
+            { label: 'Account number', value: accountNumber },
+            { label: 'Bank name', value: bankName },
+            { label: 'Name', value: recipientName },
+          ]}
+        />
       </div>
 
       {/* Action Buttons */}
@@ -183,10 +321,7 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
           <p className="font-momo font-semibold text-base leading-6 text-black tracking-[0.64px] overflow-ellipsis overflow-hidden shrink-0">Download</p>
         </button>
       </div>
-
-      {/* Ring Border */}
-      <div className="absolute border border-black border-solid inset-[-8px] rounded-[40px] pointer-events-none" />
-    </Frame>
+    </FrameWidget>
   );
 };
 
@@ -227,37 +362,24 @@ const AccountSnapshotModal: React.FC<AccountSnapshotModalProps> = ({
     }).format(amount);
   };
 
-  return (
-    <Frame
-      type="Frame"
-      className={className}
-      hasHeader={true}
-      title="Account Overview"
-      onClose={onClose}
-      onExpand={onExpand}
-      isExpanded={isExpanded}
-    >
-      <div className={`flex flex-col gap-4 items-start w-full flex-1 min-h-0 ${isExpanded ? 'overflow-y-auto' : 'overflow-hidden'}`}>
-        {[
-          { label: 'Available Balance', value: formatCurrency(balance) },
-          { label: 'Transfers', value: `${transferCount} transactions` },
-          { label: 'Transfer Value', value: formatCurrency(transferValue) },
-          { label: 'Invoices Sent', value: `${invoicesSent}` },
-          { label: 'Invoices Paid', value: `${invoicesPaid} of ${invoicesSent}` },
-          { label: 'Invoice Value Paid', value: formatCurrency(invoiceValuePaid) },
-        ].map((field, index) => {
-          const isLast = index === 5;
-          return (
-            <div key={index} className={`flex gap-2 items-center justify-center w-full text-base leading-6 text-white shrink-0 ${!isLast ? 'border-b border-white/16 pb-4' : ''}`}>
-              <p className="flex-1 font-momo font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">{field.label}</p>
-              <p className="font-momo font-bold shrink-0">{field.value}</p>
-            </div>
-          );
-        })}
-      </div>
-      <div className="absolute border border-black border-solid inset-[-8px] rounded-[40px] pointer-events-none" />
-    </Frame>
-  );
+  const fields = [
+    { label: 'Available Balance', value: formatCurrency(balance) },
+    { label: 'Transfers', value: `${transferCount} transactions` },
+    { label: 'Transfer Value', value: formatCurrency(transferValue) },
+    { label: 'Invoices Sent', value: `${invoicesSent}` },
+    { label: 'Invoices Paid', value: `${invoicesPaid} of ${invoicesSent}` },
+    { label: 'Invoice Value Paid', value: formatCurrency(invoiceValuePaid) },
+  ];
+
+  // Use composable Frame with pure widget mode
+  const frameSpec = createComposableFrameSpec('Account Overview', fields, {
+    className: `${className} ${isExpanded ? 'overflow-y-auto' : 'overflow-hidden'}`,
+    onClose,
+    onExpand,
+    isExpanded,
+  });
+
+  return <WidgetRenderer spec={frameSpec} />;
 };
 
 // Payment Summary Modal Types
@@ -305,35 +427,25 @@ const PaymentSummaryModal: React.FC<PaymentSummaryModalProps> = ({
     });
   };
 
+  const fields = [
+    { label: 'Batch Reference', value: batchReference },
+    { label: 'Total Amount', value: formatCurrency(totalAmount) },
+    { label: 'Recipients', value: `${recipientCount} beneficiaries` },
+    { label: 'Status', value: status },
+    { label: 'Created', value: formatDate(timestamp) },
+  ];
+
   return (
-    <Frame
-      type="Frame"
-      className={className}
+    <FrameWidget
+      className={`${className} ${isExpanded ? 'overflow-y-auto' : 'overflow-hidden'}`}
       hasHeader={true}
       title="Payment Batch"
       onClose={onClose}
       onExpand={onExpand}
       isExpanded={isExpanded}
     >
-      <div className={`flex flex-col gap-4 items-start w-full flex-1 min-h-0 ${isExpanded ? 'overflow-y-auto' : 'overflow-hidden'}`}>
-        {[
-          { label: 'Batch Reference', value: batchReference },
-          { label: 'Total Amount', value: formatCurrency(totalAmount) },
-          { label: 'Recipients', value: `${recipientCount} beneficiaries` },
-          { label: 'Status', value: status },
-          { label: 'Created', value: formatDate(timestamp) },
-        ].map((field, index) => {
-          const isLast = index === 4;
-          return (
-            <div key={index} className={`flex gap-2 items-center justify-center w-full text-base leading-6 text-white shrink-0 ${!isLast ? 'border-b border-white/16 pb-4' : ''}`}>
-              <p className="flex-1 font-momo font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">{field.label}</p>
-              <p className="font-momo font-bold shrink-0">{field.value}</p>
-            </div>
-          );
-        })}
-      </div>
-      <div className="absolute border border-black border-solid inset-[-8px] rounded-[40px] pointer-events-none" />
-    </Frame>
+      <KeyValueListWidget fields={fields} isExpanded={isExpanded} />
+    </FrameWidget>
   );
 };
 
@@ -382,36 +494,26 @@ const InvoiceModal: React.FC<InvoiceModalProps> = ({
     });
   };
 
+  const fields = [
+    { label: 'Invoice Number', value: invoiceNumber },
+    { label: 'Customer', value: customerName },
+    { label: 'Email', value: customerEmail },
+    { label: 'Total Amount', value: formatCurrency(totalAmount) },
+    { label: 'Due Date', value: formatDate(dueDate) },
+    { label: 'Status', value: status },
+  ];
+
   return (
-    <Frame
-      type="Frame"
-      className={className}
+    <FrameWidget
+      className={`${className} ${isExpanded ? 'overflow-y-auto' : 'overflow-hidden'}`}
       hasHeader={true}
       title="Invoice"
       onClose={onClose}
       onExpand={onExpand}
       isExpanded={isExpanded}
     >
-      <div className={`flex flex-col gap-4 items-start w-full flex-1 min-h-0 ${isExpanded ? 'overflow-y-auto' : 'overflow-hidden'}`}>
-        {[
-          { label: 'Invoice Number', value: invoiceNumber },
-          { label: 'Customer', value: customerName },
-          { label: 'Email', value: customerEmail },
-          { label: 'Total Amount', value: formatCurrency(totalAmount) },
-          { label: 'Due Date', value: formatDate(dueDate) },
-          { label: 'Status', value: status },
-        ].map((field, index) => {
-          const isLast = index === 5;
-          return (
-            <div key={index} className={`flex gap-2 items-center justify-center w-full text-base leading-6 text-white shrink-0 ${!isLast ? 'border-b border-white/16 pb-4' : ''}`}>
-              <p className="flex-1 font-momo font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">{field.label}</p>
-              <p className="font-momo font-bold shrink-0">{field.value}</p>
-            </div>
-          );
-        })}
-      </div>
-      <div className="absolute border border-black border-solid inset-[-8px] rounded-[40px] pointer-events-none" />
-    </Frame>
+      <KeyValueListWidget fields={fields} isExpanded={isExpanded} />
+    </FrameWidget>
   );
 };
 
@@ -448,34 +550,24 @@ const LimitModal: React.FC<LimitModalProps> = ({
     }).format(amount);
   };
 
+  const fields = [
+    { label: 'Account Balance Limit', value: formatCurrency(accountLimit) },
+    { label: 'Daily Transfer Limit', value: formatCurrency(dailyLimit) },
+    { label: 'Monthly Transfer Limit', value: formatCurrency(monthlyLimit) },
+    { label: 'Per-Beneficiary Limit', value: formatCurrency(beneficiaryLimit) },
+  ];
+
   return (
-    <Frame
-      type="Frame"
-      className={className}
+    <FrameWidget
+      className={`${className} ${isExpanded ? 'overflow-y-auto' : 'overflow-hidden'}`}
       hasHeader={true}
       title="Account Limits"
       onClose={onClose}
       onExpand={onExpand}
       isExpanded={isExpanded}
     >
-      <div className={`flex flex-col gap-4 items-start w-full flex-1 min-h-0 ${isExpanded ? 'overflow-y-auto' : 'overflow-hidden'}`}>
-        {[
-          { label: 'Account Balance Limit', value: formatCurrency(accountLimit) },
-          { label: 'Daily Transfer Limit', value: formatCurrency(dailyLimit) },
-          { label: 'Monthly Transfer Limit', value: formatCurrency(monthlyLimit) },
-          { label: 'Per-Beneficiary Limit', value: formatCurrency(beneficiaryLimit) },
-        ].map((field, index) => {
-          const isLast = index === 3;
-          return (
-            <div key={index} className={`flex gap-2 items-center justify-center w-full text-base leading-6 text-white shrink-0 ${!isLast ? 'border-b border-white/16 pb-4' : ''}`}>
-              <p className="flex-1 font-momo font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">{field.label}</p>
-              <p className="font-momo font-bold shrink-0">{field.value}</p>
-            </div>
-          );
-        })}
-      </div>
-      <div className="absolute border border-black border-solid inset-[-8px] rounded-[40px] pointer-events-none" />
-    </Frame>
+      <KeyValueListWidget fields={fields} isExpanded={isExpanded} />
+    </FrameWidget>
   );
 };
 
@@ -512,34 +604,24 @@ const TransactionAggregateModal: React.FC<TransactionAggregateModalProps> = ({
     }).format(amount);
   };
 
+  const fields = [
+    { label: 'Period', value: period },
+    { label: 'Total Transfer Value', value: formatCurrency(totalTransferValue) },
+    { label: 'Total Transfers', value: `${totalTransferCount} transactions` },
+    { label: 'Top Category', value: topCategory },
+  ];
+
   return (
-    <Frame
-      type="Frame"
-      className={className}
+    <FrameWidget
+      className={`${className} ${isExpanded ? 'overflow-y-auto' : 'overflow-hidden'}`}
       hasHeader={true}
       title="Transaction Analytics"
       onClose={onClose}
       onExpand={onExpand}
       isExpanded={isExpanded}
     >
-      <div className={`flex flex-col gap-4 items-start w-full flex-1 min-h-0 ${isExpanded ? 'overflow-y-auto' : 'overflow-hidden'}`}>
-        {[
-          { label: 'Period', value: period },
-          { label: 'Total Transfer Value', value: formatCurrency(totalTransferValue) },
-          { label: 'Total Transfers', value: `${totalTransferCount} transactions` },
-          { label: 'Top Category', value: topCategory },
-        ].map((field, index) => {
-          const isLast = index === 3;
-          return (
-            <div key={index} className={`flex gap-2 items-center justify-center w-full text-base leading-6 text-white shrink-0 ${!isLast ? 'border-b border-white/16 pb-4' : ''}`}>
-              <p className="flex-1 font-momo font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">{field.label}</p>
-              <p className="font-momo font-bold shrink-0">{field.value}</p>
-            </div>
-          );
-        })}
-      </div>
-      <div className="absolute border border-black border-solid inset-[-8px] rounded-[40px] pointer-events-none" />
-    </Frame>
+      <KeyValueListWidget fields={fields} isExpanded={isExpanded} />
+    </FrameWidget>
   );
 };
 
@@ -586,35 +668,25 @@ const VirtualCardModal: React.FC<VirtualCardModalProps> = ({
     });
   };
 
+  const fields = [
+    { label: 'Card Label', value: cardLabel },
+    { label: 'Card Number', value: cardNumber },
+    { label: 'Spend Limit', value: formatCurrency(spendLimit) },
+    { label: 'Spend Period', value: spendPeriod },
+    { label: 'Expires', value: formatDate(expiresAt) },
+  ];
+
   return (
-    <Frame
-      type="Frame"
-      className={className}
+    <FrameWidget
+      className={`${className} ${isExpanded ? 'overflow-y-auto' : 'overflow-hidden'}`}
       hasHeader={true}
       title="Virtual Card"
       onClose={onClose}
       onExpand={onExpand}
       isExpanded={isExpanded}
     >
-      <div className={`flex flex-col gap-4 items-start w-full flex-1 min-h-0 ${isExpanded ? 'overflow-y-auto' : 'overflow-hidden'}`}>
-        {[
-          { label: 'Card Label', value: cardLabel },
-          { label: 'Card Number', value: cardNumber },
-          { label: 'Spend Limit', value: formatCurrency(spendLimit) },
-          { label: 'Spend Period', value: spendPeriod },
-          { label: 'Expires', value: formatDate(expiresAt) },
-        ].map((field, index) => {
-          const isLast = index === 4;
-          return (
-            <div key={index} className={`flex gap-2 items-center justify-center w-full text-base leading-6 text-white shrink-0 ${!isLast ? 'border-b border-white/16 pb-4' : ''}`}>
-              <p className="flex-1 font-momo font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">{field.label}</p>
-              <p className="font-momo font-bold shrink-0">{field.value}</p>
-            </div>
-          );
-        })}
-      </div>
-      <div className="absolute border border-black border-solid inset-[-8px] rounded-[40px] pointer-events-none" />
-    </Frame>
+      <KeyValueListWidget fields={fields} isExpanded={isExpanded} />
+    </FrameWidget>
   );
 };
 
@@ -644,26 +716,14 @@ const AccountInformationModal: React.FC<AccountInformationModalProps> = ({
   className = '',
 }) => {
   return (
-    <Frame
-      type="Frame"
+    <FrameWidget
       className={className}
       hasHeader={true}
       title={title}
       onClose={onClose}
     >
-      <div className="flex flex-col gap-4 items-start w-full shrink-0">
-        {fields.map((field, index) => {
-          const isLast = index === fields.length - 1;
-          return (
-            <div key={index} className={`flex gap-2 items-center justify-center w-full text-base leading-6 text-white shrink-0 ${!isLast ? 'border-b border-white/16 pb-4' : ''}`}>
-              <p className="flex-1 font-momo font-normal min-h-0 min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap">{field.label}</p>
-              <p className="font-momo font-bold shrink-0">{field.value}</p>
-            </div>
-          );
-        })}
-      </div>
-      <div className="absolute border border-black border-solid inset-[-8px] rounded-[40px] pointer-events-none" />
-    </Frame>
+      <KeyValueListWidget fields={fields} />
+    </FrameWidget>
   );
 };
 
