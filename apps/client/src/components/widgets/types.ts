@@ -54,17 +54,6 @@ export interface FrameActionsProps extends BaseWidgetProps {
   children?: WidgetNode[];
 }
 
-export interface FrameCloseProps extends BaseWidgetProps {
-  type: 'FrameClose';
-  onClose?: () => void;
-}
-
-export interface FrameExpandProps extends BaseWidgetProps {
-  type: 'FrameExpand';
-  onExpand?: () => void;
-  isExpanded?: boolean;
-}
-
 export interface FrameContentProps extends BaseWidgetProps {
   type: 'FrameContent';
   children?: WidgetNode[];
@@ -176,8 +165,6 @@ export type WidgetNode =
   | FrameHeaderProps
   | FrameTitleProps
   | FrameActionsProps
-  | FrameCloseProps
-  | FrameExpandProps
   | FrameContentProps
   | RowProps
   | ColProps

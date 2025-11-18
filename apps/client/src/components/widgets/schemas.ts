@@ -72,15 +72,6 @@ const FrameActionsSchema = BaseSchema.extend({
   children: z.array(z.lazy(() => WidgetNodeSchema)).optional(),
 });
 
-const FrameCloseSchema = BaseSchema.extend({
-  type: z.literal('FrameClose'),
-});
-
-const FrameExpandSchema = BaseSchema.extend({
-  type: z.literal('FrameExpand'),
-  isExpanded: z.boolean().default(false),
-});
-
 const FrameContentSchema = BaseSchema.extend({
   type: z.literal('FrameContent'),
   isExpanded: z.boolean().default(false),
@@ -212,8 +203,6 @@ const WidgetNodeSchema: z.ZodType<any> = z.discriminatedUnion('type', [
   FrameHeaderSchema,
   FrameTitleSchema,
   FrameActionsSchema,
-  FrameCloseSchema,
-  FrameExpandSchema,
   FrameContentSchema,
   RowSchema,
   ColSchema,
@@ -255,8 +244,6 @@ export {
   FrameHeaderSchema,
   FrameTitleSchema,
   FrameActionsSchema,
-  FrameCloseSchema,
-  FrameExpandSchema,
   FrameContentSchema,
   RowSchema,
   ColSchema,
