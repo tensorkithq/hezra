@@ -52,8 +52,38 @@ const ActionSchema: z.ZodType<any> = z.discriminatedUnion('type', [
 // Layout primitive schemas
 const FrameSchema = BaseSchema.extend({
   type: z.literal('Frame'),
-  size: z.enum(['sm', 'md', 'lg', 'full']).default('md'),
-  padding: z.enum(['none', 'sm', 'md', 'lg']).default('md'),
+  className: z.string().optional(),
+  children: z.array(z.lazy(() => WidgetNodeSchema)).optional(),
+});
+
+// Frame sub-component schemas
+const FrameHeaderSchema = BaseSchema.extend({
+  type: z.literal('FrameHeader'),
+  children: z.array(z.lazy(() => WidgetNodeSchema)).optional(),
+});
+
+const FrameTitleSchema = BaseSchema.extend({
+  type: z.literal('FrameTitle'),
+  value: z.string(),
+});
+
+const FrameActionsSchema = BaseSchema.extend({
+  type: z.literal('FrameActions'),
+  children: z.array(z.lazy(() => WidgetNodeSchema)).optional(),
+});
+
+const FrameCloseSchema = BaseSchema.extend({
+  type: z.literal('FrameClose'),
+});
+
+const FrameExpandSchema = BaseSchema.extend({
+  type: z.literal('FrameExpand'),
+  isExpanded: z.boolean().default(false),
+});
+
+const FrameContentSchema = BaseSchema.extend({
+  type: z.literal('FrameContent'),
+  isExpanded: z.boolean().default(false),
   children: z.array(z.lazy(() => WidgetNodeSchema)).optional(),
 });
 
@@ -145,9 +175,7 @@ const BadgeSchema = BaseSchema.extend({
 const ButtonSchema = BaseSchema.extend({
   type: z.literal('Button'),
   label: z.string(),
-  variant: z
-    .enum(['default', 'secondary', 'outline', 'ghost', 'destructive'])
-    .default('default'),
+  variant: z.enum(['outline', 'solid']).default('solid'),
   size: z.enum(['sm', 'md', 'lg']).default('md'),
   fullWidth: z.boolean().default(false),
   disabled: z.boolean().default(false),
@@ -174,13 +202,19 @@ const KeyValueListSchema = BaseSchema.extend({
 const ButtonGroupSchema = BaseSchema.extend({
   type: z.literal('ButtonGroup'),
   buttons: z.array(ButtonSchema),
-  orientation: z.enum(['horizontal', 'vertical']).default('horizontal'),
+  position: z.enum(['static', 'absolute']).default('static'),
   gap: z.enum(['sm', 'md', 'lg']).default('md'),
 });
 
 // Widget node discriminated union
 const WidgetNodeSchema: z.ZodType<any> = z.discriminatedUnion('type', [
   FrameSchema,
+  FrameHeaderSchema,
+  FrameTitleSchema,
+  FrameActionsSchema,
+  FrameCloseSchema,
+  FrameExpandSchema,
+  FrameContentSchema,
   RowSchema,
   ColSchema,
   SpacerSchema,
@@ -218,6 +252,12 @@ export {
   BaseSchema,
   ActionSchema,
   FrameSchema,
+  FrameHeaderSchema,
+  FrameTitleSchema,
+  FrameActionsSchema,
+  FrameCloseSchema,
+  FrameExpandSchema,
+  FrameContentSchema,
   RowSchema,
   ColSchema,
   SpacerSchema,

@@ -36,10 +36,38 @@ export interface FrameProps extends BaseWidgetProps {
   type: 'Frame';
   children?: WidgetNode[];
   className?: string;
-  hasHeader?: boolean;
-  title?: string;
+}
+
+// Frame sub-components for composable frame construction
+export interface FrameHeaderProps extends BaseWidgetProps {
+  type: 'FrameHeader';
+  children?: WidgetNode[];
+}
+
+export interface FrameTitleProps extends BaseWidgetProps {
+  type: 'FrameTitle';
+  value: string;
+}
+
+export interface FrameActionsProps extends BaseWidgetProps {
+  type: 'FrameActions';
+  children?: WidgetNode[];
+}
+
+export interface FrameCloseProps extends BaseWidgetProps {
+  type: 'FrameClose';
   onClose?: () => void;
+}
+
+export interface FrameExpandProps extends BaseWidgetProps {
+  type: 'FrameExpand';
   onExpand?: () => void;
+  isExpanded?: boolean;
+}
+
+export interface FrameContentProps extends BaseWidgetProps {
+  type: 'FrameContent';
+  children?: WidgetNode[];
   isExpanded?: boolean;
 }
 
@@ -111,7 +139,7 @@ export interface TimeProps extends BaseWidgetProps {
 export interface ButtonProps extends BaseWidgetProps {
   type: 'Button';
   label: string;
-  variant?: 'default' | 'secondary' | 'outline' | 'ghost' | 'destructive';
+  variant?: 'outline' | 'solid';
   size?: 'sm' | 'md' | 'lg';
   fullWidth?: boolean;
   disabled?: boolean;
@@ -138,13 +166,19 @@ export interface KeyValueListProps extends BaseWidgetProps {
 export interface ButtonGroupProps extends BaseWidgetProps {
   type: 'ButtonGroup';
   buttons: ButtonProps[];
-  orientation?: 'horizontal' | 'vertical';
+  position?: 'static' | 'absolute';
   gap?: 'sm' | 'md' | 'lg';
 }
 
 // Union type of all widget nodes
 export type WidgetNode =
   | FrameProps
+  | FrameHeaderProps
+  | FrameTitleProps
+  | FrameActionsProps
+  | FrameCloseProps
+  | FrameExpandProps
+  | FrameContentProps
   | RowProps
   | ColProps
   | SpacerProps

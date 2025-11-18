@@ -85,8 +85,80 @@
           "type": "object",
           "properties": {
             "type": { "const": "Frame" },
-            "size": { "enum": ["sm", "md", "lg", "full"], "default": "md" },
-            "padding": { "enum": ["none", "sm", "md", "lg"], "default": "md" },
+            "className": { "type": "string" },
+            "children": { "type": "array", "items": { "$ref": "#/definitions/widgetNode" } }
+          }
+        }
+      ]
+    },
+    "FrameHeader": {
+      "allOf": [
+        { "$ref": "#/definitions/base" },
+        {
+          "type": "object",
+          "properties": {
+            "type": { "const": "FrameHeader" },
+            "children": { "type": "array", "items": { "$ref": "#/definitions/widgetNode" } }
+          }
+        }
+      ]
+    },
+    "FrameTitle": {
+      "allOf": [
+        { "$ref": "#/definitions/base" },
+        {
+          "type": "object",
+          "properties": {
+            "type": { "const": "FrameTitle" },
+            "value": { "type": "string" }
+          },
+          "required": ["value"]
+        }
+      ]
+    },
+    "FrameActions": {
+      "allOf": [
+        { "$ref": "#/definitions/base" },
+        {
+          "type": "object",
+          "properties": {
+            "type": { "const": "FrameActions" },
+            "children": { "type": "array", "items": { "$ref": "#/definitions/widgetNode" } }
+          }
+        }
+      ]
+    },
+    "FrameClose": {
+      "allOf": [
+        { "$ref": "#/definitions/base" },
+        {
+          "type": "object",
+          "properties": {
+            "type": { "const": "FrameClose" }
+          }
+        }
+      ]
+    },
+    "FrameExpand": {
+      "allOf": [
+        { "$ref": "#/definitions/base" },
+        {
+          "type": "object",
+          "properties": {
+            "type": { "const": "FrameExpand" },
+            "isExpanded": { "type": "boolean", "default": false }
+          }
+        }
+      ]
+    },
+    "FrameContent": {
+      "allOf": [
+        { "$ref": "#/definitions/base" },
+        {
+          "type": "object",
+          "properties": {
+            "type": { "const": "FrameContent" },
+            "isExpanded": { "type": "boolean", "default": false },
             "children": { "type": "array", "items": { "$ref": "#/definitions/widgetNode" } }
           }
         }
@@ -252,7 +324,7 @@
           "properties": {
             "type": { "const": "Button" },
             "label": { "type": "string" },
-            "variant": { "enum": ["default", "secondary", "outline", "ghost", "destructive"], "default": "default" },
+            "variant": { "enum": ["outline", "solid"], "default": "solid" },
             "size": { "enum": ["sm", "md", "lg"], "default": "md" },
             "fullWidth": { "type": "boolean", "default": false },
             "disabled": { "type": "boolean", "default": false },
@@ -302,7 +374,7 @@
           "properties": {
             "type": { "const": "ButtonGroup" },
             "buttons": { "type": "array", "items": { "$ref": "#/definitions/Button" } },
-            "orientation": { "enum": ["horizontal", "vertical"], "default": "horizontal" },
+            "position": { "enum": ["static", "absolute"], "default": "static" },
             "gap": { "enum": ["sm", "md", "lg"], "default": "md" }
           },
           "required": ["buttons"]
@@ -312,6 +384,12 @@
     "widgetNode": {
       "oneOf": [
         { "$ref": "#/definitions/Frame" },
+        { "$ref": "#/definitions/FrameHeader" },
+        { "$ref": "#/definitions/FrameTitle" },
+        { "$ref": "#/definitions/FrameActions" },
+        { "$ref": "#/definitions/FrameClose" },
+        { "$ref": "#/definitions/FrameExpand" },
+        { "$ref": "#/definitions/FrameContent" },
         { "$ref": "#/definitions/Row" },
         { "$ref": "#/definitions/Col" },
         { "$ref": "#/definitions/Spacer" },
