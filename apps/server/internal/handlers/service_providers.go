@@ -55,6 +55,7 @@ type ServiceProvider struct {
 	Rating      float64   `json:"rating"`
 	Contact     string    `json:"contact"`
 	RecipientID string    `json:"recipient_id"` // Paystack recipient code
+	MatchScore  float64   `json:"match_score,omitempty"`  // For search results
 }
 
 // ListServiceProvidersRequest represents the request to list service providers
@@ -381,37 +382,55 @@ func (h *ServiceProviderHandler) List(w http.ResponseWriter, r *http.Request) {
 			continue
 		}
 
-		// Search filter (search in name, description, and services)
+		// Search filter with match scoring (search in name, description, and services)
 		if req.Search != "" {
 			searchLower := strings.ToLower(req.Search)
-			found := false
+			matchScore := 0.0
 
-			// Search in name
-			if strings.Contains(strings.ToLower(provider.Name), searchLower) {
-				found = true
-			}
-
-			// Search in description
-			if !found && strings.Contains(strings.ToLower(provider.Description), searchLower) {
-				found = true
-			}
-
-			// Search in services
-			if !found {
+			// Exact name match (highest priority)
+			if strings.ToLower(provider.Name) == searchLower {
+				matchScore = 1.0
+			} else if strings.Contains(strings.ToLower(provider.Name), searchLower) {
+				// Partial name match
+				matchScore = 0.9
+			} else {
+				// Search in services (high priority)
 				for _, service := range provider.Services {
-					if strings.Contains(strings.ToLower(service.Name), searchLower) {
-						found = true
+					if strings.ToLower(service.Name) == searchLower {
+						matchScore = 0.85
+						break
+					} else if strings.Contains(strings.ToLower(service.Name), searchLower) {
+						matchScore = 0.75
 						break
 					}
 				}
+
+				// Search in description (lower priority)
+				if matchScore == 0.0 && strings.Contains(strings.ToLower(provider.Description), searchLower) {
+					matchScore = 0.6
+				}
+
+				// Search in location (lowest priority)
+				if matchScore == 0.0 && strings.Contains(strings.ToLower(provider.Location), searchLower) {
+					matchScore = 0.5
+				}
 			}
 
-			if !found {
+			// Skip if no match
+			if matchScore == 0.0 {
 				continue
 			}
+
+			// Set match score on provider
+			provider.MatchScore = matchScore
 		}
 
 		filteredProviders = append(filteredProviders, provider)
+	}
+
+	// Sort by match score if search is active, otherwise by rating
+	if req.Search != "" {
+		sortProvidersByMatchScore(filteredProviders)
 	}
 
 	// Get total count before pagination
@@ -457,4 +476,16 @@ func (h *ServiceProviderHandler) List(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(response)
+}
+
+// sortProvidersByMatchScore sorts service providers by match score (descending)
+func sortProvidersByMatchScore(providers []ServiceProvider) {
+	// Simple bubble sort by match score (descending)
+	for i := 0; i < len(providers); i++ {
+		for j := i + 1; j < len(providers); j++ {
+			if providers[j].MatchScore > providers[i].MatchScore {
+				providers[i], providers[j] = providers[j], providers[i]
+			}
+		}
+	}
 }

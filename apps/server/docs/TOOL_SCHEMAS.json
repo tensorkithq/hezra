@@ -1,0 +1,542 @@
+{
+  "openai_format": {
+    "search_tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "search_recipients",
+          "description": "Search for transfer recipients by name, account number, or bank. Use this before initiating transfers to resolve recipient identity. Returns recipients with match scores sorted by relevance.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "q": {
+                "type": "string",
+                "description": "Search query - can be recipient name (e.g., 'andrew', 'john smith'), account number, or bank name"
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Maximum number of results to return (default: 10)",
+                "default": 10
+              },
+              "offset": {
+                "type": "integer",
+                "description": "Number of results to skip for pagination (default: 0)",
+                "default": 0
+              }
+            },
+            "required": ["q"]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "search_service_providers",
+          "description": "Search for service providers by name, service type, or category. Returns providers with pricing information and match scores.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "search": {
+                "type": "string",
+                "description": "Search query - provider name, service name, or description (e.g., 'camera', 'spa', 'tech support')"
+              },
+              "category": {
+                "type": "string",
+                "description": "Filter by category: 'technology', 'beauty', or 'pets'",
+                "enum": ["technology", "beauty", "pets"]
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Maximum number of results (default: 20)",
+                "default": 20
+              },
+              "offset": {
+                "type": "integer",
+                "description": "Pagination offset (default: 0)",
+                "default": 0
+              }
+            }
+          }
+        }
+      }
+    ],
+    "information_tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_balance",
+          "description": "Check the current account balance from Paystack. Returns available balance and currency information.",
+          "parameters": {
+            "type": "object",
+            "properties": {}
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "get_recipient_details",
+          "description": "Get full details of a specific recipient by recipient code. Use this after search_recipients to get complete information.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "recipient_code": {
+                "type": "string",
+                "description": "The Paystack recipient code (e.g., 'RCP_abc123')"
+              }
+            },
+            "required": ["recipient_code"]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "list_banks",
+          "description": "Get list of available Nigerian banks with their bank codes. Use this when creating recipients or resolving accounts.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "count": {
+                "type": "integer",
+                "description": "Number of banks to return (0 for all)",
+                "default": 0
+              },
+              "offset": {
+                "type": "integer",
+                "description": "Pagination offset",
+                "default": 0
+              }
+            }
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "resolve_bank_account",
+          "description": "Verify a bank account number and get the account holder's name. Always use this before creating a new recipient to ensure accuracy.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "account_number": {
+                "type": "string",
+                "description": "10-digit bank account number"
+              },
+              "bank_code": {
+                "type": "string",
+                "description": "3-digit bank code (get from list_banks)"
+              }
+            },
+            "required": ["account_number", "bank_code"]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "check_affordability",
+          "description": "Check if a customer can afford a specific amount based on their credit profile. Returns verdict (approved/review/denied), risk level, and maximum affordable amount.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "email": {
+                "type": "string",
+                "description": "Customer email address"
+              },
+              "amount": {
+                "type": "number",
+                "description": "Amount to check in kobo (NGN * 100)"
+              }
+            },
+            "required": ["email", "amount"]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "get_budget_summary",
+          "description": "Get active budget limits and spending summary. Shows how much has been spent and how much remains.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "limit_type": {
+                "type": "string",
+                "description": "Filter by budget period",
+                "enum": ["monthly", "quarterly", "yearly", "emergency_fund", "default"]
+              }
+            }
+          }
+        }
+      }
+    ],
+    "transaction_tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "send_money",
+          "description": "Initiate a money transfer to a recipient. CRITICAL: Always call search_recipients first to resolve the recipient_code. Always confirm with user before calling this function.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "recipient_code": {
+                "type": "string",
+                "description": "Paystack recipient code (e.g., 'RCP_abc123'). MUST obtain from search_recipients tool first."
+              },
+              "amount": {
+                "type": "number",
+                "description": "Amount to send in kobo (multiply NGN by 100). E.g., ₦100 = 10000 kobo"
+              },
+              "reason": {
+                "type": "string",
+                "description": "Transfer reason/narration for record keeping"
+              },
+              "source": {
+                "type": "string",
+                "description": "Transfer source",
+                "default": "balance",
+                "enum": ["balance"]
+              }
+            },
+            "required": ["recipient_code", "amount"]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "record_expense",
+          "description": "Record an expense transaction. Automatically validates against budget limits and updates spending totals. Requires user confirmation.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "recipient_code": {
+                "type": "string",
+                "description": "Recipient code from search_recipients"
+              },
+              "amount": {
+                "type": "number",
+                "description": "Expense amount in kobo"
+              },
+              "category": {
+                "type": "string",
+                "description": "Expense category (e.g., 'utilities', 'groceries', 'entertainment', 'technology')"
+              },
+              "narration": {
+                "type": "string",
+                "description": "Description of the expense"
+              },
+              "budget_limit_id": {
+                "type": "integer",
+                "description": "Budget ID to track against (optional)"
+              },
+              "goal_id": {
+                "type": "integer",
+                "description": "Financial goal ID if this expense contributes to a goal (optional)"
+              },
+              "notes": {
+                "type": "string",
+                "description": "Additional notes"
+              }
+            },
+            "required": ["recipient_code", "amount", "category", "narration"]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "create_payment_request",
+          "description": "Create an invoice/payment request for a customer. Generates a payment link that can be sent to the customer. Requires user confirmation.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "customer": {
+                "type": "string",
+                "description": "Customer email or customer code (use /customers/list to find)"
+              },
+              "amount": {
+                "type": "number",
+                "description": "Invoice amount in kobo"
+              },
+              "description": {
+                "type": "string",
+                "description": "Invoice description"
+              },
+              "due_date": {
+                "type": "string",
+                "description": "Due date in YYYY-MM-DD format (optional)"
+              },
+              "currency": {
+                "type": "string",
+                "description": "Currency code",
+                "default": "NGN"
+              }
+            },
+            "required": ["customer", "amount", "description"]
+          }
+        }
+      }
+    ],
+    "entity_management_tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "create_recipient",
+          "description": "Add a new transfer recipient. Always call resolve_bank_account first to verify the account. Use this when search_recipients returns no results for a new recipient.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "Recipient type",
+                "default": "nuban",
+                "enum": ["nuban"]
+              },
+              "name": {
+                "type": "string",
+                "description": "Account holder name (verify with resolve_bank_account first)"
+              },
+              "account_number": {
+                "type": "string",
+                "description": "10-digit bank account number"
+              },
+              "bank_code": {
+                "type": "string",
+                "description": "3-digit bank code (get from list_banks)"
+              },
+              "currency": {
+                "type": "string",
+                "description": "Currency code",
+                "default": "NGN"
+              },
+              "description": {
+                "type": "string",
+                "description": "Optional description/notes about this recipient"
+              }
+            },
+            "required": ["name", "account_number", "bank_code"]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "create_budget",
+          "description": "Create a new budget limit to track spending. Budget automatically tracks expenses and alerts when thresholds are reached.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Budget name (e.g., 'Monthly Utilities', 'Entertainment Budget')"
+              },
+              "amount": {
+                "type": "number",
+                "description": "Budget limit in kobo"
+              },
+              "limit_type": {
+                "type": "string",
+                "description": "Budget period type",
+                "enum": ["monthly", "quarterly", "yearly", "emergency_fund", "default"]
+              },
+              "period_start": {
+                "type": "string",
+                "description": "Start date (YYYY-MM-DD format)"
+              },
+              "period_end": {
+                "type": "string",
+                "description": "End date (YYYY-MM-DD format)"
+              },
+              "alert_threshold": {
+                "type": "number",
+                "description": "Alert when spending reaches this percentage (default: 80)",
+                "default": 80
+              },
+              "notes": {
+                "type": "string",
+                "description": "Additional notes"
+              }
+            },
+            "required": ["name", "amount", "limit_type", "period_start", "period_end"]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "create_goal",
+          "description": "Create a financial goal to track savings or spending targets. Can be linked to budgets for affordability checks.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string",
+                "description": "Goal title (e.g., 'Save for vacation', 'Emergency fund')"
+              },
+              "description": {
+                "type": "string",
+                "description": "Detailed description"
+              },
+              "goal_type": {
+                "type": "string",
+                "description": "Type of goal",
+                "enum": ["purchase", "savings", "debt_payment", "emergency_fund", "other"]
+              },
+              "target_amount": {
+                "type": "number",
+                "description": "Target amount in kobo"
+              },
+              "budget_limit_id": {
+                "type": "integer",
+                "description": "Link to a budget for affordability tracking (optional)"
+              },
+              "frequency": {
+                "type": "string",
+                "description": "How often to work toward this goal",
+                "enum": ["once", "daily", "weekly", "monthly", "quarterly", "yearly"]
+              },
+              "start_date": {
+                "type": "string",
+                "description": "Start date (YYYY-MM-DD)"
+              },
+              "end_date": {
+                "type": "string",
+                "description": "Target completion date (YYYY-MM-DD)"
+              },
+              "category": {
+                "type": "string",
+                "description": "Goal category (e.g., 'travel', 'education', 'health')"
+              },
+              "priority": {
+                "type": "string",
+                "description": "Priority level",
+                "enum": ["low", "medium", "high"]
+              }
+            },
+            "required": ["title", "goal_type", "target_amount", "start_date"]
+          }
+        }
+      }
+    ]
+  },
+  "anthropic_format": {
+    "search_tools": [
+      {
+        "name": "search_recipients",
+        "description": "Search for transfer recipients by name, account number, or bank. Use this before initiating transfers to resolve recipient identity.\n\nReturns recipients sorted by match score (1.0 = exact match, 0.9 = partial name, 0.85 = account number, etc.)\n\nExamples:\n- search_recipients(q=\"andrew\") → finds all recipients named Andrew\n- search_recipients(q=\"0123456789\") → finds recipient by account number\n- search_recipients(q=\"gtbank\", limit=5) → finds GTBank recipients, max 5 results",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "q": {
+              "type": "string",
+              "description": "Search query - recipient name, account number, or bank name"
+            },
+            "limit": {
+              "type": "integer",
+              "description": "Maximum results (default 10)"
+            },
+            "offset": {
+              "type": "integer",
+              "description": "Pagination offset (default 0)"
+            }
+          },
+          "required": ["q"]
+        }
+      },
+      {
+        "name": "search_service_providers",
+        "description": "Search for service providers by name, service type, or category.\n\nCategories: technology, beauty, pets\n\nMatch scoring:\n- 1.0: Exact provider name\n- 0.9: Partial provider name\n- 0.85: Exact service name\n- 0.75: Partial service name\n- 0.6: Description match\n- 0.5: Location match\n\nExamples:\n- search_service_providers(search=\"camera\") → finds camera-related providers/services\n- search_service_providers(category=\"beauty\") → all beauty providers\n- search_service_providers(search=\"gaming\", category=\"technology\") → gaming tech providers",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "search": {
+              "type": "string",
+              "description": "Search query - provider/service name or description"
+            },
+            "category": {
+              "type": "string",
+              "description": "Filter by category",
+              "enum": ["technology", "beauty", "pets"]
+            },
+            "limit": {
+              "type": "integer",
+              "description": "Maximum results (default 20)"
+            },
+            "offset": {
+              "type": "integer",
+              "description": "Pagination offset (default 0)"
+            }
+          }
+        }
+      }
+    ],
+    "transaction_tools": [
+      {
+        "name": "send_money",
+        "description": "Initiate a money transfer to a recipient.\n\n⚠️ CRITICAL WORKFLOW:\n1. ALWAYS call search_recipients first to get recipient_code\n2. Confirm details with user (amount, recipient name, bank)\n3. Then call send_money\n\n⚠️ AMOUNT FORMAT: Kobo only (NGN × 100)\n- ₦100 = 10000 kobo\n- ₦1,000 = 100000 kobo\n- ₦10,000 = 1000000 kobo\n\nExample:\nsearch_recipients(q=\"andrew\") → RCP_abc123\nUser confirms → send_money(recipient_code=\"RCP_abc123\", amount=1000000, reason=\"Payment\")",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "recipient_code": {
+              "type": "string",
+              "description": "Recipient code from search_recipients (e.g., 'RCP_abc123')"
+            },
+            "amount": {
+              "type": "number",
+              "description": "Amount in kobo (NGN × 100)"
+            },
+            "reason": {
+              "type": "string",
+              "description": "Transfer narration"
+            },
+            "source": {
+              "type": "string",
+              "description": "Transfer source (default: balance)"
+            }
+          },
+          "required": ["recipient_code", "amount"]
+        }
+      },
+      {
+        "name": "record_expense",
+        "description": "Record an expense transaction with automatic budget validation.\n\n⚠️ AUTOMATIC CHECKS:\n- Validates recipient exists\n- Checks budget affordability\n- Updates budget spent_amount\n- Can auto-achieve linked goals\n- FAILS if budget exceeded\n\nExample:\nrecord_expense(\n  recipient_code=\"RCP_xyz\",\n  amount=5000000,  # ₦50,000\n  category=\"utilities\",\n  narration=\"Monthly electricity bill\",\n  budget_limit_id=1\n)",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "recipient_code": {
+              "type": "string",
+              "description": "Recipient code"
+            },
+            "amount": {
+              "type": "number",
+              "description": "Amount in kobo"
+            },
+            "category": {
+              "type": "string",
+              "description": "Expense category"
+            },
+            "narration": {
+              "type": "string",
+              "description": "Expense description"
+            },
+            "budget_limit_id": {
+              "type": "integer",
+              "description": "Budget to track against"
+            },
+            "goal_id": {
+              "type": "integer",
+              "description": "Goal to contribute to"
+            },
+            "notes": {
+              "type": "string",
+              "description": "Additional notes"
+            }
+          },
+          "required": ["recipient_code", "amount", "category", "narration"]
+        }
+      }
+    ]
+  }
+}

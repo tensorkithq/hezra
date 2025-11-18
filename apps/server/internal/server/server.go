@@ -108,6 +108,7 @@ func New(cfg *config.Config) *Server {
 		r.Post("/recipients/create", recipientHandler.Create)
 		r.Get("/recipients/list", recipientHandler.List)
 		r.Get("/recipients/get", recipientHandler.Get)
+		r.Get("/recipients/search", recipientHandler.Search)
 
 		// Expense routes
 		r.Post("/expenses/create", expenseHandler.Create)
