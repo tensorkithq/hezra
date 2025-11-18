@@ -129,29 +129,6 @@
         }
       ]
     },
-    "FrameClose": {
-      "allOf": [
-        { "$ref": "#/definitions/base" },
-        {
-          "type": "object",
-          "properties": {
-            "type": { "const": "FrameClose" }
-          }
-        }
-      ]
-    },
-    "FrameExpand": {
-      "allOf": [
-        { "$ref": "#/definitions/base" },
-        {
-          "type": "object",
-          "properties": {
-            "type": { "const": "FrameExpand" },
-            "isExpanded": { "type": "boolean", "default": false }
-          }
-        }
-      ]
-    },
     "FrameContent": {
       "allOf": [
         { "$ref": "#/definitions/base" },
@@ -388,8 +365,6 @@
         { "$ref": "#/definitions/FrameHeader" },
         { "$ref": "#/definitions/FrameTitle" },
         { "$ref": "#/definitions/FrameActions" },
-        { "$ref": "#/definitions/FrameClose" },
-        { "$ref": "#/definitions/FrameExpand" },
         { "$ref": "#/definitions/FrameContent" },
         { "$ref": "#/definitions/Row" },
         { "$ref": "#/definitions/Col" },

@@ -11,8 +11,6 @@ import { Frame } from './Frame';
 import { FrameHeader } from './FrameHeader';
 import { FrameTitle } from './FrameTitle';
 import { FrameActions } from './FrameActions';
-import { FrameClose } from './FrameClose';
-import { FrameExpand } from './FrameExpand';
 import { FrameContent } from './FrameContent';
 import { Row } from './Row';
 import { Col } from './Col';
@@ -38,8 +36,6 @@ registerWidget('Frame', Frame);
 registerWidget('FrameHeader', FrameHeader);
 registerWidget('FrameTitle', FrameTitle);
 registerWidget('FrameActions', FrameActions);
-registerWidget('FrameClose', FrameClose);
-registerWidget('FrameExpand', FrameExpand);
 registerWidget('FrameContent', FrameContent);
 registerWidget('Row', Row);
 registerWidget('Col', Col);
@@ -60,8 +56,6 @@ export {
   FrameHeader,
   FrameTitle,
   FrameActions,
-  FrameClose,
-  FrameExpand,
   FrameContent,
   Row,
   Col,

@@ -63,18 +63,6 @@ const widgetExamples: Record<string, WidgetExample> = {
               type: 'FrameTitle',
               value: 'Payment Details',
             },
-            {
-              type: 'FrameActions',
-              children: [
-                {
-                  type: 'FrameExpand',
-                  isExpanded: false,
-                },
-                {
-                  type: 'FrameClose',
-                },
-              ],
-            },
           ],
         },
         {
@@ -99,12 +87,7 @@ const widgetExamples: Record<string, WidgetExample> = {
                 {
                   type: 'KeyValueRow',
                   label: 'Frame Components',
-                  value: { type: 'Text', value: 'FrameHeader, FrameTitle, FrameActions', color: 'emphasis' },
-                },
-                {
-                  type: 'KeyValueRow',
-                  label: 'Action Buttons',
-                  value: { type: 'Text', value: 'FrameExpand, FrameClose', color: 'emphasis' },
+                  value: { type: 'Text', value: 'FrameHeader, FrameTitle', color: 'emphasis' },
                 },
                 {
                   type: 'KeyValueRow',

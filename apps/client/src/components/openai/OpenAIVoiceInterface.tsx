@@ -305,30 +305,6 @@ const AccountSnapshotModal: React.FC<AccountSnapshotModalProps> = ({
         });
       }
 
-      // Add actions (expand and close buttons)
-      if (onExpand || onClose) {
-        const actions: WidgetNode[] = [];
-
-        if (onExpand) {
-          actions.push({
-            type: 'FrameExpand',
-            onExpand,
-            isExpanded,
-          });
-        }
-
-        if (onClose) {
-          actions.push({
-            type: 'FrameClose',
-            onClose,
-          });
-        }
-
-        headerChildren.push({
-          type: 'FrameActions',
-          children: actions,
-        });
-      }
 
       children.push({
         type: 'FrameHeader',
