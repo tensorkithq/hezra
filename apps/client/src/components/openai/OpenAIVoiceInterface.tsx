@@ -11,14 +11,7 @@ import {
   SidebarProvider,
 } from "@/components/ui/sidebar";
 import VoiceOrb from "../VoiceOrb";
-import {
-  Frame,
-  FrameHeader,
-  FrameTitle,
-  FrameActions,
-  FrameClose,
-  FrameExpand,
-} from "../widgets/primitives";
+import { Frame } from "../widgets/primitives";
 import type { KeyValueListProps, KeyValueRowProps, FrameProps, WidgetNode, WidgetRendererProps } from "../widgets/types";
 
 // Helper to create KeyValueList widget spec
@@ -130,11 +123,12 @@ const KeyValueListWidget: React.FC<KeyValueListWidgetProps> = ({ fields, isExpan
   );
 };
 
-// Widget wrapper for Frame - uses composable Frame architecture
+// Widget wrapper for Frame - passthrough with optional callbacks
+// Frame internally manages close/expand state by default
+// But allows parent to override with callbacks
 interface FrameWidgetProps {
   title?: string;
   className?: string;
-  hasHeader?: boolean;
   onClose?: () => void;
   onExpand?: () => void;
   isExpanded?: boolean;
@@ -144,41 +138,22 @@ interface FrameWidgetProps {
 const FrameWidget: React.FC<FrameWidgetProps> = ({
   title,
   className = '',
-  hasHeader = true,
   onClose,
   onExpand,
-  isExpanded = false,
+  isExpanded,
   children,
 }) => {
-  // Render using Frame with direct React components (preserves callbacks)
+  // Frame handles close/expand internally if callbacks not provided
   return (
-    <Frame type="Frame" className={className}>
-      {hasHeader && (title || onClose || onExpand) && (
-        <FrameHeader type="FrameHeader">
-          {title && <FrameTitle type="FrameTitle" value={title} />}
-          {(onExpand || onClose) && (
-            <FrameActions type="FrameActions">
-              {onExpand && (
-                <FrameExpand
-                  type="FrameExpand"
-                  onExpand={onExpand}
-                  isExpanded={isExpanded}
-                />
-              )}
-              {onClose && (
-                <FrameClose
-                  type="FrameClose"
-                  onClose={onClose}
-                />
-              )}
-            </FrameActions>
-          )}
-        </FrameHeader>
-      )}
-      {/* Render React children in FrameContent div */}
-      <div className={`flex-1 min-h-0 min-w-full ${isExpanded ? 'overflow-y-auto' : 'overflow-hidden'}`}>
-        {children}
-      </div>
+    <Frame
+      type="Frame"
+      className={className}
+      title={title}
+      onClose={onClose}
+      onExpand={onExpand}
+      isExpanded={isExpanded}
+    >
+      {children}
     </Frame>
   );
 };
@@ -246,7 +221,6 @@ const Sidebar: React.FC<SidebarProps> = ({
   return (
     <FrameWidget
       className={`${className} ${isExpanded ? 'overflow-y-auto' : 'overflow-hidden'}`}
-      hasHeader={true}
       title={getTitleText()}
       onClose={onClose}
       onExpand={onExpand}
@@ -282,7 +256,6 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
 }) => {
   return (
     <FrameWidget
-      hasHeader={true}
       title="Receipt"
       onClose={onClose}
     >
@@ -438,7 +411,7 @@ const PaymentSummaryModal: React.FC<PaymentSummaryModalProps> = ({
   return (
     <FrameWidget
       className={`${className} ${isExpanded ? 'overflow-y-auto' : 'overflow-hidden'}`}
-      hasHeader={true}
+      
       title="Payment Batch"
       onClose={onClose}
       onExpand={onExpand}
@@ -506,7 +479,7 @@ const InvoiceModal: React.FC<InvoiceModalProps> = ({
   return (
     <FrameWidget
       className={`${className} ${isExpanded ? 'overflow-y-auto' : 'overflow-hidden'}`}
-      hasHeader={true}
+      
       title="Invoice"
       onClose={onClose}
       onExpand={onExpand}
@@ -560,7 +533,7 @@ const LimitModal: React.FC<LimitModalProps> = ({
   return (
     <FrameWidget
       className={`${className} ${isExpanded ? 'overflow-y-auto' : 'overflow-hidden'}`}
-      hasHeader={true}
+      
       title="Account Limits"
       onClose={onClose}
       onExpand={onExpand}
@@ -614,7 +587,7 @@ const TransactionAggregateModal: React.FC<TransactionAggregateModalProps> = ({
   return (
     <FrameWidget
       className={`${className} ${isExpanded ? 'overflow-y-auto' : 'overflow-hidden'}`}
-      hasHeader={true}
+      
       title="Transaction Analytics"
       onClose={onClose}
       onExpand={onExpand}
@@ -679,7 +652,7 @@ const VirtualCardModal: React.FC<VirtualCardModalProps> = ({
   return (
     <FrameWidget
       className={`${className} ${isExpanded ? 'overflow-y-auto' : 'overflow-hidden'}`}
-      hasHeader={true}
+      
       title="Virtual Card"
       onClose={onClose}
       onExpand={onExpand}
@@ -718,7 +691,7 @@ const AccountInformationModal: React.FC<AccountInformationModalProps> = ({
   return (
     <FrameWidget
       className={className}
-      hasHeader={true}
+      
       title={title}
       onClose={onClose}
     >

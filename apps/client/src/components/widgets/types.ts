@@ -36,6 +36,11 @@ export interface FrameProps extends BaseWidgetProps {
   type: 'Frame';
   children?: WidgetNode[];
   className?: string;
+  title?: string;
+  // Optional callbacks - if not provided, Frame uses internal default behavior
+  onClose?: () => void;
+  onExpand?: () => void;
+  isExpanded?: boolean;
 }
 
 // Frame sub-components for composable frame construction
