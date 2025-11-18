@@ -153,7 +153,7 @@ const FrameWidget: React.FC<FrameWidgetProps> = ({
       onExpand={onExpand}
       isExpanded={isExpanded}
     >
-      {children}
+      {children as WidgetNode[]}
     </Frame>
   );
 };

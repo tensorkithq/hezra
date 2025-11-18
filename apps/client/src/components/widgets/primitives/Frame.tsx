@@ -111,7 +111,7 @@ export function Frame({
       )}
 
       {/* Children - composable frame components or any widget content */}
-      <div className={`flex-1 min-h-0 ${isExpanded ? 'overflow-y-auto' : 'overflow-hidden'}`}>
+      <div className={`flex-1 min-h-0 min-w-full ${isExpanded ? 'overflow-y-auto' : 'overflow-hidden'}`}>
         {__render && Array.isArray(children) && __path
           ? children.map((child, i) => __render(child, `${__path}.children[${i}]`))
           : (children as React.ReactNode)}
