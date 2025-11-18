@@ -1,7 +1,8 @@
 /**
  * ButtonGroup Pattern Component
  *
- * Group of buttons with layout control.
+ * Wraps buttons in a flex container positioned at the bottom of frames.
+ * Follows the modal button pattern from OpenAIVoiceInterface.
  */
 
 import { cn } from '@/lib/utils';
@@ -9,7 +10,7 @@ import type { ButtonGroupProps, RendererProps } from '../types';
 
 export function ButtonGroup({
   buttons,
-  orientation = 'horizontal',
+  position = 'static',
   gap = 'md',
   visible = true,
   id,
@@ -21,14 +22,14 @@ export function ButtonGroup({
   if (!visible) return null;
 
   const gapClasses = {
-    sm: 'widget-gap-sm',
-    md: 'widget-gap-md',
-    lg: 'widget-gap-lg',
+    sm: 'gap-2',
+    md: 'gap-4',
+    lg: 'gap-6',
   };
 
-  const orientationClasses = {
-    horizontal: 'flex-row',
-    vertical: 'flex-col',
+  const positionClasses = {
+    static: '',
+    absolute: 'absolute bottom-8 left-4 right-4 md:left-10 md:right-10',
   };
 
   return (
@@ -36,9 +37,9 @@ export function ButtonGroup({
       id={id}
       data-testid={testId}
       className={cn(
-        'widget-button-group flex',
-        orientationClasses[orientation],
-        gapClasses[gap]
+        'flex',
+        gapClasses[gap],
+        positionClasses[position]
       )}
       {...aria}
     >
