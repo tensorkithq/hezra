@@ -49,45 +49,69 @@ const widgetExamples: Record<string, WidgetExample> = {
       ],
     },
   },
-  frameCustomized: {
-    name: 'Frame Customized',
-    description: 'Frame with size and padding customization (JSON schema props)',
+  fullFrame: {
+    name: 'Full Frame',
+    description: 'Complete composable Frame with header, title, actions, and content',
     category: 'primitives',
     spec: {
       type: 'Frame',
-      hasHeader: true,
-      title: "Customized Frame",
       children: [
         {
-          type: 'Text',
-          value: 'Payment Details',
-          size: 'lg',
-          weight: 'semibold',
-        },
-        {
-          type: 'Divider',
-          spacing: 'md',
-        },
-        {
-          type: 'Text',
-          value: 'This Frame uses size="md" and padding="lg" - props available in the JSON schema',
-          size: 'sm',
-          color: 'muted',
-        },
-        {
-          type: 'KeyValueList',
-          gap: 'sm',
-          dividers: true,
-          items: [
+          type: 'FrameHeader',
+          children: [
             {
-              type: 'KeyValueRow',
-              label: 'Size',
-              value: { type: 'Text', value: 'md', color: 'emphasis' },
+              type: 'FrameTitle',
+              value: 'Payment Details',
             },
             {
-              type: 'KeyValueRow',
-              label: 'Padding',
-              value: { type: 'Text', value: 'lg', color: 'emphasis' },
+              type: 'FrameActions',
+              children: [
+                {
+                  type: 'FrameExpand',
+                  isExpanded: false,
+                },
+                {
+                  type: 'FrameClose',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'FrameContent',
+          isExpanded: false,
+          children: [
+            {
+              type: 'Text',
+              value: 'This demonstrates the composable Frame architecture',
+              size: 'sm',
+              color: 'muted',
+            },
+            {
+              type: 'Divider',
+              spacing: 'md',
+            },
+            {
+              type: 'KeyValueList',
+              gap: 'sm',
+              dividers: true,
+              items: [
+                {
+                  type: 'KeyValueRow',
+                  label: 'Frame Components',
+                  value: { type: 'Text', value: 'FrameHeader, FrameTitle, FrameActions', color: 'emphasis' },
+                },
+                {
+                  type: 'KeyValueRow',
+                  label: 'Action Buttons',
+                  value: { type: 'Text', value: 'FrameExpand, FrameClose', color: 'emphasis' },
+                },
+                {
+                  type: 'KeyValueRow',
+                  label: 'Content Area',
+                  value: { type: 'Text', value: 'FrameContent', color: 'emphasis' },
+                },
+              ],
             },
           ],
         },
@@ -124,7 +148,7 @@ const widgetExamples: Record<string, WidgetExample> = {
   },
   button: {
     name: 'Button',
-    description: 'Interactive button with variants and sizes',
+    description: 'Interactive button with outline and solid variants',
     category: 'primitives',
     spec: {
       type: 'Frame',
@@ -132,40 +156,34 @@ const widgetExamples: Record<string, WidgetExample> = {
         { type: 'Text', value: 'Button Variants:', weight: 'semibold', size: 'md' },
         { type: 'Spacer', grow: 1 },
         {
-          type: 'ButtonGroup',
-          orientation: 'vertical',
+          type: 'Col',
           gap: 'sm',
-          buttons: [
-            { type: 'Button', label: 'Default Button', variant: 'default' },
-            { type: 'Button', label: 'Secondary Button', variant: 'secondary' },
-            { type: 'Button', label: 'Outline Button', variant: 'outline' },
-            { type: 'Button', label: 'Ghost Button', variant: 'ghost' },
-            { type: 'Button', label: 'Destructive Button', variant: 'destructive' },
+          children: [
+            { type: 'Button', label: 'Solid Button', variant: 'solid', fullWidth: true },
+            { type: 'Button', label: 'Outline Button', variant: 'outline', fullWidth: true },
           ],
         },
         { type: 'Divider', spacing: 'md' },
         { type: 'Text', value: 'Button Sizes:', weight: 'semibold', size: 'md' },
         { type: 'Spacer', grow: 1 },
         {
-          type: 'Row',
-          align: 'start',
+          type: 'Col',
           gap: 'sm',
           children: [
-            { type: 'Button', label: 'Small', size: 'sm' },
-            { type: 'Button', label: 'Medium', size: 'md' },
-            { type: 'Button', label: 'Large', size: 'lg' },
+            { type: 'Button', label: 'Small', size: 'sm', fullWidth: true },
+            { type: 'Button', label: 'Medium', size: 'md', fullWidth: true },
+            { type: 'Button', label: 'Large', size: 'lg', fullWidth: true },
           ],
         },
         { type: 'Divider', spacing: 'md' },
         { type: 'Text', value: 'With Icons:', weight: 'semibold', size: 'md' },
         { type: 'Spacer', grow: 1 },
         {
-          type: 'Row',
-          align: 'start',
+          type: 'Col',
           gap: 'sm',
           children: [
-            { type: 'Button', label: 'Left Icon', icon: 'arrow-left', iconPosition: 'left' },
-            { type: 'Button', label: 'Right Icon', icon: 'arrow-right', iconPosition: 'right' },
+            { type: 'Button', label: 'Left Icon', icon: 'ArrowLeft', iconPosition: 'left', fullWidth: true },
+            { type: 'Button', label: 'Right Icon', icon: 'ArrowRight', iconPosition: 'right', fullWidth: true },
           ],
         },
       ],
@@ -447,33 +465,32 @@ const widgetExamples: Record<string, WidgetExample> = {
   },
   buttongroup: {
     name: 'ButtonGroup',
-    description: 'Group of buttons with layout control',
+    description: 'Group of buttons positioned at bottom of frames',
     category: 'patterns',
     spec: {
       type: 'Frame',
       children: [
-        { type: 'Text', value: 'Horizontal ButtonGroup:', weight: 'semibold', size: 'sm' },
+        { type: 'Text', value: 'Static ButtonGroup:', weight: 'semibold', size: 'sm' },
         { type: 'Spacer', grow: 1 },
         {
           type: 'ButtonGroup',
-          orientation: 'horizontal',
-          gap: 'sm',
+          position: 'static',
+          gap: 'md',
           buttons: [
-            { type: 'Button', label: 'Approve', variant: 'default' },
-            { type: 'Button', label: 'Reject', variant: 'destructive' },
+            { type: 'Button', label: 'Reject', variant: 'outline', fullWidth: true },
+            { type: 'Button', label: 'Approve', variant: 'solid', fullWidth: true },
           ],
         },
         { type: 'Divider', spacing: 'md' },
-        { type: 'Text', value: 'Vertical ButtonGroup:', weight: 'semibold', size: 'sm' },
-        { type: 'Spacer', grow: 1 },
+        { type: 'Text', value: 'Absolute ButtonGroup (positioned at bottom):', weight: 'semibold', size: 'sm' },
+        { type: 'Text', value: 'This variant positions buttons at the bottom of the frame', size: 'xs', color: 'muted' },
         {
           type: 'ButtonGroup',
-          orientation: 'vertical',
-          gap: 'sm',
+          position: 'absolute',
+          gap: 'md',
           buttons: [
-            { type: 'Button', label: 'View Details', variant: 'default', fullWidth: true },
-            { type: 'Button', label: 'Download Receipt', variant: 'outline', fullWidth: true },
-            { type: 'Button', label: 'Share', variant: 'ghost', fullWidth: true },
+            { type: 'Button', label: 'Reject', variant: 'outline', fullWidth: true },
+            { type: 'Button', label: 'Approve', variant: 'solid', fullWidth: true },
           ],
         },
       ],
@@ -538,7 +555,6 @@ const widgetExamples: Record<string, WidgetExample> = {
     category: 'financial',
     spec: {
       type: 'Frame',
-      hasHeader: true,
       title: 'Virtual Card',
       children: [
         {
