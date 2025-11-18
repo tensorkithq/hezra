@@ -1,22 +1,16 @@
 /**
  * Frame Primitive
  *
- * Container widget with built-in close and expand buttons.
- * Implements the modal styling pattern used throughout the application.
+ * Pure content container widget with modal styling.
+ * Implements the black rounded backdrop pattern used throughout the application.
  *
- * Every Frame automatically includes:
- * - Close button (always visible)
- * - Expand button (mobile only)
- * - Header with title (if title prop provided)
+ * Frame is designed to work with WidgetDisclosure component which provides
+ * close and expand controls overlaid on top. Frame reserves 60px from the right
+ * and has min-height of 60px to ensure space for these controls.
  *
- * State Management:
- * - Default: Frame manages its own expand state internally
- * - Override: Pass onClose/onExpand/isExpanded props to control from parent
- * - Hybrid: Pass some props to override, omit others for internal handling
- *
- * For additional header content, use:
+ * For structured content, use Frame sub-components:
  * - FrameHeader: Container for custom header content
- * - FrameTitle: Title text (alternative to title prop)
+ * - FrameTitle: Title text
  * - FrameContent: Main content area
  *
  * Supports two rendering modes:
@@ -31,16 +25,10 @@
  * but runtime safely handles React.ReactNode when __render is undefined.
  */
 
-import { useState } from 'react';
-import { X, Maximize2 } from 'lucide-react';
 import type { FrameProps, RendererProps } from '../types';
 
 export function Frame({
   children,
-  title,
-  onClose,
-  onExpand,
-  isExpanded: externalIsExpanded,
   visible = true,
   id,
   testId,
@@ -49,69 +37,20 @@ export function Frame({
   __render,
   className = '',
 }: FrameProps & Partial<RendererProps>) {
-  const [internalIsExpanded, setInternalIsExpanded] = useState(false);
-
   if (visible === false) return null;
-
-  // Use external expand state if provided, otherwise use internal
-  const isExpanded = externalIsExpanded !== undefined ? externalIsExpanded : internalIsExpanded;
-
-  const handleClose = () => {
-    if (onClose) {
-      onClose();
-    } else {
-      // Default behavior - just log
-      console.log('Frame close clicked');
-    }
-  };
-
-  const handleExpand = () => {
-    if (onExpand) {
-      onExpand();
-    } else {
-      // Default behavior - toggle internal state
-      setInternalIsExpanded(!internalIsExpanded);
-    }
-  };
 
   return (
     <div
       id={id}
       data-testid={testId}
-      className={`bg-black rounded-[32px] p-10 flex flex-col gap-10 items-start relative w-full min-h-[240px] h-full ${className}`}
+      className={`bg-black rounded-[32px] p-10 pr-[70px] flex flex-col gap-10 items-start relative w-full min-h-[60px] h-full ${className}`}
       {...aria}
     >
+      {/* Border overlay */}
       <div className="absolute border border-black border-solid inset-[-8px] rounded-[40px] pointer-events-none" />
 
-      {/* Header with title and action buttons - Always rendered if title exists */}
-      {title && (
-        <div className="flex gap-4 items-start justify-center w-full shrink-0">
-          <p className="flex-1 font-momo font-semibold text-2xl leading-8 text-white whitespace-pre-wrap min-h-0 min-w-0">
-            {title}
-          </p>
-          <div className="flex gap-2 items-center">
-            {/* Expand Button - Mobile only */}
-            <button
-              onClick={handleExpand}
-              className="md:hidden flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity"
-              aria-label={isExpanded ? 'Collapse' : 'Expand'}
-            >
-              <Maximize2 className="w-6 h-6 text-white" />
-            </button>
-            {/* Close Button */}
-            <button
-              onClick={handleClose}
-              className="flex items-center justify-center px-0 py-1 shrink-0 hover:opacity-80 transition-opacity"
-              aria-label="Close"
-            >
-              <X className="w-6 h-6 text-white" />
-            </button>
-          </div>
-        </div>
-      )}
-
       {/* Children - composable frame components or any widget content */}
-      <div className={`flex-1 min-h-0 min-w-full ${isExpanded ? 'overflow-y-auto' : 'overflow-hidden'}`}>
+      <div className="flex-1 min-h-0 h-full w-full">
         {__render && Array.isArray(children) && __path
           ? children.map((child, i) => __render(child, `${__path}.children[${i}]`))
           : (children as React.ReactNode)}

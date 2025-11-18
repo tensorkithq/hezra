@@ -87,7 +87,8 @@
             "type": { "const": "Frame" },
             "className": { "type": "string" },
             "children": { "type": "array", "items": { "$ref": "#/definitions/widgetNode" } }
-          }
+          },
+          "description": "Pure content container with modal styling. Works with WidgetDisclosure for close/expand controls."
         }
       ]
     },
