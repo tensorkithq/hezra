@@ -8,6 +8,12 @@ import { registerWidget } from '../registry';
 
 // Layout primitives
 import { Frame } from './Frame';
+import { FrameHeader } from './FrameHeader';
+import { FrameTitle } from './FrameTitle';
+import { FrameActions } from './FrameActions';
+import { FrameClose } from './FrameClose';
+import { FrameExpand } from './FrameExpand';
+import { FrameContent } from './FrameContent';
 import { Row } from './Row';
 import { Col } from './Col';
 import { Spacer } from './Spacer';
@@ -29,6 +35,12 @@ import { ButtonGroup } from './ButtonGroup';
 
 // Register all primitives
 registerWidget('Frame', Frame);
+registerWidget('FrameHeader', FrameHeader);
+registerWidget('FrameTitle', FrameTitle);
+registerWidget('FrameActions', FrameActions);
+registerWidget('FrameClose', FrameClose);
+registerWidget('FrameExpand', FrameExpand);
+registerWidget('FrameContent', FrameContent);
 registerWidget('Row', Row);
 registerWidget('Col', Col);
 registerWidget('Spacer', Spacer);
@@ -45,6 +57,12 @@ registerWidget('ButtonGroup', ButtonGroup);
 // Export all primitives
 export {
   Frame,
+  FrameHeader,
+  FrameTitle,
+  FrameActions,
+  FrameClose,
+  FrameExpand,
+  FrameContent,
   Row,
   Col,
   Spacer,
