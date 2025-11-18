@@ -124,6 +124,20 @@ export interface TimeProps extends BaseWidgetProps {
   color?: 'default' | 'secondary' | 'muted';
 }
 
+export interface IconProps extends BaseWidgetProps {
+  type: 'Icon';
+  name: string;
+  size?: 'xs' | 'sm' | 'md' | 'lg';
+  color?: 'default' | 'secondary' | 'emphasis' | 'muted' | 'danger' | 'success' | 'warning';
+}
+
+export interface BadgeProps extends BaseWidgetProps {
+  type: 'Badge';
+  label: string;
+  variant?: 'default' | 'secondary' | 'success' | 'warning' | 'danger' | 'outline';
+  size?: 'sm' | 'md';
+}
+
 // Interactive Primitives
 export interface ButtonProps extends BaseWidgetProps {
   type: 'Button';
@@ -174,6 +188,8 @@ export type WidgetNode =
   | AvatarProps
   | AmountProps
   | TimeProps
+  | IconProps
+  | BadgeProps
   | ButtonProps
   | KeyValueRowProps
   | KeyValueListProps

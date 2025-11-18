@@ -1,4 +1,17 @@
 import { z } from 'zod';
+import {
+  frame,
+  frameHeader,
+  frameTitle,
+  frameContent,
+  row,
+  col,
+  text,
+  amount,
+  divider,
+  keyValueList,
+  keyValueRow,
+} from '@/components/widgets/builders';
 
 // Tool configurations in OpenAI format
 export const toolsConfig = [
@@ -161,404 +174,173 @@ export const generateToolPreviewWidget = (toolName: string, args: any) => {
   switch (toolName) {
     case 'pay_contractors_bulk':
       const totalAmount = args.items.reduce((sum: number, item: any) => sum + item.amount, 0);
-      return {
-        type: 'Frame',
-        children: [
-          {
-            type: 'FrameHeader',
-            children: [
-              {
-                type: 'FrameTitle',
-                value: 'Payment Preview',
-              },
-            ],
-          },
-          {
-            type: 'FrameContent',
-            children: [
-              {
-                type: 'Row',
-                align: 'between',
-                children: [
-                  {
-                    type: 'Col',
-                    gap: 'sm',
-                    children: [
-                      { type: 'Text', value: args.batch_reference, size: 'lg', weight: 'semibold' }
-                    ]
-                  },
-                  { type: 'Text', value: 'Pending Approval', color: 'warning', weight: 'medium', size: 'sm' }
-                ]
-              },
-              { type: 'Divider', spacing: 'md' },
-              {
-                type: 'Row',
-                gap: 'lg',
-                children: [
-                  {
-                    type: 'Col',
-                    gap: 'sm',
-                    children: [
-                      { type: 'Text', value: 'Total Amount', size: 'xs', color: 'muted' },
-                      { type: 'Amount', value: totalAmount, currency: args.currency, size: 'md', weight: 'semibold' }
-                    ]
-                  },
-                  {
-                    type: 'Col',
-                    gap: 'sm',
-                    children: [
-                      { type: 'Text', value: 'Recipients', size: 'xs', color: 'muted' },
-                      { type: 'Text', value: args.items.length.toString(), size: 'md', weight: 'semibold' }
-                    ]
-                  }
-                ]
-              },
-              args.narration ? { type: 'Divider', spacing: 'md' } : null,
-              args.narration ? {
-                type: 'Col',
-                gap: 'xs',
-                children: [
-                  { type: 'Text', value: 'Narration', size: 'xs', color: 'muted' },
-                  { type: 'Text', value: args.narration, size: 'sm' }
-                ]
-              } : null
-            ].filter(Boolean)
-          },
-        ]
-      };
+      return frame([
+        frameHeader([
+          frameTitle('Payment Preview'),
+        ]),
+        frameContent([
+          row([
+            col([
+              text(args.batch_reference, { size: 'lg', weight: 'semibold' })
+            ], { gap: 'sm' }),
+            text('Pending Approval', { color: 'warning', weight: 'medium', size: 'sm' })
+          ], { align: 'between' }),
+          divider({ spacing: 'md' }),
+          row([
+            col([
+              text('Total Amount', { size: 'xs', color: 'muted' }),
+              amount(totalAmount, { currency: args.currency, size: 'md', weight: 'semibold' })
+            ], { gap: 'sm' }),
+            col([
+              text('Recipients', { size: 'xs', color: 'muted' }),
+              text(args.items.length.toString(), { size: 'md', weight: 'semibold' })
+            ], { gap: 'sm' })
+          ], { gap: 'lg' }),
+          ...(args.narration ? [
+            divider({ spacing: 'md' }),
+            col([
+              text('Narration', { size: 'xs', color: 'muted' }),
+              text(args.narration, { size: 'sm' })
+            ], { gap: 'xs' })
+          ] : [])
+        ]),
+      ]);
 
     case 'set_account_limits':
-      return {
-        type: 'Frame',
-        children: [
-          {
-            type: 'FrameHeader',
-            children: [
-              {
-                type: 'FrameTitle',
-                value: 'Account Limits Preview',
-              },
-            ],
-          },
-          {
-            type: 'FrameContent',
-            children: [
-              {
-                type: 'KeyValueList',
-                gap: 'md',
-                dividers: true,
-                items: [
-                  args.balance_limit ? {
-                    type: 'KeyValueRow',
-                    label: 'Balance Alert Threshold',
-                    value: { type: 'Amount', value: args.balance_limit, currency: args.currency || 'NGN', size: 'sm' }
-                  } : null,
-                  args.daily_transfer_limit ? {
-                    type: 'KeyValueRow',
-                    label: 'Daily Transfer Limit',
-                    value: { type: 'Amount', value: args.daily_transfer_limit, currency: args.currency || 'NGN', size: 'sm' }
-                  } : null,
-                  args.monthly_transfer_limit ? {
-                    type: 'KeyValueRow',
-                    label: 'Monthly Transfer Limit',
-                    value: { type: 'Amount', value: args.monthly_transfer_limit, currency: args.currency || 'NGN', size: 'sm' }
-                  } : null
-                ].filter(Boolean)
-              }
-            ]
-          },
-        ]
-      };
+      return frame([
+        frameHeader([
+          frameTitle('Account Limits Preview'),
+        ]),
+        frameContent([
+          keyValueList([
+            ...(args.balance_limit ? [
+              keyValueRow('Balance Alert Threshold', amount(args.balance_limit, { currency: args.currency || 'NGN', size: 'sm' }))
+            ] : []),
+            ...(args.daily_transfer_limit ? [
+              keyValueRow('Daily Transfer Limit', amount(args.daily_transfer_limit, { currency: args.currency || 'NGN', size: 'sm' }))
+            ] : []),
+            ...(args.monthly_transfer_limit ? [
+              keyValueRow('Monthly Transfer Limit', amount(args.monthly_transfer_limit, { currency: args.currency || 'NGN', size: 'sm' }))
+            ] : []),
+          ], { gap: 'md', dividers: true })
+        ]),
+      ]);
 
     case 'set_beneficiary_transfer_limit':
-      return {
-        type: 'Frame',
-        children: [
-          {
-            type: 'FrameHeader',
-            children: [
-              {
-                type: 'FrameTitle',
-                value: 'Beneficiary Limit Preview',
-              },
-            ],
-          },
-          {
-            type: 'FrameContent',
-            children: [
-              {
-                type: 'KeyValueList',
-                gap: 'md',
-                dividers: true,
-                items: [
-                  {
-                    type: 'KeyValueRow',
-                    label: 'Beneficiary',
-                    value: { type: 'Text', value: args.beneficiary_id, weight: 'medium' }
-                  },
-                  {
-                    type: 'KeyValueRow',
-                    label: 'Period',
-                    value: { type: 'Text', value: args.period, weight: 'medium', size: 'sm' }
-                  },
-                  {
-                    type: 'KeyValueRow',
-                    label: 'Limit',
-                    value: { type: 'Amount', value: args.amount_limit, currency: args.currency || 'NGN', size: 'sm', weight: 'semibold' },
-                    emphasis: true
-                  },
-                  {
-                    type: 'KeyValueRow',
-                    label: 'Alert Threshold',
-                    value: { type: 'Text', value: `${args.alerts_at_percent || 80}%`, color: 'muted' }
-                  }
-                ]
-              }
-            ]
-          },
-        ]
-      };
+      return frame([
+        frameHeader([
+          frameTitle('Beneficiary Limit Preview'),
+        ]),
+        frameContent([
+          keyValueList([
+            keyValueRow('Beneficiary', text(args.beneficiary_id, { weight: 'medium' })),
+            keyValueRow('Period', text(args.period, { weight: 'medium', size: 'sm' })),
+            keyValueRow('Limit', amount(args.amount_limit, { currency: args.currency || 'NGN', size: 'sm', weight: 'semibold' }), { emphasis: true }),
+            keyValueRow('Alert Threshold', text(`${args.alerts_at_percent || 80}%`, { color: 'muted' })),
+          ], { gap: 'md', dividers: true })
+        ]),
+      ]);
 
     case 'create_virtual_card':
-      return {
-        type: 'Frame',
-        children: [
-          {
-            type: 'FrameHeader',
-            children: [
-              {
-                type: 'FrameTitle',
-                value: 'Virtual Card Preview',
-              },
-            ],
-          },
-          {
-            type: 'FrameContent',
-            children: [
-              {
-                type: 'Row',
-                align: 'between',
-                children: [
-                  { type: 'Text', value: args.label, size: 'lg', weight: 'semibold' },
-                  { type: 'Text', value: 'Pending', color: 'warning', weight: 'medium', size: 'sm' }
-                ]
-              },
-              { type: 'Divider', spacing: 'md' },
-              {
-                type: 'KeyValueList',
-                gap: 'md',
-                items: [
-                  {
-                    type: 'KeyValueRow',
-                    label: 'Currency',
-                    value: { type: 'Text', value: args.currency, weight: 'medium' }
-                  },
-                  args.spend_limit ? {
-                    type: 'KeyValueRow',
-                    label: 'Spend Limit',
-                    value: { type: 'Amount', value: args.spend_limit, currency: args.currency, size: 'sm' }
-                  } : null,
-                  args.spend_period ? {
-                    type: 'KeyValueRow',
-                    label: 'Limit Period',
-                    value: { type: 'Text', value: args.spend_period.replace('_', ' '), weight: 'medium', size: 'sm' }
-                  } : null,
-                  args.expires_at ? {
-                    type: 'KeyValueRow',
-                    label: 'Expires',
-                    value: { type: 'Text', value: args.expires_at, size: 'sm', color: 'muted' }
-                  } : null
-                ].filter(Boolean)
-              }
-            ]
-          },
-        ]
-      };
+      return frame([
+        frameHeader([
+          frameTitle('Virtual Card Preview'),
+        ]),
+        frameContent([
+          row([
+            text(args.label, { size: 'lg', weight: 'semibold' }),
+            text('Pending', { color: 'warning', weight: 'medium', size: 'sm' })
+          ], { align: 'between' }),
+          divider({ spacing: 'md' }),
+          keyValueList([
+            keyValueRow('Currency', text(args.currency, { weight: 'medium' })),
+            ...(args.spend_limit ? [
+              keyValueRow('Spend Limit', amount(args.spend_limit, { currency: args.currency, size: 'sm' }))
+            ] : []),
+            ...(args.spend_period ? [
+              keyValueRow('Limit Period', text(args.spend_period.replace('_', ' '), { weight: 'medium', size: 'sm' }))
+            ] : []),
+            ...(args.expires_at ? [
+              keyValueRow('Expires', text(args.expires_at, { size: 'sm', color: 'muted' }))
+            ] : []),
+          ], { gap: 'md' })
+        ]),
+      ]);
 
     case 'send_invoice':
       const total = args.line_items.reduce((sum: number, item: any) => sum + (item.amount * (item.quantity ?? 1)), 0);
-      return {
-        type: 'Frame',
-        children: [
-          {
-            type: 'FrameHeader',
-            children: [
-              {
-                type: 'FrameTitle',
-                value: 'Invoice Preview',
-              },
-            ],
-          },
-          {
-            type: 'FrameContent',
-            children: [
-              {
-                type: 'Row',
-                align: 'between',
-                children: [
-                  { type: 'Text', value: args.invoice_number, size: 'lg', weight: 'semibold' },
-                  { type: 'Text', value: 'Draft', weight: 'medium', size: 'sm' }
-                ]
-              },
-              { type: 'Divider', spacing: 'md' },
-              {
-                type: 'KeyValueList',
-                gap: 'md',
-                dividers: true,
-                items: [
-                  {
-                    type: 'KeyValueRow',
-                    label: 'Customer',
-                    value: { type: 'Text', value: `${args.customer.name} (${args.customer.email})`, weight: 'medium' }
-                  },
-                  {
-                    type: 'KeyValueRow',
-                    label: 'Items',
-                    value: { type: 'Text', value: `${args.line_items.length} line item(s)`, color: 'muted' }
-                  },
-                  {
-                    type: 'KeyValueRow',
-                    label: 'Total Amount',
-                    value: { type: 'Amount', value: total, currency: args.currency, size: 'md', weight: 'semibold' },
-                    emphasis: true
-                  },
-                  args.due_date ? {
-                    type: 'KeyValueRow',
-                    label: 'Due Date',
-                    value: { type: 'Text', value: args.due_date, color: 'muted' }
-                  } : null
-                ].filter(Boolean)
-              }
-            ]
-          },
-        ]
-      };
+      return frame([
+        frameHeader([
+          frameTitle('Invoice Preview'),
+        ]),
+        frameContent([
+          row([
+            text(args.invoice_number, { size: 'lg', weight: 'semibold' }),
+            text('Draft', { weight: 'medium', size: 'sm' })
+          ], { align: 'between' }),
+          divider({ spacing: 'md' }),
+          keyValueList([
+            keyValueRow('Customer', text(`${args.customer.name} (${args.customer.email})`, { weight: 'medium' })),
+            keyValueRow('Items', text(`${args.line_items.length} line item(s)`, { color: 'muted' })),
+            keyValueRow('Total Amount', amount(total, { currency: args.currency, size: 'md', weight: 'semibold' }), { emphasis: true }),
+            ...(args.due_date ? [
+              keyValueRow('Due Date', text(args.due_date, { color: 'muted' }))
+            ] : []),
+          ], { gap: 'md', dividers: true })
+        ]),
+      ]);
 
     case 'aggregate_transactions':
-      return {
-        type: 'Frame',
-        children: [
-          {
-            type: 'FrameHeader',
-            children: [
-              {
-                type: 'FrameTitle',
-                value: 'Analytics Query Preview',
-              },
-            ],
-          },
-          {
-            type: 'FrameContent',
-            children: [
-              {
-                type: 'KeyValueList',
-                gap: 'md',
-                dividers: true,
-                items: [
-                  {
-                    type: 'KeyValueRow',
-                    label: 'Metric',
-                    value: { type: 'Text', value: args.metric.replace(/_/g, ' '), weight: 'medium', size: 'sm' }
-                  },
-                  {
-                    type: 'KeyValueRow',
-                    label: 'Period',
-                    value: { type: 'Text', value: `${args.from} to ${args.to}`, size: 'sm', color: 'muted' }
-                  },
-                  args.filters?.beneficiary_id ? {
-                    type: 'KeyValueRow',
-                    label: 'Beneficiary Filter',
-                    value: { type: 'Text', value: args.filters.beneficiary_id, weight: 'medium' }
-                  } : null,
-                  args.filters?.category ? {
-                    type: 'KeyValueRow',
-                    label: 'Category Filter',
-                    value: { type: 'Text', value: args.filters.category, weight: 'medium' }
-                  } : null
-                ].filter(Boolean)
-              }
-            ]
-          },
-        ]
-      };
+      return frame([
+        frameHeader([
+          frameTitle('Analytics Query Preview'),
+        ]),
+        frameContent([
+          keyValueList([
+            keyValueRow('Metric', text(args.metric.replace(/_/g, ' '), { weight: 'medium', size: 'sm' })),
+            keyValueRow('Period', text(`${args.from} to ${args.to}`, { size: 'sm', color: 'muted' })),
+            ...(args.filters?.beneficiary_id ? [
+              keyValueRow('Beneficiary Filter', text(args.filters.beneficiary_id, { weight: 'medium' }))
+            ] : []),
+            ...(args.filters?.category ? [
+              keyValueRow('Category Filter', text(args.filters.category, { weight: 'medium' }))
+            ] : []),
+          ], { gap: 'md', dividers: true })
+        ]),
+      ]);
 
     case 'account_snapshot':
-      return {
-        type: 'Frame',
-        children: [
-          {
-            type: 'FrameHeader',
-            children: [
-              {
-                type: 'FrameTitle',
-                value: 'Snapshot Query Preview',
-              },
-            ],
-          },
-          {
-            type: 'FrameContent',
-            children: [
-              {
-                type: 'KeyValueList',
-                gap: 'md',
-                dividers: true,
-                items: [
-                  {
-                    type: 'KeyValueRow',
-                    label: 'Scope',
-                    value: { type: 'Text', value: args.scope || 'all', weight: 'medium', size: 'sm' }
-                  },
-                  {
-                    type: 'KeyValueRow',
-                    label: 'Time Window',
-                    value: { type: 'Text', value: (args.window || 'this_month').replace(/_/g, ' '), weight: 'medium', size: 'sm' }
-                  },
-                  args.beneficiary_id ? {
-                    type: 'KeyValueRow',
-                    label: 'Beneficiary',
-                    value: { type: 'Text', value: args.beneficiary_id, weight: 'medium' }
-                  } : null,
-                  args.group ? {
-                    type: 'KeyValueRow',
-                    label: 'Group',
-                    value: { type: 'Text', value: args.group, weight: 'medium' }
-                  } : null
-                ].filter(Boolean)
-              }
-            ]
-          },
-        ]
-      };
+      return frame([
+        frameHeader([
+          frameTitle('Snapshot Query Preview'),
+        ]),
+        frameContent([
+          keyValueList([
+            keyValueRow('Scope', text(args.scope || 'all', { weight: 'medium', size: 'sm' })),
+            keyValueRow('Time Window', text((args.window || 'this_month').replace(/_/g, ' '), { weight: 'medium', size: 'sm' })),
+            ...(args.beneficiary_id ? [
+              keyValueRow('Beneficiary', text(args.beneficiary_id, { weight: 'medium' }))
+            ] : []),
+            ...(args.group ? [
+              keyValueRow('Group', text(args.group, { weight: 'medium' }))
+            ] : []),
+          ], { gap: 'md', dividers: true })
+        ]),
+      ]);
 
     default:
       // Fallback generic preview
-      return {
-        type: 'Frame',
-        children: [
-          {
-            type: 'FrameHeader',
-            children: [
-              {
-                type: 'FrameTitle',
-                value: 'Tool Preview',
-              },
-            ],
-          },
-          {
-            type: 'FrameContent',
-            children: [
-              {
-                type: 'Col',
-                gap: 'md',
-                children: [
-                  { type: 'Text', value: `Tool: ${toolName}`, size: 'lg', weight: 'semibold' },
-                  { type: 'Text', value: 'Arguments provided', size: 'sm', color: 'muted' }
-                ]
-              }
-            ]
-          },
-        ]
-      };
+      return frame([
+        frameHeader([
+          frameTitle('Tool Preview'),
+        ]),
+        frameContent([
+          col([
+            text(`Tool: ${toolName}`, { size: 'lg', weight: 'semibold' }),
+            text('Arguments provided', { size: 'sm', color: 'muted' })
+          ], { gap: 'md' })
+        ]),
+      ]);
   }
 };
 
@@ -581,62 +363,30 @@ export const executeToolCall = async (toolName: string, args: any) => {
         },
         message: `Successfully queued payment of ${args.currency} ${totalAmount.toLocaleString()} to ${args.items.length} contractor(s)`,
 
-        _widget: {
-          type: 'Frame',
-          children: [
-            {
-              type: 'FrameHeader',
-              children: [
-                {
-                  type: 'FrameTitle',
-                  value: 'Payment Batch',
-                },
-              ],
-            },
-            {
-              type: 'FrameContent',
-              children: [
-                {
-                  type: 'Row',
-                  align: 'between',
-                  children: [
-                    {
-                      type: 'Col',
-                      gap: 'sm',
-                      children: [
-                        { type: 'Text', value: args.batch_reference, size: 'lg', weight: 'semibold' }
-                      ]
-                    },
-                    { type: 'Text', value: 'Queued', color: 'warning', weight: 'medium', size: 'sm' }
-                  ]
-                },
-                { type: 'Divider', spacing: 'md' },
-                {
-                  type: 'Row',
-                  gap: 'lg',
-                  children: [
-                    {
-                      type: 'Col',
-                      gap: 'sm',
-                      children: [
-                        { type: 'Text', value: 'Total Amount', size: 'xs', color: 'muted' },
-                        { type: 'Amount', value: totalAmount, currency: args.currency, size: 'md', weight: 'semibold' }
-                      ]
-                    },
-                    {
-                      type: 'Col',
-                      gap: 'sm',
-                      children: [
-                        { type: 'Text', value: 'Recipients', size: 'xs', color: 'muted' },
-                        { type: 'Text', value: args.items.length.toString(), size: 'md', weight: 'semibold' }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-          ]
-        }
+        _widget: frame([
+          frameHeader([
+            frameTitle('Payment Batch'),
+          ]),
+          frameContent([
+            row([
+              col([
+                text(args.batch_reference, { size: 'lg', weight: 'semibold' })
+              ], { gap: 'sm' }),
+              text('Queued', { color: 'warning', weight: 'medium', size: 'sm' })
+            ], { align: 'between' }),
+            divider({ spacing: 'md' }),
+            row([
+              col([
+                text('Total Amount', { size: 'xs', color: 'muted' }),
+                amount(totalAmount, { currency: args.currency, size: 'md', weight: 'semibold' })
+              ], { gap: 'sm' }),
+              col([
+                text('Recipients', { size: 'xs', color: 'muted' }),
+                text(args.items.length.toString(), { size: 'md', weight: 'semibold' })
+              ], { gap: 'sm' })
+            ], { gap: 'lg' })
+          ]),
+        ])
       };
     
     case 'set_account_limits':
@@ -677,72 +427,32 @@ export const executeToolCall = async (toolName: string, args: any) => {
         },
         message: `Virtual card "${args.label}" created successfully (ending in ${last4})`,
 
-        _widget: {
-          type: 'Frame',
-          children: [
-            {
-              type: 'FrameHeader',
-              children: [
-                {
-                  type: 'FrameTitle',
-                  value: 'Virtual Card',
-                },
-              ],
-            },
-            {
-              type: 'FrameContent',
-              children: [
-                {
-                  type: 'Row',
-                  align: 'between',
-                  children: [
-                    { type: 'Text', value: args.label, size: 'lg', weight: 'semibold' },
-                    { type: 'Text', value: 'Active', color: 'success', weight: 'medium', size: 'sm' }
-                  ]
-                },
-                { type: 'Divider', spacing: 'md' },
-                {
-                  type: 'Col',
-                  gap: 'md',
-                  children: [
-                    {
-                      type: 'Row',
-                      gap: 'md',
-                      children: [
-                        { type: 'Text', value: '****', size: 'xl', weight: 'bold' },
-                        { type: 'Text', value: '****', size: 'xl', weight: 'bold' },
-                        { type: 'Text', value: '****', size: 'xl', weight: 'bold' },
-                        { type: 'Text', value: last4, size: 'xl', weight: 'bold' }
-                      ]
-                    },
-                    {
-                      type: 'KeyValueList',
-                      gap: 'md',
-                      items: args.spend_limit ? [
-                        {
-                          type: 'KeyValueRow',
-                          label: 'Spend Limit',
-                          value: { type: 'Amount', value: args.spend_limit, currency: args.currency, size: 'sm' }
-                        },
-                        {
-                          type: 'KeyValueRow',
-                          label: 'Network',
-                          value: { type: 'Text', value: 'VISA', weight: 'medium' }
-                        }
-                      ] : [
-                        {
-                          type: 'KeyValueRow',
-                          label: 'Network',
-                          value: { type: 'Text', value: 'VISA', weight: 'medium' }
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-          ]
-        }
+        _widget: frame([
+          frameHeader([
+            frameTitle('Virtual Card'),
+          ]),
+          frameContent([
+            row([
+              text(args.label, { size: 'lg', weight: 'semibold' }),
+              text('Active', { color: 'success', weight: 'medium', size: 'sm' })
+            ], { align: 'between' }),
+            divider({ spacing: 'md' }),
+            col([
+              row([
+                text('****', { size: 'xl', weight: 'bold' }),
+                text('****', { size: 'xl', weight: 'bold' }),
+                text('****', { size: 'xl', weight: 'bold' }),
+                text(last4, { size: 'xl', weight: 'bold' })
+              ], { gap: 'md' }),
+              keyValueList([
+                ...(args.spend_limit ? [
+                  keyValueRow('Spend Limit', amount(args.spend_limit, { currency: args.currency, size: 'sm' })),
+                ] : []),
+                keyValueRow('Network', text('VISA', { weight: 'medium' })),
+              ], { gap: 'md' })
+            ], { gap: 'md' })
+          ]),
+        ])
       };
     
     case 'send_invoice':
@@ -759,57 +469,25 @@ export const executeToolCall = async (toolName: string, args: any) => {
         customer_viewed: false,
         message: `Invoice ${args.invoice_number} for ${args.currency} ${total.toLocaleString()} sent to ${args.customer.name}`,
 
-        _widget: {
-          type: 'Frame',
-          children: [
-            {
-              type: 'FrameHeader',
-              children: [
-                {
-                  type: 'FrameTitle',
-                  value: 'Invoice',
-                },
-              ],
-            },
-            {
-              type: 'FrameContent',
-              children: [
-                {
-                  type: 'Row',
-                  align: 'between',
-                  children: [
-                    { type: 'Text', value: args.invoice_number, size: 'lg', weight: 'semibold' },
-                    { type: 'Text', value: 'Sent', weight: 'medium', size: 'sm' }
-                  ]
-                },
-                { type: 'Divider', spacing: 'md' },
-                {
-                  type: 'KeyValueList',
-                  gap: 'md',
-                  dividers: true,
-                  items: [
-                    {
-                      type: 'KeyValueRow',
-                      label: 'Customer',
-                      value: { type: 'Text', value: args.customer.name, weight: 'medium' }
-                    },
-                    {
-                      type: 'KeyValueRow',
-                      label: 'Amount Due',
-                      value: { type: 'Amount', value: total, currency: args.currency, size: 'md', weight: 'semibold' },
-                      emphasis: true
-                    },
-                    args.due_date ? {
-                      type: 'KeyValueRow',
-                      label: 'Due Date',
-                      value: { type: 'Text', value: args.due_date, color: 'muted' }
-                    } : null
-                  ].filter(Boolean)
-                }
-              ]
-            },
-          ]
-        }
+        _widget: frame([
+          frameHeader([
+            frameTitle('Invoice'),
+          ]),
+          frameContent([
+            row([
+              text(args.invoice_number, { size: 'lg', weight: 'semibold' }),
+              text('Sent', { weight: 'medium', size: 'sm' })
+            ], { align: 'between' }),
+            divider({ spacing: 'md' }),
+            keyValueList([
+              keyValueRow('Customer', text(args.customer.name, { weight: 'medium' })),
+              keyValueRow('Amount Due', amount(total, { currency: args.currency, size: 'md', weight: 'semibold' }), { emphasis: true }),
+              ...(args.due_date ? [
+                keyValueRow('Due Date', text(args.due_date, { color: 'muted' }))
+              ] : []),
+            ], { gap: 'md', dividers: true })
+          ]),
+        ])
       };
     
     case 'aggregate_transactions':
@@ -827,59 +505,31 @@ export const executeToolCall = async (toolName: string, args: any) => {
           currency: args.currency || 'NGN',
           period: { from: args.from, to: args.to },
 
-          _widget: {
-            type: 'Frame',
-            children: [
-              {
-                type: 'FrameHeader',
-                children: [
-                  {
-                    type: 'FrameTitle',
-                    value: 'Transaction Analytics',
-                  },
-                ],
-              },
-              {
-                type: 'FrameContent',
-                children: [
-                  {
-                    type: 'Col',
-                    gap: 'md',
-                    children: [
-                      {
-                        type: 'Row',
-                        align: 'center',
-                        gap: 'sm',
-                        children: [
-                          { type: 'Text', value: 'Top Categories', size: 'lg', weight: 'semibold' }
-                        ]
-                      },
-                      { type: 'Divider', spacing: 'md' },
-                      {
-                        type: 'KeyValueList',
-                        gap: 'md',
-                        dividers: true,
-                        items: items.map(item => ({
-                          type: 'KeyValueRow',
-                          label: item.category,
-                          value: { type: 'Amount', value: item.value, currency: args.currency || 'NGN', size: 'sm', weight: 'medium' }
-                        }))
-                      },
-                      { type: 'Divider', spacing: 'md' },
-                      {
-                        type: 'Row',
-                        align: 'between',
-                        children: [
-                          { type: 'Text', value: 'Total', size: 'sm', weight: 'semibold' },
-                          { type: 'Amount', value: totalValue, currency: args.currency || 'NGN', size: 'md', weight: 'bold', color: 'default' }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-            ]
-          }
+          _widget: frame([
+            frameHeader([
+              frameTitle('Transaction Analytics'),
+            ]),
+            frameContent([
+              col([
+                row([
+                  text('Top Categories', { size: 'lg', weight: 'semibold' })
+                ], { align: 'center', gap: 'sm' }),
+                divider({ spacing: 'md' }),
+                keyValueList(
+                  items.map(item => keyValueRow(
+                    item.category,
+                    amount(item.value, { currency: args.currency || 'NGN', size: 'sm', weight: 'medium' })
+                  )),
+                  { gap: 'md', dividers: true }
+                ),
+                divider({ spacing: 'md' }),
+                row([
+                  text('Total', { size: 'sm', weight: 'semibold' }),
+                  amount(totalValue, { currency: args.currency || 'NGN', size: 'md', weight: 'bold', color: 'default' })
+                ], { align: 'between' })
+              ], { gap: 'md' })
+            ]),
+          ])
         };
       }
 
@@ -918,65 +568,32 @@ export const executeToolCall = async (toolName: string, args: any) => {
       return {
         ...snapshotData,
 
-        _widget: {
-          type: 'Frame',
-          children: [
-            {
-              type: 'FrameHeader',
-              children: [
-                {
-                  type: 'FrameTitle',
-                  value: 'Account Overview',
-                },
-              ],
-            },
-            {
-              type: 'FrameContent',
-              children: [
-                {
-                  type: 'Col',
-                  gap: 'lg',
-                  children: [
-                    {
-                      type: 'Col',
-                      gap: 'sm',
-                      align: 'center',
-                      children: [
-                        { type: 'Text', value: 'Available Balance', size: 'sm', color: 'muted' },
-                        { type: 'Amount', value: snapshotData.balance.available, currency: snapshotData.balance.currency, size: 'xl', weight: 'bold', color: 'default' }
-                      ]
-                    },
-                    { type: 'Divider', spacing: 'lg' },
-                    {
-                      type: 'Row',
-                      gap: 'lg',
-                      children: [
-                        {
-                          type: 'Col',
-                          gap: 'sm',
-                          children: [
-                            { type: 'Text', value: 'Transfers', size: 'xs', color: 'muted' },
-                            { type: 'Text', value: snapshotData.transfers.count.toString(), size: 'lg', weight: 'semibold' },
-                            { type: 'Amount', value: snapshotData.transfers.value, currency: snapshotData.balance.currency, size: 'sm', showCurrency: false }
-                          ]
-                        },
-                        {
-                          type: 'Col',
-                          gap: 'sm',
-                          children: [
-                            { type: 'Text', value: 'Invoices Paid', size: 'xs', color: 'muted' },
-                            { type: 'Text', value: `${snapshotData.invoices.paid}/${snapshotData.invoices.sent}`, size: 'lg', weight: 'semibold' },
-                            { type: 'Amount', value: snapshotData.invoices.value_paid, currency: snapshotData.balance.currency, size: 'sm', showCurrency: false }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-          ]
-        }
+        _widget: frame([
+          frameHeader([
+            frameTitle('Account Overview'),
+          ]),
+          frameContent([
+            col([
+              col([
+                text('Available Balance', { size: 'sm', color: 'muted' }),
+                amount(snapshotData.balance.available, { currency: snapshotData.balance.currency, size: 'xl', weight: 'bold', color: 'default' })
+              ], { gap: 'sm', align: 'center' }),
+              divider({ spacing: 'lg' }),
+              row([
+                col([
+                  text('Transfers', { size: 'xs', color: 'muted' }),
+                  text(snapshotData.transfers.count.toString(), { size: 'lg', weight: 'semibold' }),
+                  amount(snapshotData.transfers.value, { currency: snapshotData.balance.currency, size: 'sm', showCurrency: false })
+                ], { gap: 'sm' }),
+                col([
+                  text('Invoices Paid', { size: 'xs', color: 'muted' }),
+                  text(`${snapshotData.invoices.paid}/${snapshotData.invoices.sent}`, { size: 'lg', weight: 'semibold' }),
+                  amount(snapshotData.invoices.value_paid, { currency: snapshotData.balance.currency, size: 'sm', showCurrency: false })
+                ], { gap: 'sm' })
+              ], { gap: 'lg' })
+            ], { gap: 'lg' })
+          ]),
+        ])
       };
     
     default:

@@ -236,6 +236,112 @@ export function safeValidateWidget(spec: unknown): z.SafeParseReturnType<any, an
   return WidgetNodeSchema.safeParse(spec);
 }
 
+// ============================================================================
+// Financial Widget Schemas
+// ============================================================================
+
+/**
+ * Payment Summary Widget Schema
+ *
+ * Validates the structure of payment summary widgets built by the financial builder.
+ */
+export const PaymentSummarySchema = FrameSchema.extend({
+  children: z.array(KeyValueListSchema).min(1),
+  className: z.literal('payment-summary-widget').optional(),
+});
+
+/**
+ * Invoice Widget Schema
+ *
+ * Validates the structure of invoice widgets.
+ */
+export const InvoiceSchema = FrameSchema.extend({
+  children: z.array(KeyValueListSchema).min(1),
+  className: z.literal('invoice-widget').optional(),
+});
+
+/**
+ * Limit Widget Schema
+ *
+ * Validates account limit widgets.
+ */
+export const LimitSchema = FrameSchema.extend({
+  children: z.array(KeyValueListSchema).min(1),
+  className: z.literal('limit-widget').optional(),
+});
+
+/**
+ * Transaction Aggregate Widget Schema
+ *
+ * Validates transaction analytics widgets.
+ */
+export const TransactionAggregateSchema = FrameSchema.extend({
+  children: z.array(KeyValueListSchema).min(1),
+  className: z.literal('transaction-aggregate-widget').optional(),
+});
+
+/**
+ * Virtual Card Widget Schema
+ *
+ * Validates virtual card widgets.
+ */
+export const VirtualCardSchema = FrameSchema.extend({
+  children: z.array(KeyValueListSchema).min(1),
+  className: z.literal('virtual-card-widget').optional(),
+});
+
+/**
+ * Account Snapshot Widget Schema
+ *
+ * Validates account snapshot widgets.
+ */
+export const AccountSnapshotSchema = FrameSchema.extend({
+  children: z.array(KeyValueListSchema).min(1),
+  className: z.literal('account-snapshot-widget').optional(),
+});
+
+/**
+ * Validate payment summary widget
+ */
+export function validatePaymentSummary(spec: unknown): any {
+  return PaymentSummarySchema.parse(spec);
+}
+
+/**
+ * Validate invoice widget
+ */
+export function validateInvoice(spec: unknown): any {
+  return InvoiceSchema.parse(spec);
+}
+
+/**
+ * Validate limit widget
+ */
+export function validateLimit(spec: unknown): any {
+  return LimitSchema.parse(spec);
+}
+
+/**
+ * Validate transaction aggregate widget
+ */
+export function validateTransactionAggregate(spec: unknown): any {
+  return TransactionAggregateSchema.parse(spec);
+}
+
+/**
+ * Validate virtual card widget
+ */
+export function validateVirtualCard(spec: unknown): any {
+  return VirtualCardSchema.parse(spec);
+}
+
+/**
+ * Validate account snapshot widget
+ */
+export function validateAccountSnapshot(spec: unknown): any {
+  return AccountSnapshotSchema.parse(spec);
+}
+
 // Export all schemas for testing and advanced use
 export {
   BaseSchema,
